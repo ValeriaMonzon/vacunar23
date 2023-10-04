@@ -24,11 +24,6 @@ public class Laboratorio {
         this.pais = pais;
         this.domComercial = domComercial;
     }
-    
-    public Laboratorio(String cuit, String NomLaboratorio) {
-        this.cuit = cuit;
-        this.NomLaboratorio = NomLaboratorio;
-    }
 
     public String getCuit() {
         return cuit;
