@@ -1,32 +1,35 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package entidades;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
-/**
- *
- * @author valef
- */
 public class Vacuna {
     private int nroSerieDosis;
-    private String marca;
+    private Laboratorio laboratorio;
     private double medida;
-    private Date fechaCaduca;
+    private LocalDate fechaCaduca;
     private boolean colocada;
+    private int stock;
 
     public Vacuna() {
     }
 
-    public Vacuna(int nroSerieDosis, String marca, double medida, Date fechaCaduca, boolean colocada) {
+    public Vacuna(int nroSerieDosis, Laboratorio laboratorio, double medida, LocalDate fechaCaduca, boolean colocada, int stock) {
         this.nroSerieDosis = nroSerieDosis;
-        this.marca = marca;
+        this.laboratorio = laboratorio;
         this.medida = medida;
         this.fechaCaduca = fechaCaduca;
         this.colocada = colocada;
+        this.stock = stock;
+    }
+
+    public Laboratorio getLaboratorio() {
+        return laboratorio;
+    }
+
+    public void setLaboratorio(Laboratorio laboratorio) {
+        this.laboratorio = laboratorio;
     }
 
     public int getNroSerieDosis() {
@@ -37,14 +40,6 @@ public class Vacuna {
         this.nroSerieDosis = nroSerieDosis;
     }
 
-    public String getMarca() {
-        return marca;
-    }
-
-    public void setMarca(String marca) {
-        this.marca = marca;
-    }
-
     public double getMedida() {
         return medida;
     }
@@ -53,21 +48,35 @@ public class Vacuna {
         this.medida = medida;
     }
 
-    public Date getFechaCaduca() {
+    public LocalDate getFechaCaduca() {
         return fechaCaduca;
     }
 
-    public void setFechaCaduca(Date fechaCaduca) {
+    public void setFechaCaduca(LocalDate fechaCaduca) {
         this.fechaCaduca = fechaCaduca;
     }
 
-    public boolean isColocada() {
+    public boolean getColocada() {
         return colocada;
     }
 
     public void setColocada(boolean colocada) {
         this.colocada = colocada;
     }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+    @Override
+    public String toString() {
+        return nroSerieDosis + " " + laboratorio.getCuit() + " " + laboratorio.getNomLaboratorio() + " " + medida + " " + fechaCaduca + " " + colocada + " " + stock;
+    }
     
     
+
 }
