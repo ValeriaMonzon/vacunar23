@@ -16,19 +16,17 @@ public class Ciudadano {
     private String celular;
     private String patologia;
     private String ambitoTrabajo;
-    private int dosis;
 
     public Ciudadano() {
     }
 
-    public Ciudadano(int dni, String NomCompleto, String email, String celular, String patologia, String ambitoTrabajo,int dosis) {
+    public Ciudadano(int dni, String NomCompleto, String email, String celular, String patologia, String ambitoTrabajo) {
         this.dni = dni;
         this.NomCompleto = NomCompleto;
         this.email = email;
         this.celular = celular;
         this.patologia = patologia;
         this.ambitoTrabajo = ambitoTrabajo;
-        this.dosis = dosis;
     }
 
     public int getDni() {
@@ -77,19 +75,6 @@ public class Ciudadano {
 
     public void setAmbitoTrabajo(String ambitoTrabajo) {
         this.ambitoTrabajo = ambitoTrabajo;
-    }
-
-    public int getDosis() {
-        return dosis;
-    }
-
-    public void setDosis(int dosis) {
-        this.dosis = dosis;
-    }
-
-    @Override
-    public String toString() {
-        return "Ciudadano{" + "dni=" + dni + ", NomCompleto=" + NomCompleto + ", email=" + email + ", celular=" + celular + ", patologia=" + patologia + ", ambitoTrabajo=" + ambitoTrabajo + ", dosis=" + dosis + '}';
     }
     
     
