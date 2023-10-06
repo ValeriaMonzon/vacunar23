@@ -14,6 +14,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /*
@@ -32,10 +34,11 @@ public class CiudadanoData {
     public CiudadanoData() {
         con = Conexion.getConnection();
     }
+    //insertamos al ciudadano en la base de datos 
   public void GuardarCidadano(Ciudadano ciudadano) throws SQLException{
   
-  String sql = "INSERT INTO ciudadano (dni,nombreCompleto,email,celular,patologia,ambitoTrabajo,dosis)"
-            + "VALUES (?,?,?,?,?,?,?)";
+  String sql = "INSERT INTO ciudadano (dni,nombreCompleto,email,celular,patologia,ambitoTrabajo,dosis,estado)"
+            + "VALUES (?,?,?,?,?,?,?,?)";
 
       try {
             PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -47,6 +50,7 @@ public class CiudadanoData {
             ps.setString(5,ciudadano.getPatologia());
             ps.setString(6,ciudadano.getAmbitoTrabajo());
             ps.setInt(7,ciudadano.getDosis());
+            ps.setBoolean(8, true);
             ps.executeUpdate();
        
            ResultSet rs = ps.getGeneratedKeys();
@@ -64,7 +68,7 @@ public class CiudadanoData {
       }
   
    }
-  
+  //aqui modificamos a un ciudadano que viene por parametro lo buscamos por nsu clave primaria que es dni
    public void modificarCiudadano(Ciudadano ciudadano) {
 
     String sql = "UPDATE ciudadano SET nombreCompleto=?, email=?, celular=?,patologia=?,ambitoTrabajo=?,dosis=? WHERE dni=?";
@@ -79,6 +83,7 @@ public class CiudadanoData {
       ps.setString(5, ciudadano.getAmbitoTrabajo());
       ps.setInt(6, ciudadano.getDosis());
       ps.setInt(7,ciudadano.getDni());
+      ps.setBoolean(8, true);
       int exito = ps.executeUpdate();
 
       if (exito == 1) {
@@ -93,7 +98,7 @@ public class CiudadanoData {
       JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Ciudadano");
     }
    }
-   
+   //busca al cidadano por el por la clave Primaria dni
    public Ciudadano buscarCiudadano( int dni){
    
    
@@ -115,11 +120,8 @@ public class CiudadanoData {
         ciudadano.setPatologia(rs.getString("patologia"));
         ciudadano.setAmbitoTrabajo(rs.getString("ambitoTrabajo"));
         ciudadano.setDosis(rs.getInt("dosis"));
-        
-      
-    
-
-      } else {
+        ciudadano.setEstado(true);
+         } else {
 
         JOptionPane.showMessageDialog(null, "No se encontró al ciudadano ");
 
@@ -132,5 +134,48 @@ public class CiudadanoData {
     return ciudadano;
   }
 
+   public void eliminarCiudadano(int dni) {
+    try {
+      String sql = "UPDATE ciudadano SET estado=0 WHERE dni=? ";
+      PreparedStatement ps = con.prepareStatement(sql);
+      ps.setInt(1, dni);
+      int exito = ps.executeUpdate();
+      if (exito == 1) {
+        JOptionPane.showMessageDialog(null, "ciudadano eliminado");
+      }
+    } catch (SQLException ex) {
+      JOptionPane.showMessageDialog(null, "Error al acceder a la tabla ciudadano");
+    }
+}
    
-   }
+   //listamos a todos los Ciudadanos de la tabla que se encuentren con estado true
+    public List<Ciudadano> listarCiudadanos() {
+
+    List<Ciudadano>  listciudadanos = new ArrayList<>();
+    try {
+      String sql = "SELECT * FROM ciudadano WHERE estado = 1 ";
+      PreparedStatement ps = con.prepareStatement(sql);
+      ResultSet rs = ps.executeQuery();
+      while (rs.next()) {
+        Ciudadano ciudadano = new Ciudadano();
+
+        ciudadano.setDni(rs.getInt("dni"));
+        ciudadano.setNomCompleto(rs.getString("nombreCompleto"));
+        ciudadano.setEmail(rs.getString("email"));
+        ciudadano.setCelular(rs.getNString("celular"));
+        ciudadano.setPatologia(rs.getString("patologia"));
+        ciudadano.setAmbitoTrabajo(rs.getString("ambitoTrabajo"));
+        ciudadano.setDosis(rs.getInt("dosis"));
+        ciudadano.setEstado(true);
+        listciudadanos.add(ciudadano);
+      }
+      ps.close();
+
+    } catch (SQLException ex) {
+      JOptionPane.showMessageDialog(null, " Error al acceder a la tabla ciudadano ");
+    }
+    return listciudadanos;
+   
+   
+}
+    }

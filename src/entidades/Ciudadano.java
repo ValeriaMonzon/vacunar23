@@ -17,20 +17,20 @@ public class Ciudadano {
     private String patologia;
     private String ambitoTrabajo;
     private int dosis;
+    private boolean estado;
 
     public Ciudadano() {
     }
 
-    public Ciudadano(int dni, String NomCompleto, String email, String celular, String patologia, String ambitoTrabajo,int dosis) {
+    public Ciudadano(int dni, String NomCompleto, String email, String celular, String patologia, String ambitoTrabajo, int dosis, boolean estado) {
         this.dni = dni;
         this.NomCompleto = NomCompleto;
         this.email = email;
         this.celular = celular;
         this.patologia = patologia;
         this.ambitoTrabajo = ambitoTrabajo;
-        this.dosis=dosis;
-        
-        
+        this.dosis = dosis;
+        this.estado = estado;
     }
 
     public int getDni() {
@@ -89,9 +89,15 @@ public class Ciudadano {
         this.dosis = dosis;
     }
 
- 
-    
-    
-    
-    
-}
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    } 
+      @Override
+    public String toString() {
+        return  dni + " " + NomCompleto + " " + email + " " + celular + " " + patologia + " " + ambitoTrabajo + " " + dosis ;
+   }     
+ }
