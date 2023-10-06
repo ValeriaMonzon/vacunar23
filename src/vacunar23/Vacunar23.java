@@ -5,6 +5,12 @@
  */
 package vacunar23;
 
+import accesoDeDatos.CitaVacunacionData;
+import accesoDeDatos.Conexion;
+import entidades.CitaVacunacion;
+import java.sql.Connection;
+import java.time.LocalDateTime;
+
 /**
  *
  * @author valef
@@ -15,7 +21,7 @@ public class Vacunar23 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+
     }
-    
+
 }

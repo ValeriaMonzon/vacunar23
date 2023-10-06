@@ -12,6 +12,10 @@ import javax.swing.JOptionPane;
 public class CitaVacunacionData {
 
   private Connection con = null;
+  
+  public CitaVacunacionData() {
+        con = Conexion.getConnection(); // Se obtiene una conexión a la base de datos.
+    }
 
   //------------------------------------------------------------------------------------------------
   //                buscar cita
@@ -34,14 +38,14 @@ public class CitaVacunacionData {
         citavacunacion.setCentroVacunacion(rs.getInt("centroVacunacion"));
         citavacunacion.setFechaHoraColoca(rs.getTimestamp("fechaHoraColoca").toLocalDateTime());
 
-        /*
-                Elegir si traer el nro de serie o la vacuna ?
-                Si nro de serie entonces
-                  citavacunacion.setNroSerieDosis(rs.getInt("nroSerieDosis"));
-                sino
+       
+            //    Elegir si traer el nro de serie o la vacuna ?
+            //    Si nro de serie entonces
+           //      citavacunacion.setDosis(rs.getInt("nroSerieDosis"));
+            //    sino
                   VacunaData vacunaData = new VacunaData();
-                  citavacunacion.setDosis(vacunaData.buscarVacuna(rs.getInt("nroSerieDosis")))
-         */
+                  citavacunacion.setDosis(vacunaData.buscarVacuna(rs.getInt("nroSerieDosis")));
+        
         citavacunacion.setCitaEstado(rs.getBoolean("citaEstado"));
 
       } else {
@@ -79,7 +83,8 @@ public class CitaVacunacionData {
       ps.setTimestamp(5, Timestamp.valueOf(citavacunacion.getFechaHoraColoca()));
 
       //Completar
-      //ps.setInt(6, citavacunacion.getNroSerieDosis());
+     // ps.setInt(6, citavacunacion.getDosis());-----------------------------------------------------------------
+      
       ps.setBoolean(7, citavacunacion.isCitaEstado());
 
       ps.execute(); // Se ejecuta la consulta SQL para insertar la materia en la base de datos.
@@ -121,5 +126,34 @@ public class CitaVacunacionData {
   }
 //---------------------------------------------------------------------------------------------------
   //                     Modificar
+public void modificarCita(CitaVacunacion citaVacunacion) {
 
+     String sql = "INSERT INTO citavacunacion(dni ,codRefuerzo ,fechaHoraCita ,centroVacunacion ,fechaHoraColocada , nroSerieDosis ,citaEstado) VALUES(?,?,?,?,?,?,?)";
+
+    try {
+      PreparedStatement ps = con.prepareStatement(sql);
+      
+      ps.setInt(1, citaVacunacion.getDni());
+      ps.setInt(2,citaVacunacion.getCodRefuerzo());
+      ps.setTimestamp(3, Timestamp.valueOf(citaVacunacion.getFechaHoraCita()));
+       ps.setTimestamp(3, Timestamp.valueOf(citaVacunacion.getFechaHoraCita()));
+      ps.setInt(4, citaVacunacion.getCentroVacunacion());
+      ps.setTimestamp(5, Timestamp.valueOf(citaVacunacion.getFechaHoraColoca()));
+   // ps.setInt(6,citaVacunacion.getDosis());                         -----------------------------------------------------------
+      ps.setBoolean(7, citaVacunacion.isCitaEstado());
+      
+      int exito = ps.executeUpdate();
+
+      if (exito == 1) {
+        JOptionPane.showMessageDialog(null, "La cita se modifico correctamente");
+        System.out.println(exito);
+      } else {
+        JOptionPane.showMessageDialog(null, "No se han podido modificar la cita");
+        System.out.println(exito);
+      }
+    } catch (SQLException ex) {
+      System.out.println(ex);
+      JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Citavacunacion");
+    }
+}
 }
