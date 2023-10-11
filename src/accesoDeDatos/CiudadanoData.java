@@ -35,7 +35,7 @@ public class CiudadanoData {
         con = Conexion.getConnection();
     }
     //insertamos al ciudadano en la base de datos 
-  public void GuardarCidadano(Ciudadano ciudadano) throws SQLException{
+  public void GuardarCiudadano(Ciudadano ciudadano) throws SQLException{
   
   String sql = "INSERT INTO ciudadano (dni,nombreCompleto,email,celular,patologia,ambitoTrabajo,dosis,estado)"
             + "VALUES (?,?,?,?,?,?,?,?)";
