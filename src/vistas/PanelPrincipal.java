@@ -60,9 +60,9 @@ public class PanelPrincipal extends javax.swing.JFrame {
             .addGap(0, 515, Short.MAX_VALUE)
         );
 
-        administracion.setText("administracion");
+        administracion.setText("Administracion");
 
-        jMenuItemciudadano.setText("ciudadano");
+        jMenuItemciudadano.setText("Ciudadano");
         jMenuItemciudadano.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemciudadanoActionPerformed(evt);
@@ -86,7 +86,7 @@ public class PanelPrincipal extends javax.swing.JFrame {
         });
         administracion.add(jMenuItemVacunas);
 
-        jMenuItemLaboratorio.setText("laboratorio");
+        jMenuItemLaboratorio.setText("Laboratorio");
         jMenuItemLaboratorio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemLaboratorioActionPerformed(evt);
@@ -126,43 +126,28 @@ public class PanelPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItemciudadanoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemciudadanoActionPerformed
-    escritorio.removeAll();
-    escritorio.repaint();
     AdministracionCiudadano form = new AdministracionCiudadano();
     form.setVisible(true);
-    escritorio.add(form);
     }//GEN-LAST:event_jMenuItemciudadanoActionPerformed
 
     private void jMenuItemTurnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemTurnosActionPerformed
-    escritorio.removeAll();
-    escritorio.repaint();
     AdministracionTurnos form = new AdministracionTurnos();
     form.setVisible(true);
-    escritorio.add(form);
     }//GEN-LAST:event_jMenuItemTurnosActionPerformed
 
     private void jMenuItemVacunasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVacunasActionPerformed
-    escritorio.removeAll();
-    escritorio.repaint();
     AdministracionVacunas form = new AdministracionVacunas();
     form.setVisible(true);
-    escritorio.add(form);   
     }//GEN-LAST:event_jMenuItemVacunasActionPerformed
 
     private void jMenuItemLaboratorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLaboratorioActionPerformed
-    escritorio.removeAll();
-    escritorio.repaint();
-   AdministracionLaboratorios form = new AdministracionLaboratorios();
+    AdministracionLaboratorios form = new AdministracionLaboratorios();
     form.setVisible(true);
-    escritorio.add(form);   
     }//GEN-LAST:event_jMenuItemLaboratorioActionPerformed
 
     private void jMenuItemSedesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSedesActionPerformed
-    escritorio.removeAll();
-    escritorio.repaint();
-   AdministracionSedes form = new AdministracionSedes();
-    form.setVisible(true);
-    escritorio.add(form);    
+    AdministracionSedes form = new AdministracionSedes();
+    form.setVisible(true); 
     }//GEN-LAST:event_jMenuItemSedesActionPerformed
 
     /**
