@@ -10,6 +10,7 @@ import entidades.Laboratorio;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -20,6 +21,7 @@ import javax.swing.JTextField;
 public class AdministracionLaboratorios extends javax.swing.JFrame {
 
   private LaboratorioData data;
+  private final String formatoCuit = "^\\d+-\\d+-\\d+$";
 
   /**
    * Creates new form AdministracionLaboratorios
@@ -179,23 +181,25 @@ public class AdministracionLaboratorios extends javax.swing.JFrame {
 
   private void buscarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarBtnActionPerformed
     try {
-      Laboratorio laboratorio = data.obtenerLaboratorio(cuit.getText());
-      if (laboratorio == null) {
-        JOptionPane.showMessageDialog(null, "No se encontro laboratorio!");
-      } else {
-        cuit.setEditable(false);
-        nombre.setText(laboratorio.getNomLaboratorio());
-        nombre.setEditable(false);
-        pais.setText(laboratorio.getPais());
-        pais.setEditable(false);
-        domicilio.setText(laboratorio.getDomComercial());
-        domicilio.setEditable(false);
+      if (cuitValido()) {
+        Laboratorio laboratorio = data.obtenerLaboratorio(cuit.getText());
+        if (laboratorio == null) {
+          JOptionPane.showMessageDialog(null, "No se encontro laboratorio!");
+        } else {
+          cuit.setEditable(false);
+          nombre.setText(laboratorio.getNomLaboratorio());
+          nombre.setEditable(false);
+          pais.setText(laboratorio.getPais());
+          pais.setEditable(false);
+          domicilio.setText(laboratorio.getDomComercial());
+          domicilio.setEditable(false);
 
-        buscarBtn.setEnabled(false);
-        modificarBtn.setEnabled(true);
-        eliminarBtn.setEnabled(true);
-        nuevoBtn.setEnabled(true);
-        guardarBtn.setEnabled(false);
+          buscarBtn.setEnabled(false);
+          modificarBtn.setEnabled(true);
+          eliminarBtn.setEnabled(true);
+          nuevoBtn.setEnabled(true);
+          guardarBtn.setEnabled(false);
+        }
       }
     } catch (SQLException ex) {
       Logger.getLogger(AdministracionLaboratorios.class.getName()).log(Level.SEVERE, null, ex);
@@ -247,25 +251,27 @@ public class AdministracionLaboratorios extends javax.swing.JFrame {
 
   private void guardarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarBtnActionPerformed
     try {
-      Laboratorio laboratorio = new Laboratorio();
-      laboratorio.setCuit(cuit.getText());
-      laboratorio.setNomLaboratorio(nombre.getText());
-      laboratorio.setPais(pais.getText());
-      laboratorio.setDomComercial(domicilio.getText());
+      if (camposCompletos() && cuitValido()) {
+        Laboratorio laboratorio = new Laboratorio();
+        laboratorio.setCuit(cuit.getText());
+        laboratorio.setNomLaboratorio(nombre.getText());
+        laboratorio.setPais(pais.getText());
+        laboratorio.setDomComercial(domicilio.getText());
 
-      data.guardarLaboratorio(laboratorio);
-      JOptionPane.showMessageDialog(null, "Se guardo laboratorio con exito!");
+        data.guardarLaboratorio(laboratorio);
+        JOptionPane.showMessageDialog(null, "Se guardo laboratorio con exito!");
 
-      cuit.setEditable(false);
-      pais.setEditable(false);
-      nombre.setEditable(false);
-      domicilio.setEditable(false);
+        cuit.setEditable(false);
+        pais.setEditable(false);
+        nombre.setEditable(false);
+        domicilio.setEditable(false);
 
-      guardarBtn.setEnabled(false);
-      modificarBtn.setEnabled(true);
-      nuevoBtn.setEnabled(true);
-      eliminarBtn.setEnabled(true);
-      buscarBtn.setEnabled(false);
+        guardarBtn.setEnabled(false);
+        modificarBtn.setEnabled(true);
+        nuevoBtn.setEnabled(true);
+        eliminarBtn.setEnabled(true);
+        buscarBtn.setEnabled(false);
+      }
     } catch (SQLException ex) {
       Logger.getLogger(AdministracionLaboratorios.class.getName()).log(Level.SEVERE, null, ex);
       JOptionPane.showMessageDialog(null, "Ocurrio un error en la base de datos!");
@@ -338,7 +344,11 @@ public class AdministracionLaboratorios extends javax.swing.JFrame {
   // End of variables declaration//GEN-END:variables
 
   private boolean camposCompletos() {
-    return noEmpty(nombre) || noEmpty(cuit) || noEmpty(domicilio) || noEmpty(pais);
+    boolean completos = noEmpty(nombre) && noEmpty(cuit) && noEmpty(domicilio) && noEmpty(pais);
+    if (!completos) {
+      JOptionPane.showMessageDialog(null, "Hay campos incompletos!\nPara avanzar, complete.");
+    }
+    return completos;
   }
 
   private boolean noEmpty(JTextField textField) {
@@ -348,5 +358,13 @@ public class AdministracionLaboratorios extends javax.swing.JFrame {
   private void initButtons() {
     eliminarBtn.setEnabled(false);
     modificarBtn.setEnabled(false);
+  }
+
+  private boolean cuitValido() {
+    boolean valido = Pattern.compile(formatoCuit).matcher(cuit.getText()).matches();
+    if (!valido) {
+      JOptionPane.showMessageDialog(null, "Ingrese un cuit valido!");
+    }
+    return valido;
   }
 }
