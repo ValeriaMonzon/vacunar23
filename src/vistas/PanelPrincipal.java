@@ -126,7 +126,7 @@ public class PanelPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItemciudadanoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemciudadanoActionPerformed
-    AdministracionCiudadano form = new AdministracionCiudadano();
+    AdministracionCiudadano form = new AdministracionCiudadano(ciudadanoData);
     form.setVisible(true);
     }//GEN-LAST:event_jMenuItemciudadanoActionPerformed
 
