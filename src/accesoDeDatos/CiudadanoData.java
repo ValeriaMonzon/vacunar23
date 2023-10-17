@@ -120,7 +120,7 @@ public class CiudadanoData {
         ciudadano.setPatologia(rs.getString("patologia"));
         ciudadano.setAmbitoTrabajo(rs.getString("ambitoTrabajo"));
         ciudadano.setDosis(rs.getInt("dosis"));
-        ciudadano.setEstado(true);
+        ciudadano.setEstado(rs.getBoolean("estado"));
          } else {
 
         JOptionPane.showMessageDialog(null, "No se encontró al ciudadano ");
