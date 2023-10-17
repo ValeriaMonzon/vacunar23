@@ -7,6 +7,10 @@ package vistas;
 
 import accesoDeDatos.LaboratorioData;
 import entidades.Laboratorio;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -17,15 +21,15 @@ import javax.swing.JTextField;
 public class AdministracionLaboratorios extends javax.swing.JFrame {
 
   private LaboratorioData data;
-  private Laboratorio actual;
+  private final String formatoCuit = "^\\d+-\\d+-\\d+$";
 
   /**
    * Creates new form AdministracionLaboratorios
    */
   public AdministracionLaboratorios() {
     data = new LaboratorioData();
-    actual = new Laboratorio();
     initComponents();
+    initButtons();
     setLocationRelativeTo(null);
   }
 
@@ -49,7 +53,8 @@ public class AdministracionLaboratorios extends javax.swing.JFrame {
     buscarBtn = new javax.swing.JButton();
     guardarBtn = new javax.swing.JButton();
     eliminarBtn = new javax.swing.JButton();
-    limpiarBtn = new javax.swing.JButton();
+    nuevoBtn = new javax.swing.JButton();
+    modificarBtn = new javax.swing.JButton();
 
     setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     setResizable(false);
@@ -86,10 +91,17 @@ public class AdministracionLaboratorios extends javax.swing.JFrame {
       }
     });
 
-    limpiarBtn.setText("Limpiar");
-    limpiarBtn.addActionListener(new java.awt.event.ActionListener() {
+    nuevoBtn.setText("Nuevo");
+    nuevoBtn.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
-        limpiarBtnActionPerformed(evt);
+        nuevoBtnActionPerformed(evt);
+      }
+    });
+
+    modificarBtn.setText("Modificar");
+    modificarBtn.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        modificarBtnActionPerformed(evt);
       }
     });
 
@@ -100,39 +112,36 @@ public class AdministracionLaboratorios extends javax.swing.JFrame {
       .addGroup(layout.createSequentialGroup()
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
           .addGroup(layout.createSequentialGroup()
+            .addGap(75, 75, 75)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+              .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+              .addComponent(jSeparator1))
+            .addGap(25, 25, 25))
+          .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
             .addGap(48, 48, 48)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
               .addComponent(jLabel2)
               .addComponent(jLabel3)
               .addComponent(jLabel4)
-              .addComponent(jLabel5))
+              .addComponent(jLabel5)
+              .addComponent(nuevoBtn))
             .addGap(18, 18, 18)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-              .addComponent(cuit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
-              .addComponent(nombre, javax.swing.GroupLayout.Alignment.TRAILING)
-              .addComponent(pais, javax.swing.GroupLayout.Alignment.TRAILING)
-              .addComponent(domicilio, javax.swing.GroupLayout.Alignment.TRAILING))
-            .addGap(27, 27, 27)
-            .addComponent(buscarBtn))
-          .addGroup(layout.createSequentialGroup()
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
               .addGroup(layout.createSequentialGroup()
-                .addGap(75, 75, 75)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                  .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                  .addComponent(jSeparator1)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                  .addComponent(cuit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                  .addComponent(nombre, javax.swing.GroupLayout.Alignment.TRAILING)
+                  .addComponent(pais, javax.swing.GroupLayout.Alignment.TRAILING)
+                  .addComponent(domicilio, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(27, 27, 27)
+                .addComponent(buscarBtn))
               .addGroup(layout.createSequentialGroup()
-                .addGap(226, 226, 226)
-                .addComponent(eliminarBtn))
-              .addGroup(layout.createSequentialGroup()
-                .addGap(68, 68, 68)
-                .addComponent(guardarBtn)))
-            .addGap(25, 25, 25)))
+                .addComponent(guardarBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(modificarBtn)
+                .addGap(52, 52, 52)
+                .addComponent(eliminarBtn)))))
         .addContainerGap(62, Short.MAX_VALUE))
-      .addGroup(layout.createSequentialGroup()
-        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        .addComponent(limpiarBtn)
-        .addGap(85, 85, 85))
     );
     layout.setVerticalGroup(
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -162,7 +171,8 @@ public class AdministracionLaboratorios extends javax.swing.JFrame {
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
           .addComponent(guardarBtn)
           .addComponent(eliminarBtn)
-          .addComponent(limpiarBtn))
+          .addComponent(nuevoBtn)
+          .addComponent(modificarBtn))
         .addGap(20, 20, 20))
     );
 
@@ -171,46 +181,114 @@ public class AdministracionLaboratorios extends javax.swing.JFrame {
 
   private void buscarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarBtnActionPerformed
     try {
-      actual = data.obtenerLaboratorio(cuit.getText());
-      if (actual == null) {
-        JOptionPane.showMessageDialog(null, "Cuit no registrado!");
-        actual = new Laboratorio();
-      } else {
-        nombre.setText(actual.getNomLaboratorio());
-        pais.setText(actual.getPais());
-        domicilio.setText(actual.getDomComercial());
+      if (cuitValido()) {
+        Laboratorio laboratorio = data.obtenerLaboratorio(cuit.getText());
+        if (laboratorio == null) {
+          JOptionPane.showMessageDialog(null, "No se encontro laboratorio!");
+        } else {
+          cuit.setEditable(false);
+          nombre.setText(laboratorio.getNomLaboratorio());
+          nombre.setEditable(false);
+          pais.setText(laboratorio.getPais());
+          pais.setEditable(false);
+          domicilio.setText(laboratorio.getDomComercial());
+          domicilio.setEditable(false);
+
+          buscarBtn.setEnabled(false);
+          modificarBtn.setEnabled(true);
+          eliminarBtn.setEnabled(true);
+          nuevoBtn.setEnabled(true);
+          guardarBtn.setEnabled(false);
+        }
       }
-    } catch (Exception e) {
-      JOptionPane.showMessageDialog(null, e.getMessage());
+    } catch (SQLException ex) {
+      Logger.getLogger(AdministracionLaboratorios.class.getName()).log(Level.SEVERE, null, ex);
+      JOptionPane.showMessageDialog(null, "Ocurrio un error en la base de datos!");
     }
   }//GEN-LAST:event_buscarBtnActionPerformed
 
-  private void limpiarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiarBtnActionPerformed
+  private void nuevoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoBtnActionPerformed
+    cuit.setEditable(true);
     cuit.setText("");
+    nombre.setEditable(true);
     nombre.setText("");
+    pais.setEditable(true);
     pais.setText("");
+    domicilio.setEditable(true);
     domicilio.setText("");
-    actual = new Laboratorio();
-  }//GEN-LAST:event_limpiarBtnActionPerformed
+
+    buscarBtn.setEnabled(true);
+    guardarBtn.setEnabled(true);
+    nuevoBtn.setEnabled(true);
+    modificarBtn.setEnabled(false);
+    eliminarBtn.setEnabled(false);
+  }//GEN-LAST:event_nuevoBtnActionPerformed
 
   private void eliminarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarBtnActionPerformed
-    buscarBtnActionPerformed(null);
-    if (actual.getCuit() != null) {
-      data.eliminarLaboratorio(actual.getCuit());
+    try {
+      data.borrarLaboratorio(cuit.getText());
+      JOptionPane.showMessageDialog(null, "Se elimino con exito!");
+
+      cuit.setEditable(true);
+      cuit.setText("");
+      nombre.setEditable(true);
+      nombre.setText("");
+      pais.setEditable(true);
+      pais.setText("");
+      domicilio.setEditable(true);
+      domicilio.setText("");
+
+      buscarBtn.setEnabled(true);
+      guardarBtn.setEnabled(true);
+      nuevoBtn.setEnabled(true);
+      modificarBtn.setEnabled(false);
+      eliminarBtn.setEnabled(false);
+    } catch (SQLException ex) {
+      Logger.getLogger(AdministracionLaboratorios.class.getName()).log(Level.SEVERE, null, ex);
+      JOptionPane.showMessageDialog(null, "Ocurrio un error en la base de datos!");
     }
   }//GEN-LAST:event_eliminarBtnActionPerformed
 
   private void guardarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarBtnActionPerformed
-    if (camposCompletos()) {
-      actual.setNomLaboratorio(nombre.getText());
-      actual.setCuit(cuit.getText());
-      actual.setPais(pais.getText());
-      actual.setDomComercial(domicilio.getText());
-      data.guardarLaboratorio(actual);
-    } else {
-      JOptionPane.showMessageDialog(null, "Complete todos los datos!");
+    try {
+      if (camposCompletos() && cuitValido()) {
+        Laboratorio laboratorio = new Laboratorio();
+        laboratorio.setCuit(cuit.getText());
+        laboratorio.setNomLaboratorio(nombre.getText());
+        laboratorio.setPais(pais.getText());
+        laboratorio.setDomComercial(domicilio.getText());
+
+        data.guardarLaboratorio(laboratorio);
+        JOptionPane.showMessageDialog(null, "Se guardo laboratorio con exito!");
+
+        cuit.setEditable(false);
+        pais.setEditable(false);
+        nombre.setEditable(false);
+        domicilio.setEditable(false);
+
+        guardarBtn.setEnabled(false);
+        modificarBtn.setEnabled(true);
+        nuevoBtn.setEnabled(true);
+        eliminarBtn.setEnabled(true);
+        buscarBtn.setEnabled(false);
+      }
+    } catch (SQLException ex) {
+      Logger.getLogger(AdministracionLaboratorios.class.getName()).log(Level.SEVERE, null, ex);
+      JOptionPane.showMessageDialog(null, "Ocurrio un error en la base de datos!");
     }
   }//GEN-LAST:event_guardarBtnActionPerformed
+
+  private void modificarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarBtnActionPerformed
+    nombre.setEditable(true);
+    pais.setEditable(true);
+    domicilio.setEditable(true);
+
+    guardarBtn.setEnabled(true);
+    nuevoBtn.setEnabled(true);
+    eliminarBtn.setEnabled(true);
+    buscarBtn.setEnabled(false);
+    modificarBtn.setEnabled(false);
+  }//GEN-LAST:event_modificarBtnActionPerformed
 
   /**
    * @param args the command line arguments
@@ -259,16 +337,34 @@ public class AdministracionLaboratorios extends javax.swing.JFrame {
   private javax.swing.JLabel jLabel4;
   private javax.swing.JLabel jLabel5;
   private javax.swing.JSeparator jSeparator1;
-  private javax.swing.JButton limpiarBtn;
+  private javax.swing.JButton modificarBtn;
   private javax.swing.JTextField nombre;
+  private javax.swing.JButton nuevoBtn;
   private javax.swing.JTextField pais;
   // End of variables declaration//GEN-END:variables
 
   private boolean camposCompletos() {
-    return noEmpty(nombre) || noEmpty(cuit) || noEmpty(domicilio) || noEmpty(pais);
+    boolean completos = noEmpty(nombre) && noEmpty(cuit) && noEmpty(domicilio) && noEmpty(pais);
+    if (!completos) {
+      JOptionPane.showMessageDialog(null, "Hay campos incompletos!\nPara avanzar, complete.");
+    }
+    return completos;
   }
 
   private boolean noEmpty(JTextField textField) {
     return textField != null && textField.getText() != null && !textField.getText().equalsIgnoreCase("");
+  }
+
+  private void initButtons() {
+    eliminarBtn.setEnabled(false);
+    modificarBtn.setEnabled(false);
+  }
+
+  private boolean cuitValido() {
+    boolean valido = Pattern.compile(formatoCuit).matcher(cuit.getText()).matches();
+    if (!valido) {
+      JOptionPane.showMessageDialog(null, "Ingrese un cuit valido!");
+    }
+    return valido;
   }
 }

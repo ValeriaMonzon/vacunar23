@@ -89,15 +89,17 @@ public class Ciudadano {
         this.dosis = dosis;
     }
 
-    public boolean isEstado() {
+    public boolean getEstado() {
         return estado;
     }
 
     public void setEstado(boolean estado) {
         this.estado = estado;
-    } 
+    }
+
+   
       @Override
     public String toString() {
-        return  dni + " " + NomCompleto + " " + email + " " + celular + " " + patologia + " " + ambitoTrabajo + " " + dosis ;
+        return  dni + " " + NomCompleto + " " + email + " " + celular + " " + patologia + " " + ambitoTrabajo + " " + dosis+" "+ estado ;
    }     
  }

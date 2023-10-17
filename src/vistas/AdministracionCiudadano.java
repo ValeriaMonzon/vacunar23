@@ -5,19 +5,34 @@
  */
 package vistas;
 
+import accesoDeDatos.CiudadanoData;
+import javax.swing.JOptionPane;
+import entidades.Ciudadano;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JTextField;
 /**
  *
  * @author valef
  */
 public class AdministracionCiudadano extends javax.swing.JFrame {
-
-    /**
-     * Creates new form AdministracionCiudadano
-     */
-    public AdministracionCiudadano() {
+    
+      private final CiudadanoData ciudadanoData;
+     
+              
+ public AdministracionCiudadano(CiudadanoData ciudadanoData) {
+     
+        this.ciudadanoData = ciudadanoData;
         initComponents();
         setLocationRelativeTo(null);
+        
     }
+
+    private AdministracionCiudadano() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,22 +43,339 @@ public class AdministracionCiudadano extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jLabelTitulo = new javax.swing.JLabel();
+        jLabelImg = new javax.swing.JLabel();
+        jLabelImg2 = new javax.swing.JLabel();
+        jLabDNI = new javax.swing.JLabel();
+        jLabNomCom = new javax.swing.JLabel();
+        jLabEmail = new javax.swing.JLabel();
+        jLabCelu = new javax.swing.JLabel();
+        jLabPat = new javax.swing.JLabel();
+        jLabAmbTrab = new javax.swing.JLabel();
+        jLabdosis = new javax.swing.JLabel();
+        jLabEstado = new javax.swing.JLabel();
+        jTextFDNI = new javax.swing.JTextField();
+        jTextFNomCom = new javax.swing.JTextField();
+        jTextFEmail = new javax.swing.JTextField();
+        jTextFCelu = new javax.swing.JTextField();
+        jTextFPato = new javax.swing.JTextField();
+        jTextFAmbTrab = new javax.swing.JTextField();
+        jTextFDosis = new javax.swing.JTextField();
+        jBAgregar = new javax.swing.JButton();
+        jBEliminar = new javax.swing.JButton();
+        jBModificar = new javax.swing.JButton();
+        jButtonLimpiar = new javax.swing.JButton();
+        jButtonSalir = new javax.swing.JButton();
+        jBBuscarDNI = new javax.swing.JButton();
+        jCheckBox1 = new javax.swing.JCheckBox();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
+
+        jPanel1.setBackground(new java.awt.Color(153, 204, 255));
+
+        jLabelTitulo.setFont(new java.awt.Font("Georgia", 1, 24)); // NOI18N
+        jLabelTitulo.setText("Administracion de Ciudadanos ");
+
+        jLabelImg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8-unisex-96.png"))); // NOI18N
+
+        jLabelImg2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8-unisex-96.png"))); // NOI18N
+
+        jLabDNI.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
+        jLabDNI.setText("N° de DNI :");
+
+        jLabNomCom.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
+        jLabNomCom.setText("Nombre Completo : ");
+
+        jLabEmail.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
+        jLabEmail.setText("Email :");
+
+        jLabCelu.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabCelu.setText("N° de Celular :");
+
+        jLabPat.setFont(new java.awt.Font("Georgia", 1, 12)); // NOI18N
+        jLabPat.setText("Patologia :");
+
+        jLabAmbTrab.setFont(new java.awt.Font("Georgia", 1, 12)); // NOI18N
+        jLabAmbTrab.setText("Ambito de Trabajo :");
+
+        jLabdosis.setFont(new java.awt.Font("Georgia", 1, 12)); // NOI18N
+        jLabdosis.setText("Cant. de dosis Aplicadas : ");
+
+        jLabEstado.setFont(new java.awt.Font("Georgia", 1, 12)); // NOI18N
+        jLabEstado.setText("Estado en el Sistema :");
+
+        jBAgregar.setFont(new java.awt.Font("Georgia", 1, 11)); // NOI18N
+        jBAgregar.setText("Agrega ciudadano");
+        jBAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBAgregarActionPerformed(evt);
+            }
+        });
+
+        jBEliminar.setFont(new java.awt.Font("Georgia", 1, 11)); // NOI18N
+        jBEliminar.setText("eliminar Ciudadano");
+        jBEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBEliminarActionPerformed(evt);
+            }
+        });
+
+        jBModificar.setFont(new java.awt.Font("Georgia", 1, 11)); // NOI18N
+        jBModificar.setText("Modificar ciudadano");
+        jBModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBModificarActionPerformed(evt);
+            }
+        });
+
+        jButtonLimpiar.setFont(new java.awt.Font("Georgia", 1, 11)); // NOI18N
+        jButtonLimpiar.setText("Limpiar");
+        jButtonLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLimpiarActionPerformed(evt);
+            }
+        });
+
+        jButtonSalir.setFont(new java.awt.Font("Georgia", 1, 11)); // NOI18N
+        jButtonSalir.setText("salir");
+        jButtonSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSalirActionPerformed(evt);
+            }
+        });
+
+        jBBuscarDNI.setFont(new java.awt.Font("Georgia", 1, 11)); // NOI18N
+        jBBuscarDNI.setText("Buscar");
+        jBBuscarDNI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBBuscarDNIActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jLabelImg2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(72, 72, 72)
+                .addComponent(jLabelTitulo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelImg)
+                .addGap(56, 56, 56))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabDNI)
+                            .addComponent(jLabNomCom)
+                            .addComponent(jLabEmail)
+                            .addComponent(jLabCelu)
+                            .addComponent(jLabPat)
+                            .addComponent(jLabAmbTrab)
+                            .addComponent(jLabdosis)
+                            .addComponent(jLabEstado))
+                        .addGap(57, 57, 57)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jTextFDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                                .addComponent(jBBuscarDNI))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextFDosis, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextFAmbTrab, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextFPato, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextFCelu, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextFEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextFNomCom, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jCheckBox1))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jBAgregar)
+                        .addGap(18, 18, 18)
+                        .addComponent(jBEliminar)
+                        .addGap(18, 18, 18)
+                        .addComponent(jBModificar)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonLimpiar)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonSalir)))
+                .addGap(36, 36, 36))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addContainerGap()
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                    .addComponent(jLabelImg2)
+                                                    .addComponent(jLabelImg)))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(50, 50, 50)
+                                                .addComponent(jLabelTitulo)))
+                                        .addGap(42, 42, 42)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jLabDNI)
+                                            .addComponent(jTextFDNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jBBuscarDNI))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jLabNomCom)
+                                            .addComponent(jTextFNomCom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(10, 10, 10)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jLabEmail)
+                                            .addComponent(jTextFEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabCelu))
+                                    .addComponent(jTextFCelu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(14, 14, 14)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabPat)
+                                    .addComponent(jTextFPato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabAmbTrab))
+                            .addComponent(jTextFAmbTrab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabdosis))
+                    .addComponent(jTextFDosis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabEstado)
+                    .addComponent(jCheckBox1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBAgregar)
+                    .addComponent(jBEliminar)
+                    .addComponent(jBModificar)
+                    .addComponent(jButtonLimpiar)
+                    .addComponent(jButtonSalir))
+                .addGap(33, 33, 33))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jBBuscarDNIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarDNIActionPerformed
+        if (chequeoDocumento()) {
+      if (ciudadanoData.buscarCiudadano(Integer.parseInt(jTextFDNI.getText())) != null) {
+        try {
+          Integer lo = Integer.parseInt(jTextFDNI.getText());
+
+          Ciudadano ciudadano = ciudadanoData.buscarCiudadano(Integer.parseInt(jTextFDNI.getText()));
+          jTextFNomCom.setText(ciudadano.getNomCompleto());
+          jTextFEmail.setText(ciudadano.getEmail());
+          jTextFCelu.setText(ciudadano.getCelular());
+          jTextFPato.setText(ciudadano.getPatologia());
+          jTextFAmbTrab.setText(ciudadano.getAmbitoTrabajo());
+          jTextFDosis.setText(String.valueOf(ciudadano.getDosis()));
+            if (ciudadano.getEstado()==false) {
+              jCheckBox1.setSelected(false);  
+            }else{
+               jCheckBox1.setSelected(true);
+            }
+         
+          
+        } catch (NumberFormatException ex) {
+          JOptionPane.showMessageDialog(null, "El número de documento es inválido");
+        }
+      }
+    } 
+    }//GEN-LAST:event_jBBuscarDNIActionPerformed
+
+    private void jButtonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimpiarActionPerformed
+   jTextFDNI.setText(null);
+   jTextFNomCom.setText(null);
+   jTextFEmail.setText(null);
+   jTextFCelu.setText(null);
+   jTextFPato.setText(null);
+   jTextFAmbTrab.setText(null);
+   jTextFDosis.setText(null);
+   jCheckBox1.setSelected(false);
+   
+    }//GEN-LAST:event_jButtonLimpiarActionPerformed
+
+    private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButtonSalirActionPerformed
+
+    private void jBAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAgregarActionPerformed
+       try{
+       Ciudadano ciudadano =new Ciudadano(Integer.parseInt(jTextFDNI.getText()),jTextFNomCom.getText(),jTextFEmail.getText(),jTextFCelu.getText(),jTextFPato.getText(),jTextFAmbTrab.getText(),Integer.parseInt(jTextFDosis.getText()),jCheckBox1.isSelected());
+       Ciudadano aux = new CiudadanoData().buscarCiudadano(Integer.parseInt(jTextFDNI.getText()));
+     
+       if(aux != null){
+           
+           ciudadanoData.modificarEstado(aux);
+       } else {
+        if (chequeoExcepciones()) {
+            int boole = JOptionPane.showConfirmDialog(null, "¿Desea agregar este alumno?");
+            if (boole == 0) {
+            new CiudadanoData().GuardarCiudadano(ciudadano);
+            }
+          }
+        }
+      } catch (NumberFormatException ex) {
+      JOptionPane.showMessageDialog(null, "El número de documento no es válido");
+    }     catch (SQLException ex) {
+              Logger.getLogger(AdministracionCiudadano.class.getName()).log(Level.SEVERE, null, ex);
+          }
+       
+    }//GEN-LAST:event_jBAgregarActionPerformed
+
+    private void jBModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBModificarActionPerformed
+                                                        
+    if (chequeoExcepciones()) {
+      int boole = JOptionPane.showConfirmDialog(null, "¿Estas seguro de modificar este alumno?");
+      if (boole == 0) {
+       Ciudadano ciudadano = ciudadanoData.buscarCiudadano(Integer.parseInt(jTextFDNI.getText()));
+        ciudadano.setDni(Integer.parseInt(jTextFDNI.getText()));
+        ciudadano.setNomCompleto(jTextFNomCom.getText());
+        ciudadano.setEmail(jTextFEmail.getText());
+        ciudadano.setCelular(jTextFCelu.getText());
+        ciudadano.setPatologia(jTextFPato.getText());
+        ciudadano.setAmbitoTrabajo(jTextFAmbTrab.getText());
+        ciudadano.setDosis(Integer.parseInt(jTextFDosis.getText()));
+        jCheckBox1.setSelected(ciudadano.getEstado());
+       ciudadanoData.modificarCiudadano(ciudadano);
+      }
+    }
+                                                   
+    }//GEN-LAST:event_jBModificarActionPerformed
+
+    private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed
+         if (chequeoDocumento()) {
+      if (ciudadanoData.buscarCiudadano(Integer.parseInt(jTextFDNI.getText())) != null) {
+        int boole = JOptionPane.showConfirmDialog(null, "¿Estas seguro de eliminar este alumno?");
+        if (boole == 0) {
+            new CiudadanoData().eliminarCiudadano(Integer.parseInt(jTextFDNI.getText())); 
+        }
+      }
+    }
+    }//GEN-LAST:event_jBEliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -75,11 +407,74 @@ public class AdministracionCiudadano extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdministracionCiudadano().setVisible(true);
+           new AdministracionCiudadano().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBAgregar;
+    private javax.swing.JButton jBBuscarDNI;
+    private javax.swing.JButton jBEliminar;
+    private javax.swing.JButton jBModificar;
+    private javax.swing.JButton jButtonLimpiar;
+    private javax.swing.JButton jButtonSalir;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JLabel jLabAmbTrab;
+    private javax.swing.JLabel jLabCelu;
+    private javax.swing.JLabel jLabDNI;
+    private javax.swing.JLabel jLabEmail;
+    private javax.swing.JLabel jLabEstado;
+    private javax.swing.JLabel jLabNomCom;
+    private javax.swing.JLabel jLabPat;
+    private javax.swing.JLabel jLabdosis;
+    private javax.swing.JLabel jLabelImg;
+    private javax.swing.JLabel jLabelImg2;
+    private javax.swing.JLabel jLabelTitulo;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField jTextFAmbTrab;
+    private javax.swing.JTextField jTextFCelu;
+    private javax.swing.JTextField jTextFDNI;
+    private javax.swing.JTextField jTextFDosis;
+    private javax.swing.JTextField jTextFEmail;
+    private javax.swing.JTextField jTextFNomCom;
+    private javax.swing.JTextField jTextFPato;
     // End of variables declaration//GEN-END:variables
+
+ private boolean chequeoDocumento() {
+    try {
+      Integer lo = Integer.parseInt(jTextFDNI.getText());
+
+      return true;
+    } catch (Exception ex) {
+      JOptionPane.showMessageDialog(null, "El número de documento es inválido");
+      return false;
+    }
+  }
+private void chequeoTexto(JTextField txt) {
+    if (txt.getText().equals("")) {
+      int num = 10 / 0;
+    }
+    for (int i = 0; i < txt.getText().length(); i++) {
+      char aux = txt.getText().charAt(i);
+      if (aux == '0' || aux == '1' || aux == '2' || aux == '3' || aux == '4' || aux == '5' || aux == '6' || aux == '7' || aux == '8' || aux == '9' || aux == ',' || aux == '.' || aux == '-' || aux == '_' || aux == ';' || aux == ':' || aux == '!' || aux == '"' || aux == '#' || aux == '$' || aux == '%' || aux == '&' || aux == '/' || aux == '(' || aux == ')' || aux == '=' || aux == '?' || aux == '¡' || aux == '¿') {
+        int num = 10 / 0;
+      }
+    }
+  }
+private boolean chequeoExcepciones() {
+    try {
+      Integer lo = Integer.parseInt(jTextFDNI.getText());
+      chequeoTexto(jTextFNomCom);
+      chequeoTexto(jTextFAmbTrab);
+       return true;
+    } catch (NumberFormatException ex) {
+      JOptionPane.showMessageDialog(null, "El número de documento no es válido");
+      return false;
+    } catch (Exception ex) {
+      JOptionPane.showMessageDialog(null, "El nombre o el apellido no son válidos");
+      return false;
+    }
+  }
+
 }

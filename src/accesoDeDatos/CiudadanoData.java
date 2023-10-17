@@ -50,7 +50,7 @@ public class CiudadanoData {
             ps.setString(5,ciudadano.getPatologia());
             ps.setString(6,ciudadano.getAmbitoTrabajo());
             ps.setInt(7,ciudadano.getDosis());
-            ps.setBoolean(8, true);
+            ps.setBoolean(8,ciudadano.getEstado());
             ps.executeUpdate();
        
            ResultSet rs = ps.getGeneratedKeys();
@@ -102,7 +102,7 @@ public class CiudadanoData {
    public Ciudadano buscarCiudadano( int dni){
    
    
-    String sql = "SELECT nombreCompleto,email,celular,patologia,ambitoTrabajo,dosis FROM ciudadano WHERE dni = ?";
+    String sql = "SELECT nombreCompleto,email,celular,patologia,ambitoTrabajo,dosis,estado FROM ciudadano WHERE dni = ?";
     
     Ciudadano ciudadano= null;
 
@@ -175,7 +175,25 @@ public class CiudadanoData {
       JOptionPane.showMessageDialog(null, " Error al acceder a la tabla ciudadano ");
     }
     return listciudadanos;
-   
-   
-}
     }
+    public void modificarEstado(Ciudadano ciudadano) {
+    String sql = "UPDATE ciudadano SET estado=1 WHERE dni=? AND estado=?";
+
+    try {
+      PreparedStatement ps = con.prepareStatement(sql);
+      ps.setInt(1, ciudadano.getDni());
+      ps.setBoolean(2, false);
+      int exito = ps.executeUpdate();
+
+      if (exito == 1) {
+        JOptionPane.showMessageDialog(null, "Ciudadano agregado correctamente");
+      } else {
+        JOptionPane.showMessageDialog(null, "No se ha podido agregar al Ciudadano");
+      }
+    } catch (SQLException ex) {
+      System.out.println(ex);
+      JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Ciudadano ");
+    }
+  }
+}
+
