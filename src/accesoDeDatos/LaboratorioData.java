@@ -5,60 +5,73 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
 
 public class LaboratorioData {
 
-  private Connection conexion = null;
+  private final Connection conexion;
+
+  private final String OBTENER_LABORATORIO = "SELECT cuit, nomLaboratorio, pais, domComercial FROM laboratorio WHERE cuit = ?;";
+  private final String GUARDAR_LABORATORIO = "INSERT INTO laboratorio (cuit, nomLaboratorio, pais, domComercial) VALUES (?,?,?,?);";
+  private final String ACTUALIZAR_LABORATORIO = "UPDATE laboratorio SET nomLaboratorio=?,pais=?,domComercial=? WHERE cuit=?;";
+  private final String BORRAR_LABORATORIO = "DELETE FROM laboratorio WHERE cuit=?";
+  private final String EXISTE_LABORATORIO = "SELECT 1 FROM laboratorio WHERE cuit=?";
 
   public LaboratorioData() {
     conexion = Conexion.getConnection();
   }
 
-  public Laboratorio obtenerLaboratorio(String cuit) {
-    String sql = "select l.cuit, l.nomLaboratorio, l.pais, l.domComercial "
-            + "from laboratorio l "
-            + "where l.cuit like ?;";
-
-    try {
-      PreparedStatement ps = conexion.prepareStatement(sql);
-      ps.setString(1, cuit);
-      ResultSet rs = ps.executeQuery();
-      if (rs.next()) {
-        Laboratorio laboratorio = new Laboratorio();
-        laboratorio.setCuit(cuit);
-        laboratorio.setNomLaboratorio(rs.getString("nomLaboratorio"));
-        laboratorio.setPais(rs.getString("pais"));
-        laboratorio.setDomComercial(rs.getString("domComercial"));
-        return laboratorio;
-      }
-    } catch (SQLException ex) {
-      JOptionPane.showMessageDialog(null, "Error al acceder a la tabla 'laboratorio'");
+  public Laboratorio obtenerLaboratorio(String cuit) throws SQLException {
+    ResultSet resultSet;
+    try (PreparedStatement statement = conexion.prepareStatement(OBTENER_LABORATORIO)) {
+      statement.setString(1, cuit);
+      resultSet = statement.executeQuery();
     }
-    return null;
+    if (resultSet.next()) {
+      Laboratorio laboratorio = new Laboratorio();
+      laboratorio.setCuit(cuit);
+      laboratorio.setNomLaboratorio(resultSet.getString("nomLaboratorio"));
+      laboratorio.setPais(resultSet.getString("pais"));
+      laboratorio.setDomComercial(resultSet.getString("domComercial"));
+      return laboratorio;
+    } else {
+      return null;
+    }
   }
 
-  public void guardarLaboratorio(Laboratorio laboratorio) {
-    String sql = "INSERT INTO `laboratorio`(`cuit`, `nomLaboratorio`, `pais`, `domComercial`) VALUES (?,?,?,?);";
-
-    try {
-      PreparedStatement ps = conexion.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-      ps.setString(1, laboratorio.getCuit());
-      ps.setString(2, laboratorio.getNomLaboratorio());
-      ps.setString(3, laboratorio.getPais());
-      ps.setString(4, laboratorio.getDomComercial());
-      ps.executeUpdate();
-
-      ResultSet rs = ps.getGeneratedKeys();
-
-      if (rs.next()) {
-        JOptionPane.showMessageDialog(null, "Laboratorio agregado correctamente!");
-      }
-      ps.close();
-
-    } catch (SQLException ex) {
-      JOptionPane.showMessageDialog(null, "Error al acceder a la tabla 'laboratorio'");
+  public void guardarLaboratorio(Laboratorio laboratorio) throws SQLException {
+    try (PreparedStatement statement = conexion.prepareStatement(GUARDAR_LABORATORIO)) {
+      statement.setString(1, laboratorio.getCuit());
+      statement.setString(2, laboratorio.getNomLaboratorio());
+      statement.setString(3, laboratorio.getPais());
+      statement.setString(4, laboratorio.getDomComercial());
+      statement.executeUpdate();
     }
+  }
+
+  public void borrarLaboratorio(String cuit) throws SQLException {
+    try (PreparedStatement statement = conexion.prepareStatement(BORRAR_LABORATORIO)) {
+      statement.setString(1, cuit);
+      statement.executeUpdate();
+    }
+  }
+
+  public void actualizarLaboratorio(Laboratorio laboratorio) throws SQLException {
+    try (PreparedStatement statement = conexion.prepareStatement(ACTUALIZAR_LABORATORIO)) {
+      statement.setString(1, laboratorio.getNomLaboratorio());
+      statement.setString(2, laboratorio.getPais());
+      statement.setString(3, laboratorio.getDomComercial());
+      statement.setString(4, laboratorio.getCuit());
+      statement.executeUpdate();
+    }
+  }
+
+  public boolean existeLaboratorio(String cuit) throws SQLException {
+    ResultSet resultSet;
+    try (PreparedStatement statement = conexion.prepareStatement(EXISTE_LABORATORIO)) {
+      statement.setString(1, cuit);
+      resultSet = statement.executeQuery();
+    }
+    return resultSet.next();
   }
 
 }
