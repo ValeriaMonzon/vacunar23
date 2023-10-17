@@ -327,7 +327,7 @@ public class AdministracionCiudadano extends javax.swing.JFrame {
            ciudadanoData.modificarEstado(aux);
        } else {
         if (chequeoExcepciones()) {
-            int boole = JOptionPane.showConfirmDialog(null, "¿Desea agregar este alumno?");
+            int boole = JOptionPane.showConfirmDialog(null, "¿Desea agregar este Ciudadano?");
             if (boole == 0) {
             new CiudadanoData().GuardarCiudadano(ciudadano);
             }
@@ -344,7 +344,7 @@ public class AdministracionCiudadano extends javax.swing.JFrame {
     private void jBModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBModificarActionPerformed
                                                         
     if (chequeoExcepciones()) {
-      int boole = JOptionPane.showConfirmDialog(null, "¿Estas seguro de modificar este alumno?");
+      int boole = JOptionPane.showConfirmDialog(null, "¿Estas seguro de modificar este ciudadano?");
       if (boole == 0) {
        Ciudadano ciudadano = ciudadanoData.buscarCiudadano(Integer.parseInt(jTextFDNI.getText()));
         ciudadano.setDni(Integer.parseInt(jTextFDNI.getText()));
@@ -364,7 +364,7 @@ public class AdministracionCiudadano extends javax.swing.JFrame {
     private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed
          if (chequeoDocumento()) {
       if (ciudadanoData.buscarCiudadano(Integer.parseInt(jTextFDNI.getText())) != null) {
-        int boole = JOptionPane.showConfirmDialog(null, "¿Estas seguro de eliminar este alumno?");
+        int boole = JOptionPane.showConfirmDialog(null, "¿Estas seguro de eliminar este Ciudadano?");
         if (boole == 0) {
             new CiudadanoData().eliminarCiudadano(Integer.parseInt(jTextFDNI.getText())); 
         }

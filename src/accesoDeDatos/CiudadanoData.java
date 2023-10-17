@@ -37,7 +37,7 @@ public class CiudadanoData {
     //insertamos al ciudadano en la base de datos 
   public void GuardarCiudadano(Ciudadano ciudadano) throws SQLException{
   
-  String sql = "INSERT INTO ciudadano (dni,nomCompleto,email,celular,patologia,ambitoTrabajo,dosis,estado)"
+  String sql = "INSERT INTO ciudadano (dni,nombreCompleto,email,celular,patologia,ambitoTrabajo,dosis,estado)"
             + "VALUES (?,?,?,?,?,?,?,?)";
 
       try {
