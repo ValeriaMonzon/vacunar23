@@ -292,12 +292,7 @@ public class AdministracionCiudadano extends javax.swing.JFrame {
           jTextFPato.setText(ciudadano.getPatologia());
           jTextFAmbTrab.setText(ciudadano.getAmbitoTrabajo());
           jTextFDosis.setText(String.valueOf(ciudadano.getDosis()));
-            if (ciudadano.getEstado()==false) {
-              jCheckBox1.setSelected(false);  
-            }else{
-               jCheckBox1.setSelected(true);
-            }
-         
+          jCheckBox1.setSelected(ciudadano.getEstado());
           
         } catch (NumberFormatException ex) {
           JOptionPane.showMessageDialog(null, "El número de documento es inválido");
