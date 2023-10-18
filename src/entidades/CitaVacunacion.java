@@ -5,25 +5,27 @@
  */
 package entidades;
 
+import com.sun.istack.internal.Nullable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  *
  * @author valef
  */
 public class CitaVacunacion {
-
+  @Nullable
+    private Date fechaHoraColoca;
   private int CodCita;
   private Ciudadano persona;
   private int dni;
   private int codRefuerzo;
-  private LocalDateTime FechaHoraCita;
+  private Date FechaHoraCita;
   private int centroVacunacion;
-  private LocalDateTime fechaHoraColoca;
-  private Vacuna dosis;
+   private Vacuna dosis;
   private boolean citaEstado;
 
-  public CitaVacunacion(int CodCita, Ciudadano persona, int codRefuerzo, LocalDateTime FechaHoraCita, int centroVacunacion, LocalDateTime fechaHoraColoca, Vacuna dosis, boolean citaEstado) {
+  public CitaVacunacion(int CodCita, Ciudadano persona, int codRefuerzo, Date FechaHoraCita, int centroVacunacion, Date fechaHoraColoca, Vacuna dosis, boolean citaEstado) {
     this.CodCita = CodCita;
     this.persona = persona;
     this.codRefuerzo = codRefuerzo;
@@ -34,7 +36,7 @@ public class CitaVacunacion {
     this.citaEstado = citaEstado;
   }
 
-  public CitaVacunacion(int CodCita, Ciudadano persona, int dni, int codRefuerzo, LocalDateTime FechaHoraCita, int centroVacunacion, LocalDateTime fechaHoraColoca, Vacuna dosis, boolean citaEstado) {
+  public CitaVacunacion(int CodCita, Ciudadano persona, int dni, int codRefuerzo, Date FechaHoraCita, int centroVacunacion, Date fechaHoraColoca, Vacuna dosis, boolean citaEstado) {
     this.CodCita = CodCita;
     this.persona = persona;
     this.dni = dni;
@@ -46,10 +48,23 @@ public class CitaVacunacion {
     this.citaEstado = citaEstado;
   }
 
+    public CitaVacunacion(int CodCita, Ciudadano persona, int dni, int codRefuerzo, Date FechaHoraCita, int centroVacunacion, Vacuna dosis, boolean citaEstado) {
+        this.CodCita = CodCita;
+        this.persona = persona;
+        this.dni = dni;
+        this.codRefuerzo = codRefuerzo;
+        this.FechaHoraCita = FechaHoraCita;
+        this.centroVacunacion = centroVacunacion;
+        this.dosis = dosis;
+        this.citaEstado = citaEstado;
+    }
+
+  
+  
   public CitaVacunacion() {
   }
 
-  public int getCodCita() {
+    public int getCodCita() {
     return CodCita;
   }
 
@@ -81,11 +96,11 @@ public class CitaVacunacion {
     this.codRefuerzo = codRefuerzo;
   }
 
-  public LocalDateTime getFechaHoraCita() {
+  public Date getFechaHoraCita() {
     return FechaHoraCita;
   }
 
-  public void setFechaHoraCita(LocalDateTime FechaHoraCita) {
+  public void setFechaHoraCita(Date FechaHoraCita) {
     this.FechaHoraCita = FechaHoraCita;
   }
 
@@ -97,11 +112,11 @@ public class CitaVacunacion {
     this.centroVacunacion = centroVacunacion;
   }
 
-  public LocalDateTime getFechaHoraColoca() {
+  public Date getFechaHoraColoca() {
     return fechaHoraColoca;
   }
 
-  public void setFechaHoraColoca(LocalDateTime fechaHoraColoca) {
+  public void setFechaHoraColoca(Date fechaHoraColoca) {
     this.fechaHoraColoca = fechaHoraColoca;
   }
 
