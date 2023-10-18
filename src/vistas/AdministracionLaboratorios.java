@@ -258,8 +258,13 @@ public class AdministracionLaboratorios extends javax.swing.JFrame {
         laboratorio.setPais(pais.getText());
         laboratorio.setDomComercial(domicilio.getText());
 
-        data.guardarLaboratorio(laboratorio);
-        JOptionPane.showMessageDialog(null, "Se guardo laboratorio con exito!");
+        if (data.existeLaboratorio(cuit.getText())) {
+          data.actualizarLaboratorio(laboratorio);
+          JOptionPane.showMessageDialog(null, "Se actualizo laboratorio con exito!");
+        } else {
+          data.guardarLaboratorio(laboratorio);
+          JOptionPane.showMessageDialog(null, "Se guardo laboratorio con exito!");
+        }
 
         cuit.setEditable(false);
         pais.setEditable(false);
