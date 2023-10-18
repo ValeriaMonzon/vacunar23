@@ -13,13 +13,14 @@ import java.sql.Connection;
  * @author valef
  */
 public class PanelPrincipal extends javax.swing.JFrame {
+
   private final CiudadanoData ciudadanoData;
   private final CitaVacunacionData citaVacunacionData;
   private final LaboratorioData laboratorioData;
   private final VacunaData vacunaData;
-          
-    public PanelPrincipal() {
-      Connection con = Conexion.getConnection();
+
+  public PanelPrincipal() {
+    Connection con = Conexion.getConnection();
     if (con != null) {
       initComponents();
       setLocationRelativeTo(null);
@@ -27,103 +28,112 @@ public class PanelPrincipal extends javax.swing.JFrame {
       System.exit(0);
     }
     ciudadanoData = new CiudadanoData();
-    citaVacunacionData= new CitaVacunacionData();
+    citaVacunacionData = new CitaVacunacionData();
     laboratorioData = new LaboratorioData();
-    vacunaData =new VacunaData();
-    }
+    vacunaData = new VacunaData();
+  }
 
-  
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+  @SuppressWarnings("unchecked")
+  // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+  private void initComponents() {
 
-        escritorio = new javax.swing.JDesktopPane();
-        jMenuBar = new javax.swing.JMenuBar();
-        administracion = new javax.swing.JMenu();
-        jMenuItemciudadano = new javax.swing.JMenuItem();
-        jMenuItemTurnos = new javax.swing.JMenuItem();
-        jMenuItemVacunas = new javax.swing.JMenuItem();
-        jMenuItemLaboratorio = new javax.swing.JMenuItem();
-        jMenuItemSedes = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
+    escritorio = new javax.swing.JDesktopPane();
+    jMenuBar = new javax.swing.JMenuBar();
+    administracion = new javax.swing.JMenu();
+    jMenuItemciudadano = new javax.swing.JMenuItem();
+    jMenuItemTurnos = new javax.swing.JMenuItem();
+    jMenuItemVacunas = new javax.swing.JMenuItem();
+    jMenuItemLaboratorio = new javax.swing.JMenuItem();
+    jMenuItemSedes = new javax.swing.JMenuItem();
+    jMenu3 = new javax.swing.JMenu();
+    jMenuItem1 = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+    setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout escritorioLayout = new javax.swing.GroupLayout(escritorio);
-        escritorio.setLayout(escritorioLayout);
-        escritorioLayout.setHorizontalGroup(
-            escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
-        );
-        escritorioLayout.setVerticalGroup(
-            escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 515, Short.MAX_VALUE)
-        );
+    javax.swing.GroupLayout escritorioLayout = new javax.swing.GroupLayout(escritorio);
+    escritorio.setLayout(escritorioLayout);
+    escritorioLayout.setHorizontalGroup(
+      escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGap(0, 800, Short.MAX_VALUE)
+    );
+    escritorioLayout.setVerticalGroup(
+      escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGap(0, 515, Short.MAX_VALUE)
+    );
 
-        administracion.setText("Administracion");
+    administracion.setText("Administracion");
 
-        jMenuItemciudadano.setText("Ciudadano");
-        jMenuItemciudadano.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemciudadanoActionPerformed(evt);
-            }
-        });
-        administracion.add(jMenuItemciudadano);
+    jMenuItemciudadano.setText("Ciudadano");
+    jMenuItemciudadano.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItemciudadanoActionPerformed(evt);
+      }
+    });
+    administracion.add(jMenuItemciudadano);
 
-        jMenuItemTurnos.setText("Turnos");
-        jMenuItemTurnos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemTurnosActionPerformed(evt);
-            }
-        });
-        administracion.add(jMenuItemTurnos);
+    jMenuItemTurnos.setText("Turnos");
+    jMenuItemTurnos.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItemTurnosActionPerformed(evt);
+      }
+    });
+    administracion.add(jMenuItemTurnos);
 
-        jMenuItemVacunas.setText("Vacunas");
-        jMenuItemVacunas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemVacunasActionPerformed(evt);
-            }
-        });
-        administracion.add(jMenuItemVacunas);
+    jMenuItemVacunas.setText("Vacunas");
+    jMenuItemVacunas.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItemVacunasActionPerformed(evt);
+      }
+    });
+    administracion.add(jMenuItemVacunas);
 
-        jMenuItemLaboratorio.setText("Laboratorio");
-        jMenuItemLaboratorio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemLaboratorioActionPerformed(evt);
-            }
-        });
-        administracion.add(jMenuItemLaboratorio);
+    jMenuItemLaboratorio.setText("Laboratorio");
+    jMenuItemLaboratorio.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItemLaboratorioActionPerformed(evt);
+      }
+    });
+    administracion.add(jMenuItemLaboratorio);
 
-        jMenuItemSedes.setText("Sedes");
-        jMenuItemSedes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemSedesActionPerformed(evt);
-            }
-        });
-        administracion.add(jMenuItemSedes);
+    jMenuItemSedes.setText("Sedes");
+    jMenuItemSedes.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItemSedesActionPerformed(evt);
+      }
+    });
+    administracion.add(jMenuItemSedes);
 
-        jMenuBar.add(administracion);
+    jMenuBar.add(administracion);
 
-        jMenu3.setText("Edit");
-        jMenuBar.add(jMenu3);
+    jMenu3.setText("Consultas");
 
-        setJMenuBar(jMenuBar);
+    jMenuItem1.setText("Citas por mes");
+    jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItem1ActionPerformed(evt);
+      }
+    });
+    jMenu3.add(jMenuItem1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(escritorio)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(escritorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+    jMenuBar.add(jMenu3);
 
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
+    setJMenuBar(jMenuBar);
+
+    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+    getContentPane().setLayout(layout);
+    layout.setHorizontalGroup(
+      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addComponent(escritorio)
+    );
+    layout.setVerticalGroup(
+      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+        .addGap(0, 0, Short.MAX_VALUE)
+        .addComponent(escritorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+    );
+
+    pack();
+  }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItemciudadanoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemciudadanoActionPerformed
     AdministracionCiudadano form = new AdministracionCiudadano(ciudadanoData);
@@ -147,53 +157,59 @@ public class PanelPrincipal extends javax.swing.JFrame {
 
     private void jMenuItemSedesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSedesActionPerformed
     AdministracionSedes form = new AdministracionSedes();
-    form.setVisible(true); 
+    form.setVisible(true);
     }//GEN-LAST:event_jMenuItemSedesActionPerformed
 
-    /**
-     * @param args the command line arguments
+  private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    ConsultaCitasPorMes form = new ConsultaCitasPorMes();
+    form.setVisible(true);
+  }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+  /**
+   * @param args the command line arguments
+   */
+  public static void main(String args[]) {
+    /* Set the Nimbus look and feel */
+    //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+    /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PanelPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PanelPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PanelPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PanelPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    try {
+      for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+        if ("Nimbus".equals(info.getName())) {
+          javax.swing.UIManager.setLookAndFeel(info.getClassName());
+          break;
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PanelPrincipal().setVisible(true);
-            }
-        });
+      }
+    } catch (ClassNotFoundException ex) {
+      java.util.logging.Logger.getLogger(PanelPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (InstantiationException ex) {
+      java.util.logging.Logger.getLogger(PanelPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (IllegalAccessException ex) {
+      java.util.logging.Logger.getLogger(PanelPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+      java.util.logging.Logger.getLogger(PanelPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
     }
+    //</editor-fold>
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu administracion;
-    private javax.swing.JDesktopPane escritorio;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenuBar jMenuBar;
-    private javax.swing.JMenuItem jMenuItemLaboratorio;
-    private javax.swing.JMenuItem jMenuItemSedes;
-    private javax.swing.JMenuItem jMenuItemTurnos;
-    private javax.swing.JMenuItem jMenuItemVacunas;
-    private javax.swing.JMenuItem jMenuItemciudadano;
-    // End of variables declaration//GEN-END:variables
+    /* Create and display the form */
+    java.awt.EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        new PanelPrincipal().setVisible(true);
+      }
+    });
+  }
+
+  // Variables declaration - do not modify//GEN-BEGIN:variables
+  private javax.swing.JMenu administracion;
+  private javax.swing.JDesktopPane escritorio;
+  private javax.swing.JMenu jMenu3;
+  private javax.swing.JMenuBar jMenuBar;
+  private javax.swing.JMenuItem jMenuItem1;
+  private javax.swing.JMenuItem jMenuItemLaboratorio;
+  private javax.swing.JMenuItem jMenuItemSedes;
+  private javax.swing.JMenuItem jMenuItemTurnos;
+  private javax.swing.JMenuItem jMenuItemVacunas;
+  private javax.swing.JMenuItem jMenuItemciudadano;
+  // End of variables declaration//GEN-END:variables
 }
