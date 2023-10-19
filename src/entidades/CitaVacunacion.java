@@ -7,6 +7,7 @@ package entidades;
 
 import com.sun.istack.internal.Nullable;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 
 /**
@@ -24,6 +25,15 @@ public class CitaVacunacion {
   private int centroVacunacion;
    private Vacuna dosis;
   private boolean citaEstado;
+  private LocalTime horario;
+
+    public LocalTime getHorario() {
+        return horario;
+    }
+
+    public void setHorario(LocalTime horario) {
+        this.horario = horario;
+    }
 
   public CitaVacunacion(int CodCita, Ciudadano persona, int codRefuerzo, Date FechaHoraCita, int centroVacunacion, Date fechaHoraColoca, Vacuna dosis, boolean citaEstado) {
     this.CodCita = CodCita;
@@ -58,8 +68,6 @@ public class CitaVacunacion {
         this.dosis = dosis;
         this.citaEstado = citaEstado;
     }
-
-  
   
   public CitaVacunacion() {
   }

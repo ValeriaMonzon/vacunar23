@@ -5,8 +5,17 @@
  */
 package vistas;
 
+import accesoDeDatos.CitaVacunacionData;
+import entidades.CitaVacunacion;
+import java.time.LocalDate;
+import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Calendar;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import usos.Usos;
 
 /**
  *
@@ -14,11 +23,16 @@ import java.util.Calendar;
  */
 public class CitasXDia extends javax.swing.JFrame {
 
+    private DefaultTableModel modelo = new DefaultTableModel();
+    private ArrayList<CitaVacunacion> lista_citas = new ArrayList();
+    private CitaVacunacionData data = new CitaVacunacionData();
+    
     /**
      * Creates new form AdministracionCiudadano
      */
     public CitasXDia() {
         initComponents();
+        cargarItems();
         setLocationRelativeTo(null);
     }
 
@@ -31,12 +45,21 @@ public class CitasXDia extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jButton1 = new javax.swing.JButton();
+        elegirFecha_field = new com.toedter.calendar.JDateChooser();
+        diaHoy_boton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaCitas = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
+        diaDespues_boton = new javax.swing.JButton();
+        diaAnterior_boton = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        sede_comoBox = new javax.swing.JComboBox<>();
+
+        jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel3.setText("Dia");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -44,16 +67,21 @@ public class CitasXDia extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel1.setText("CITAS POR DIA");
 
-        jDateChooser1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-
-        jButton1.setText("Hoy");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        elegirFecha_field.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        elegirFecha_field.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                elegirFecha_fieldPropertyChange(evt);
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        diaHoy_boton.setText("Hoy");
+        diaHoy_boton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                diaHoy_botonActionPerformed(evt);
+            }
+        });
+
+        tablaCitas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -64,57 +92,127 @@ public class CitasXDia extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablaCitas);
 
         jButton2.setText("Detalles");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        diaDespues_boton.setText("jButton3");
+        diaDespues_boton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                diaDespues_botonActionPerformed(evt);
+            }
+        });
+
+        diaAnterior_boton.setText("jButton3");
+        diaAnterior_boton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                diaAnterior_botonActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel2.setText("Dia");
+
+        jLabel4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel4.setText("Sede");
+
+        sede_comoBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(0, 15, Short.MAX_VALUE)
+                .addComponent(diaAnterior_boton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton2)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, Short.MAX_VALUE)
+                        .addComponent(diaDespues_boton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(171, 171, 171)
-                        .addComponent(jLabel1)))
-                .addContainerGap(37, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(20, 20, 20))
+                        .addGap(9, 9, 9)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addComponent(elegirFecha_field, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(diaHoy_boton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(sede_comoBox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(203, 203, 203)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(20, 20, 20)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE))
-                .addGap(26, 26, 26)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(elegirFecha_field, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(diaHoy_boton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                            .addComponent(sede_comoBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(214, 214, 214)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(diaDespues_boton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(diaAnterior_boton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void diaHoy_botonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diaHoy_botonActionPerformed
         Calendar calendario = Calendar.getInstance();
         Date fechaHoy = calendario.getTime();
-        jDateChooser1.setDate(fechaHoy);
-    }//GEN-LAST:event_jButton1ActionPerformed
+        elegirFecha_field.setDate(fechaHoy);
+    }//GEN-LAST:event_diaHoy_botonActionPerformed
+
+    private void diaDespues_botonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diaDespues_botonActionPerformed
+        pasarDias(1);
+    }//GEN-LAST:event_diaDespues_botonActionPerformed
+
+    private void diaAnterior_botonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diaAnterior_botonActionPerformed
+        pasarDias(-1);
+    }//GEN-LAST:event_diaAnterior_botonActionPerformed
+
+    private void elegirFecha_fieldPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_elegirFecha_fieldPropertyChange
+        llenarTabla();
+    }//GEN-LAST:event_elegirFecha_fieldPropertyChange
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        cargarArray();
+        llenarTabla();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -158,14 +256,70 @@ public class CitasXDia extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton diaAnterior_boton;
+    private javax.swing.JButton diaDespues_boton;
+    private javax.swing.JButton diaHoy_boton;
+    private com.toedter.calendar.JDateChooser elegirFecha_field;
     private javax.swing.JButton jButton2;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JComboBox<String> sede_comoBox;
+    private javax.swing.JTable tablaCitas;
     // End of variables declaration//GEN-END:variables
 
+    public void cargarItems(){
+        sede_comoBox.removeAllItems();
+        sede_comoBox.addItem("Sucursal 1");
+        sede_comoBox.addItem("Sucursal 2");
+        sede_comoBox.addItem("Sucursal 3");
+        sede_comoBox.addItem("Sucursal 4");
+        
+        modelo.addColumn("DNI");
+        modelo.addColumn("Horario");
+        modelo.addColumn("Dosis");
+        modelo.addColumn("Laboratorio");
+                
+        tablaCitas.setModel(modelo);
+    }
     
+    public void pasarDias(int dias){
+        try{
+            Calendar calendario = Calendar.getInstance();
+            Date fecha = elegirFecha_field.getDate();
+            calendario.setTime(fecha);
+            calendario.add(Calendar.DATE, dias);
+            fecha = calendario.getTime();
+            elegirFecha_field.setDate(fecha);
+        }catch(Exception ex){
+            Calendar calendario = Calendar.getInstance();
+            Date fechaHoy = calendario.getTime();
+            elegirFecha_field.setDate(fechaHoy);
+        }
+    }
+    
+    public void cargarArray(){
+        Date fecha = elegirFecha_field.getDate();
+        lista_citas = data.buscarCitas_porFecha(Usos.convertirDate(fecha), comboBox());
+    }
+    
+    private void limpiarTabla(){
+        modelo.setRowCount(0);
+    } 
+    
+    private void llenarTabla() {
+    limpiarTabla();
+    for (CitaVacunacion aux : lista_citas) {
+            modelo.addRow(new Object[]{aux.getDni(), aux.getHorario() , aux.getDosis().getMedida(), aux.getDosis().getLaboratorio().getNomLaboratorio()});
+        }
+    tablaCitas.setModel(modelo);
+  }
+    
+    private int comboBox(){
+        int seleccion = sede_comoBox.getSelectedIndex();
+        return seleccion+1;
+    }
    
 }
