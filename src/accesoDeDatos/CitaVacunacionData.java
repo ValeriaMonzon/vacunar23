@@ -211,9 +211,7 @@ public class CitaVacunacionData {
             
                 lista_citas.add(citavacunacion);
 
-            } if(lista_citas.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "No existen citas en la fecha seleccionada");
-            }
+            } 
             ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla CitaVacunacion");

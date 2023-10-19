@@ -174,9 +174,9 @@ public class CitasXDia extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)
-                        .addContainerGap())
+                        .addContainerGap(31, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(214, 214, 214)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -206,7 +206,18 @@ public class CitasXDia extends javax.swing.JFrame {
     }//GEN-LAST:event_diaAnterior_botonActionPerformed
 
     private void elegirFecha_fieldPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_elegirFecha_fieldPropertyChange
-        llenarTabla();
+        try{
+            cargarArray();
+            llenarTabla();
+        
+            Calendar calendario = Calendar.getInstance();
+            Date fechaHoy = calendario.getTime();
+            System.out.println(elegirFecha_field.getDate().equals(fechaHoy));
+            if(elegirFecha_field.getDate().equals(fechaHoy)){
+                System.out.println("sdasdads");
+                diaHoy_boton.setEnabled(false);        
+        }
+        }catch(Exception ex){}
     }//GEN-LAST:event_elegirFecha_fieldPropertyChange
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -301,8 +312,8 @@ public class CitasXDia extends javax.swing.JFrame {
     }
     
     public void cargarArray(){
-        Date fecha = elegirFecha_field.getDate();
-        lista_citas = data.buscarCitas_porFecha(Usos.convertirDate(fecha), comboBox());
+         Date fecha = elegirFecha_field.getDate();
+         lista_citas = data.buscarCitas_porFecha(Usos.convertirDate(fecha), comboBox());
     }
     
     private void limpiarTabla(){
