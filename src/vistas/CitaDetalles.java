@@ -7,6 +7,8 @@ package vistas;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.JLabel;
 
 /**
@@ -26,6 +28,7 @@ public class CitaDetalles extends javax.swing.JFrame {
 
     public CitaDetalles(String dni, String dosisAplicadas_persona, String fecha, String horario, String laboratorio_cuit, String laboratorio_nombre, String medida_dosis, String nombre, String nroSerie_dosis, String sede, String stock_dosis) {
         initComponents();
+        setLocationRelativeTo(null);
         this.dni.setText(dni);
         this.dosisAplicadas_persona.setText(dosisAplicadas_persona);
         this.fecha.setText(fecha);
@@ -37,6 +40,16 @@ public class CitaDetalles extends javax.swing.JFrame {
         this.nroSerie_dosis.setText(nroSerie_dosis);
         this.sede.setText("Sede: "+sede);
         this.stock_dosis.setText(stock_dosis);
+        
+        Calendar calendario = Calendar.getInstance();
+        Date fechahoy = calendario.getTime();
+        if(fechahoy.toString().equals(fecha)){
+            aplicarBoton.setEnabled(false);
+            cancelarBoton.setEnabled(false);
+        }else{
+            cancelarBoton.setEnabled(false);            
+            aplicarBoton.setEnabled(false);            
+        }
     }
     
     
@@ -71,8 +84,8 @@ public class CitaDetalles extends javax.swing.JFrame {
         sede = new javax.swing.JLabel();
         nombre = new javax.swing.JLabel();
         dni = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        cancelarBoton = new javax.swing.JButton();
+        aplicarBoton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -219,16 +232,17 @@ public class CitaDetalles extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addComponent(fecha)
-                .addGap(31, 31, 31)
-                .addComponent(horario)
-                .addGap(26, 26, 26)
-                .addComponent(sede)
-                .addGap(33, 33, 33))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(fecha)
+                        .addGap(31, 31, 31)
+                        .addComponent(horario)
+                        .addGap(26, 26, 26)
+                        .addComponent(sede))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -240,25 +254,30 @@ public class CitaDetalles extends javax.swing.JFrame {
         dni.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         dni.setText("DNI");
 
-        jButton1.setText("Cancelar");
+        cancelarBoton.setText("Cancelar");
 
-        jButton2.setText("Aplicar");
+        aplicarBoton.setText("Aplicar");
+        aplicarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aplicarBotonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addContainerGap(26, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addComponent(aplicarBoton)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1))
+                        .addComponent(cancelarBoton))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(59, 59, 59)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(81, 81, 81)
                 .addComponent(nombre)
                 .addGap(34, 34, 34)
                 .addComponent(dni)
@@ -267,21 +286,25 @@ public class CitaDetalles extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nombre)
                     .addComponent(dni))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(cancelarBoton)
+                    .addComponent(aplicarBoton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void aplicarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aplicarBotonActionPerformed
+        
+    }//GEN-LAST:event_aplicarBotonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -319,12 +342,12 @@ public class CitaDetalles extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton aplicarBoton;
+    private javax.swing.JButton cancelarBoton;
     private javax.swing.JLabel dni;
     private javax.swing.JLabel dosisAplicadas_persona;
     private javax.swing.JLabel fecha;
     private javax.swing.JLabel horario;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel5;

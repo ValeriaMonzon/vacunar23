@@ -213,20 +213,19 @@ public class CitaVacunacionData {
     public ArrayList<CitaVacunacion> buscarCitas_porFecha(LocalDate fecha, int sede) {
         ArrayList<CitaVacunacion> lista_citas = new ArrayList();
         String sql = "SELECT codCita, dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis, citaEstado FROM citavacunacion WHERE DAY(fechaHoraColoca) = ? and MONTH(fechaHoraColoca) = ? and YEAR(fechaHoraColoca) = ? AND citaEstado = 1 AND centroVacunacion = ?";
-
+        
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, fecha.getDayOfMonth());
             ps.setInt(2, fecha.getMonthValue());
             ps.setInt(3, fecha.getYear());
             ps.setInt(4, sede);            
-                        
+            
             ResultSet rs = ps.executeQuery();
-
+            
             while (rs.next()) {
-                
                 CitaVacunacion citavacunacion = new CitaVacunacion();
-        
+                
                 citavacunacion.setCodCita(rs.getInt("codCita"));
                 citavacunacion.setDni(rs.getInt("dni"));
                 citavacunacion.setCodRefuerzo(rs.getInt("codRefuerzo"));
@@ -255,7 +254,6 @@ public class CitaVacunacionData {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla CitaVacunacion");
         }
-        
         return lista_citas;
     }
 }

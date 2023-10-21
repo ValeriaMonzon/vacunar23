@@ -13,15 +13,17 @@ import entidades.Laboratorio;
 import entidades.Vacuna;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Calendar;
-import java.util.List;
-import javax.swing.JOptionPane;
+import java.util.Comparator;
+import javax.swing.RowSorter;
+import javax.swing.RowSorter.SortKey;
+import javax.swing.SortOrder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import usos.Usos;
 
 /**
@@ -57,11 +59,10 @@ public class CitasXDia extends javax.swing.JFrame {
         @Override
         public void valueChanged(ListSelectionEvent e) {
             if (!e.getValueIsAdjusting()) {
-                int selectedRow = tablaCitas.getSelectedRow();
-                if (selectedRow >= 0) {
-                    System.out.println(selectedRow);
+                int[] selectedRow = tablaCitas.getSelectedRows();
+                if (selectedRow.length == 1) {
                     detallesBoton.setEnabled(true);
-                    cita_seleccionada = lista_citas.get(selectedRow);
+                    cita_seleccionada = lista_citas.get(selectedRow[0]);
                 } else{
                     detallesBoton.setEnabled(false);
                     cita_seleccionada = null;
@@ -378,6 +379,7 @@ public class CitasXDia extends javax.swing.JFrame {
     for (CitaVacunacion aux : lista_citas) {
             modelo.addRow(new Object[]{aux.getDni(), aux.getHorario() , aux.getDosis().getMedida(), aux.getDosis().getLaboratorio().getNomLaboratorio()});
         }
+    sortearTabla();
     tablaCitas.setModel(modelo);
   }
     
@@ -423,4 +425,25 @@ public class CitasXDia extends javax.swing.JFrame {
         CitaDetalles ventana = new CitaDetalles(dni, dosis_aplicados, fecha, horario, cuit, nombre_lab, medida, nombre_persona, nroserie, sede, stock);
         ventana.setVisible(true);
     }
+    
+    private void sortearTabla() {
+    TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
+    try {
+        TableRowSorter<DefaultTableModel> rowSorter = new TableRowSorter<>(modelo);
+        tablaCitas.setRowSorter(rowSorter);
+
+        // Define un comparador personalizado para ordenar por LocalTime
+        Comparator<LocalTime> localTimeComparator = (lt1, lt2) -> lt1.compareTo(lt2);
+
+        // Define la columna por la que quieres ordenar (reemplaza 1 con el índice de tu columna "horario")
+        rowSorter.setComparator(1, localTimeComparator);
+
+        // Crea una lista de claves de ordenación
+        ArrayList<RowSorter.SortKey> sortKeys = new ArrayList<>();
+        sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
+
+        // Ordena las filas con las claves de ordenación
+        rowSorter.setSortKeys(sortKeys);
+    } catch (Exception e) {}
+}
 }
