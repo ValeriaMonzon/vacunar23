@@ -6,15 +6,24 @@
 package vistas;
 
 import accesoDeDatos.CitaVacunacionData;
+import accesoDeDatos.CiudadanoData;
 import entidades.CitaVacunacion;
+import entidades.Ciudadano;
+import entidades.Laboratorio;
+import entidades.Vacuna;
 import java.time.LocalDate;
-import java.util.AbstractMap;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Calendar;
-import java.util.List;
-import javax.swing.JOptionPane;
+import java.util.Comparator;
+import javax.swing.RowSorter;
+import javax.swing.RowSorter.SortKey;
+import javax.swing.SortOrder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import usos.Usos;
 
 /**
@@ -23,9 +32,19 @@ import usos.Usos;
  */
 public class CitasXDia extends javax.swing.JFrame {
 
-    private DefaultTableModel modelo = new DefaultTableModel();
+    private DefaultTableModel modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Hacer que todas las celdas sean no editables
+                return false;
+            }
+        };
+    
     private ArrayList<CitaVacunacion> lista_citas = new ArrayList();
     private CitaVacunacionData data = new CitaVacunacionData();
+    private CiudadanoData ciudadata = new CiudadanoData();
+    private CitaVacunacion cita_seleccionada = null;
+    
     
     /**
      * Creates new form AdministracionCiudadano
@@ -34,6 +53,23 @@ public class CitasXDia extends javax.swing.JFrame {
         initComponents();
         cargarItems();
         setLocationRelativeTo(null);
+        detallesBoton.setEnabled(false);
+        
+        tablaCitas.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            if (!e.getValueIsAdjusting()) {
+                int[] selectedRow = tablaCitas.getSelectedRows();
+                if (selectedRow.length == 1) {
+                    detallesBoton.setEnabled(true);
+                    cita_seleccionada = lista_citas.get(selectedRow[0]);
+                } else{
+                    detallesBoton.setEnabled(false);
+                    cita_seleccionada = null;
+                }
+            }
+        }
+        });
     }
 
     /**
@@ -51,7 +87,7 @@ public class CitasXDia extends javax.swing.JFrame {
         diaHoy_boton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaCitas = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
+        detallesBoton = new javax.swing.JButton();
         diaDespues_boton = new javax.swing.JButton();
         diaAnterior_boton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -92,12 +128,13 @@ public class CitasXDia extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tablaCitas.setFillsViewportHeight(true);
         jScrollPane1.setViewportView(tablaCitas);
 
-        jButton2.setText("Detalles");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        detallesBoton.setText("Detalles");
+        detallesBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                detallesBotonActionPerformed(evt);
             }
         });
 
@@ -122,6 +159,11 @@ public class CitasXDia extends javax.swing.JFrame {
         jLabel4.setText("Sede");
 
         sede_comoBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        sede_comoBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                sede_comoBoxItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -134,7 +176,7 @@ public class CitasXDia extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton2)
+                            .addComponent(detallesBoton)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, Short.MAX_VALUE)
                         .addComponent(diaDespues_boton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -175,7 +217,7 @@ public class CitasXDia extends javax.swing.JFrame {
                         .addGap(26, 26, 26)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
+                        .addComponent(detallesBoton)
                         .addContainerGap(31, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(214, 214, 214)
@@ -207,23 +249,35 @@ public class CitasXDia extends javax.swing.JFrame {
 
     private void elegirFecha_fieldPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_elegirFecha_fieldPropertyChange
         try{
+            if(elegirFecha_field.getDate()==null){
+                Calendar calendario = Calendar.getInstance();
+                Date fechaHoy = calendario.getTime();
+                elegirFecha_field.setDate(fechaHoy);
+            }
+            
             cargarArray();
             llenarTabla();
         
             Calendar calendario = Calendar.getInstance();
-            Date fechaHoy = calendario.getTime();
-            System.out.println(elegirFecha_field.getDate().equals(fechaHoy));
-            if(elegirFecha_field.getDate().equals(fechaHoy)){
-                System.out.println("sdasdads");
+            LocalDate fechaHoy = Usos.convertirDate(calendario.getTime());
+            LocalDate fechaCita = Usos.convertirDate(elegirFecha_field.getDate());
+
+            if(fechaHoy.equals(fechaCita)){
                 diaHoy_boton.setEnabled(false);        
-        }
+            } else{
+                diaHoy_boton.setEnabled(true);
+            }
         }catch(Exception ex){}
     }//GEN-LAST:event_elegirFecha_fieldPropertyChange
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void detallesBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detallesBotonActionPerformed
+        detalles(cita_seleccionada);
+    }//GEN-LAST:event_detallesBotonActionPerformed
+
+    private void sede_comoBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_sede_comoBoxItemStateChanged
         cargarArray();
         llenarTabla();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_sede_comoBoxItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -267,11 +321,11 @@ public class CitasXDia extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton detallesBoton;
     private javax.swing.JButton diaAnterior_boton;
     private javax.swing.JButton diaDespues_boton;
     private javax.swing.JButton diaHoy_boton;
     private com.toedter.calendar.JDateChooser elegirFecha_field;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -325,6 +379,7 @@ public class CitasXDia extends javax.swing.JFrame {
     for (CitaVacunacion aux : lista_citas) {
             modelo.addRow(new Object[]{aux.getDni(), aux.getHorario() , aux.getDosis().getMedida(), aux.getDosis().getLaboratorio().getNomLaboratorio()});
         }
+    sortearTabla();
     tablaCitas.setModel(modelo);
   }
     
@@ -332,5 +387,63 @@ public class CitasXDia extends javax.swing.JFrame {
         int seleccion = sede_comoBox.getSelectedIndex();
         return seleccion+1;
     }
-   
+    
+    private void detalles(CitaVacunacion cita){
+        Vacuna vacuna = cita.getDosis();        
+        Ciudadano persona = ciudadata.buscarCiudadano(cita.getDni());
+        Laboratorio lab = vacuna.getLaboratorio();
+
+        
+        int aux = cita.getDni();
+        String dni = String.valueOf(aux);
+        
+        Date auxi = cita.getFechaHoraColoca();
+        String fecha = auxi.toString();
+        LocalTime auxo = cita.getHorario();
+        String horario = auxo.toString();
+        
+        aux = cita.getCentroVacunacion();
+        String sede = String.valueOf(aux);
+        
+        double auxx = vacuna.getMedida();
+        String medida = String.valueOf(auxx);
+        
+        aux = vacuna.getNroSerieDosis();
+        String nroserie = String.valueOf(aux);
+        
+        aux = vacuna.getStock();
+        String stock = String.valueOf(aux);
+        
+        String nombre_lab = lab.getNomLaboratorio();
+        String cuit = lab.getCuit();
+        
+        String nombre_persona = persona.getNomCompleto();
+        
+        aux = persona.getDosis();
+        String dosis_aplicados = String.valueOf(aux);
+        
+        CitaDetalles ventana = new CitaDetalles(dni, dosis_aplicados, fecha, horario, cuit, nombre_lab, medida, nombre_persona, nroserie, sede, stock);
+        ventana.setVisible(true);
+    }
+    
+    private void sortearTabla() {
+    TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
+    try {
+        TableRowSorter<DefaultTableModel> rowSorter = new TableRowSorter<>(modelo);
+        tablaCitas.setRowSorter(rowSorter);
+
+        // Define un comparador personalizado para ordenar por LocalTime
+        Comparator<LocalTime> localTimeComparator = (lt1, lt2) -> lt1.compareTo(lt2);
+
+        // Define la columna por la que quieres ordenar (reemplaza 1 con el índice de tu columna "horario")
+        rowSorter.setComparator(1, localTimeComparator);
+
+        // Crea una lista de claves de ordenación
+        ArrayList<RowSorter.SortKey> sortKeys = new ArrayList<>();
+        sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
+
+        // Ordena las filas con las claves de ordenación
+        rowSorter.setSortKeys(sortKeys);
+    } catch (Exception e) {}
+}
 }

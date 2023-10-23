@@ -27,13 +27,52 @@ public class CitaVacunacionData {
 
     //------------------------------------------------------------------------------------------------
     //                buscar cita
-    public CitaVacunacion buscarCita(int dni) {
+    public CitaVacunacion buscarCita_DNI(int dni) {
         String sql = "SELECT codCita, dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis, citaEstado FROM citavacunacion WHERE dni = ? AND estado = 1";
 
         CitaVacunacion citavacunacion = null;
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, dni);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                citavacunacion = new CitaVacunacion();
+
+                citavacunacion.setCodCita(rs.getInt("codCita"));
+                citavacunacion.setDni(rs.getInt("dni"));
+                citavacunacion.setCodRefuerzo(rs.getInt("codRefuerzo"));
+                citavacunacion.setFechaHoraCita(new Date(rs.getTimestamp("fechaHoraCita").getTime()));
+
+                citavacunacion.setCentroVacunacion(rs.getInt("centroVacunacion"));
+                citavacunacion.setFechaHoraColoca(new Date(rs.getTimestamp("fechaHoraColoca").getTime()));
+
+                //    Elegir si traer el nro de serie o la vacuna ?
+                //    Si nro de serie entonces
+                //      citavacunacion.setDosis(rs.getInt("nroSerieDosis"));
+                //    sino
+                VacunaData vacunaData = new VacunaData();
+                citavacunacion.setDosis(vacunaData.buscarVacuna(rs.getInt("nroSerieDosis")));
+
+                citavacunacion.setCitaEstado(rs.getBoolean("citaEstado"));
+
+            } else {
+                JOptionPane.showMessageDialog(null, "No existe esa Cita");
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla CitaVacunacion");
+        }
+        return citavacunacion;
+    }
+    
+    public CitaVacunacion buscarCita_CodCita(int cod) {
+        String sql = "SELECT codCita, dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis, citaEstado FROM citavacunacion WHERE codCita = ? AND estado = 1";
+
+        CitaVacunacion citavacunacion = null;
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, cod);
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
@@ -176,20 +215,19 @@ public class CitaVacunacionData {
     public ArrayList<CitaVacunacion> buscarCitas_porFecha(LocalDate fecha, int sede) {
         ArrayList<CitaVacunacion> lista_citas = new ArrayList();
         String sql = "SELECT codCita, dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis, citaEstado FROM citavacunacion WHERE DAY(fechaHoraColoca) = ? and MONTH(fechaHoraColoca) = ? and YEAR(fechaHoraColoca) = ? AND citaEstado = 1 AND centroVacunacion = ?";
-
+        
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, fecha.getDayOfMonth());
             ps.setInt(2, fecha.getMonthValue());
             ps.setInt(3, fecha.getYear());
             ps.setInt(4, sede);            
-                        
+            
             ResultSet rs = ps.executeQuery();
-
+            
             while (rs.next()) {
-                
                 CitaVacunacion citavacunacion = new CitaVacunacion();
-        
+                
                 citavacunacion.setCodCita(rs.getInt("codCita"));
                 citavacunacion.setDni(rs.getInt("dni"));
                 citavacunacion.setCodRefuerzo(rs.getInt("codRefuerzo"));
@@ -218,7 +256,6 @@ public class CitaVacunacionData {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla CitaVacunacion");
         }
-        
         return lista_citas;
     }
     public List<CitaVacunacion> listarCita(){
