@@ -1,6 +1,7 @@
 package accesoDeDatos;
 
 import entidades.CitaVacunacion;
+import entidades.Vacuna;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +13,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import usos.Usos;
 
@@ -200,10 +202,10 @@ public class CitaVacunacionData {
                 citavacunacion.setHorario(hora);
                 
 
-                //    Elegir si traer el nro de serie o la vacuna ?
-                //    Si nro de serie entonces
-                //      citavacunacion.setDosis(rs.getInt("nroSerieDosis"));
-                //    sino
+//                    Elegir si traer el nro de serie o la vacuna ?
+//                    Si nro de serie entonces
+//                    citavacunacion.setDosis(rs.getInt("nroSerieDosis"));
+//                    sino
                 VacunaData vacunaData = new VacunaData();
                 citavacunacion.setDosis(vacunaData.buscarVacuna(rs.getInt("nroSerieDosis")));
 
@@ -218,5 +220,34 @@ public class CitaVacunacionData {
         }
         
         return lista_citas;
+    }
+    public List<CitaVacunacion> listarCita(){
+    
+    List<CitaVacunacion> datos =new ArrayList<>();
+    
+        try {
+            String sql ="SELECT c.dni,c.nroSerieDosis, c.centroVacunacion  FROM citavacunacion c";
+                   
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            
+        while (rs.next()){
+            
+           CitaVacunacion dato = new CitaVacunacion();
+           
+           dato.setDni(rs.getInt("dni"));
+           dato.setCentroVacunacion(rs.getInt("centroVacunacion"));
+           //aca tuve que crear una vacuna para poder traer el dato nroSerieDosis 
+           //por que esta en la misma tabla pero en diferente clase.
+           Vacuna vacuna =new Vacuna();
+           vacuna.setNroSerieDosis(rs.getInt("nroSerieDosis"));
+           dato.setDosis(vacuna);
+           datos.add(dato);
+           }ps.close();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, " Error al acceder a la tabla " + ex.getMessage());
+        }
+          return datos;  
+    
     }
 }

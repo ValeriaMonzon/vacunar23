@@ -23,7 +23,7 @@ public class CitaVacunacion {
   private int codRefuerzo;
   private Date FechaHoraCita;
   private int centroVacunacion;
-   private Vacuna dosis;
+  private Vacuna dosis;
   private boolean citaEstado;
   private LocalTime horario;
 
@@ -143,5 +143,11 @@ public class CitaVacunacion {
   public void setCitaEstado(boolean citaEstado) {
     this.citaEstado = citaEstado;
   }
+
+    @Override
+    public String toString() {
+        return "Centro de Vacunacion N° " + centroVacunacion;
+    }
+
 
 }

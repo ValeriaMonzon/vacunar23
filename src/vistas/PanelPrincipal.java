@@ -39,15 +39,17 @@ public class PanelPrincipal extends javax.swing.JFrame {
 
         jMenuItem2 = new javax.swing.JMenuItem();
         escritorio = new javax.swing.JDesktopPane();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar = new javax.swing.JMenuBar();
         administracion = new javax.swing.JMenu();
         jMenuItemciudadano = new javax.swing.JMenuItem();
         jMenuItemTurnos = new javax.swing.JMenuItem();
         jMenuItemVacunas = new javax.swing.JMenuItem();
         jMenuItemLaboratorio = new javax.swing.JMenuItem();
-        jMenuItemSedes = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMSede = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
 
@@ -55,19 +57,31 @@ public class PanelPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setPreferredSize(new java.awt.Dimension(800, 500));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8-vacuna-portada - copia.png"))); // NOI18N
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 500));
+
+        escritorio.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout escritorioLayout = new javax.swing.GroupLayout(escritorio);
         escritorio.setLayout(escritorioLayout);
         escritorioLayout.setHorizontalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 515, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        administracion.setText("Administracion");
+        jMenuBar.setForeground(new java.awt.Color(102, 204, 255));
 
+        administracion.setText("Administracion");
+        administracion.setFont(new java.awt.Font("Georgia", 1, 12)); // NOI18N
+
+        jMenuItemciudadano.setFont(new java.awt.Font("Georgia", 1, 12)); // NOI18N
         jMenuItemciudadano.setText("Ciudadano");
         jMenuItemciudadano.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -76,6 +90,7 @@ public class PanelPrincipal extends javax.swing.JFrame {
         });
         administracion.add(jMenuItemciudadano);
 
+        jMenuItemTurnos.setFont(new java.awt.Font("Georgia", 1, 12)); // NOI18N
         jMenuItemTurnos.setText("Turnos");
         jMenuItemTurnos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -84,6 +99,7 @@ public class PanelPrincipal extends javax.swing.JFrame {
         });
         administracion.add(jMenuItemTurnos);
 
+        jMenuItemVacunas.setFont(new java.awt.Font("Georgia", 1, 12)); // NOI18N
         jMenuItemVacunas.setText("Vacunas");
         jMenuItemVacunas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -92,6 +108,7 @@ public class PanelPrincipal extends javax.swing.JFrame {
         });
         administracion.add(jMenuItemVacunas);
 
+        jMenuItemLaboratorio.setFont(new java.awt.Font("Georgia", 1, 12)); // NOI18N
         jMenuItemLaboratorio.setText("Laboratorio");
         jMenuItemLaboratorio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -100,18 +117,12 @@ public class PanelPrincipal extends javax.swing.JFrame {
         });
         administracion.add(jMenuItemLaboratorio);
 
-        jMenuItemSedes.setText("Sedes");
-        jMenuItemSedes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemSedesActionPerformed(evt);
-            }
-        });
-        administracion.add(jMenuItemSedes);
-
         jMenuBar.add(administracion);
 
         jMenu3.setText("Consultas");
+        jMenu3.setFont(new java.awt.Font("Georgia", 1, 12)); // NOI18N
 
+        jMenuItem1.setFont(new java.awt.Font("Georgia", 1, 12)); // NOI18N
         jMenuItem1.setText("Citas por mes");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -120,15 +131,26 @@ public class PanelPrincipal extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem1);
 
+        jMSede.setFont(new java.awt.Font("Georgia", 1, 12)); // NOI18N
+        jMSede.setText("Aplicaciones por sede");
+        jMSede.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMSedeActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMSede);
+
         jMenuBar.add(jMenu3);
 
         jMenu1.setText("Aplicar vacunas");
+        jMenu1.setFont(new java.awt.Font("Georgia", 1, 12)); // NOI18N
         jMenu1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenu1ActionPerformed(evt);
             }
         });
 
+        jMenuItem3.setFont(new java.awt.Font("Georgia", 1, 12)); // NOI18N
         jMenuItem3.setText("Citas por dia");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -149,9 +171,7 @@ public class PanelPrincipal extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(escritorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(escritorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -177,11 +197,6 @@ public class PanelPrincipal extends javax.swing.JFrame {
     form.setVisible(true);
     }//GEN-LAST:event_jMenuItemLaboratorioActionPerformed
 
-    private void jMenuItemSedesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSedesActionPerformed
-    AdministracionSedes form = new AdministracionSedes();
-    form.setVisible(true);
-    }//GEN-LAST:event_jMenuItemSedesActionPerformed
-
   private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
     ConsultaCitasPorMes form = new ConsultaCitasPorMes();
     form.setVisible(true);
@@ -195,6 +210,11 @@ public class PanelPrincipal extends javax.swing.JFrame {
         CitasXDia form = new CitasXDia();
         form.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMSedeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMSedeActionPerformed
+        ConsultasAplicacionesPorSede form = new ConsultasAplicacionesPorSede();
+        form.setVisible(true);
+    }//GEN-LAST:event_jMSedeActionPerformed
 
   /**
    * @param args the command line arguments
@@ -234,6 +254,8 @@ public class PanelPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu administracion;
     private javax.swing.JDesktopPane escritorio;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenuItem jMSede;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar;
@@ -241,9 +263,9 @@ public class PanelPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItemLaboratorio;
-    private javax.swing.JMenuItem jMenuItemSedes;
     private javax.swing.JMenuItem jMenuItemTurnos;
     private javax.swing.JMenuItem jMenuItemVacunas;
     private javax.swing.JMenuItem jMenuItemciudadano;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

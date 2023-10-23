@@ -73,7 +73,7 @@ public class AdministracionCiudadano extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        jPanel1.setBackground(new java.awt.Color(153, 204, 255));
+        jPanel1.setBackground(new java.awt.Color(0, 204, 204));
 
         jLabelTitulo.setFont(new java.awt.Font("Georgia", 1, 24)); // NOI18N
         jLabelTitulo.setText("Administracion de Ciudadanos ");
@@ -294,6 +294,12 @@ public class AdministracionCiudadano extends javax.swing.JFrame {
           jTextFDosis.setText(String.valueOf(ciudadano.getDosis()));
           jCheckBox1.setSelected(ciudadano.getEstado());
           
+          jBBuscarDNI.setEnabled(false);
+          jBModificar.setEnabled(true);
+          jBAgregar.setEnabled(true);
+          jBEliminar.setEnabled(true);
+          jButtonLimpiar.setEnabled(true);
+          jButtonSalir.setEnabled(true);
         } catch (NumberFormatException ex) {
           JOptionPane.showMessageDialog(null, "El número de documento es inválido");
         }
@@ -309,8 +315,13 @@ public class AdministracionCiudadano extends javax.swing.JFrame {
    jTextFPato.setText(null);
    jTextFAmbTrab.setText(null);
    jTextFDosis.setText(null);
-   jCheckBox1.setSelected(false);
    
+   jBBuscarDNI.setEnabled(true);
+   jBModificar.setEnabled(false);
+   jBAgregar.setEnabled(false);
+   jBEliminar.setEnabled(false);
+   jButtonLimpiar.setEnabled(false);
+   jButtonSalir.setEnabled(true);
     }//GEN-LAST:event_jButtonLimpiarActionPerformed
 
     private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
@@ -338,7 +349,12 @@ public class AdministracionCiudadano extends javax.swing.JFrame {
     }     catch (SQLException ex) {
               Logger.getLogger(AdministracionCiudadano.class.getName()).log(Level.SEVERE, null, ex);
           }
-       
+   jBBuscarDNI.setEnabled(false);
+   jBModificar.setEnabled(true);
+   jBAgregar.setEnabled(false);
+   jBEliminar.setEnabled(true);
+   jButtonLimpiar.setEnabled(true);
+   jButtonSalir.setEnabled(true);  
     }//GEN-LAST:event_jBAgregarActionPerformed
 
     private void jBModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBModificarActionPerformed
@@ -358,6 +374,13 @@ public class AdministracionCiudadano extends javax.swing.JFrame {
        ciudadanoData.modificarCiudadano(ciudadano);
       }
     }
+    jBBuscarDNI.setEnabled(false);
+    jBModificar.setEnabled(false);
+    jBAgregar.setEnabled(false);
+    jBEliminar.setEnabled(true);
+    jButtonLimpiar.setEnabled(true);
+    jButtonSalir.setEnabled(true);   
+      
                                                    
     }//GEN-LAST:event_jBModificarActionPerformed
 

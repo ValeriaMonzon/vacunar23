@@ -37,7 +37,7 @@ public class AdministracionTurnos extends javax.swing.JFrame {
 
     public AdministracionTurnos() {
        con = Conexion.getConnection();
-       
+      
         initComponents();
   // Llama a la función para actualizar el JComboBox "jComboBoxLaboratorio"
     llenarComboBoxLaboratorio(jComboBoxLaboratorio, jComboBoxDosis);
@@ -59,6 +59,7 @@ public class AdministracionTurnos extends javax.swing.JFrame {
         // Configura el JDateChooser
         jDateChFecha.setMinSelectableDate(currentDate);
         jDateChFecha.setMaxSelectableDate(maxDate);
+         setLocationRelativeTo(null);
     }
 
     @SuppressWarnings("unchecked")
