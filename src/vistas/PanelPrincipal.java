@@ -50,6 +50,8 @@ public class PanelPrincipal extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMSede = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
 
@@ -140,6 +142,20 @@ public class PanelPrincipal extends javax.swing.JFrame {
         });
         jMenu3.add(jMSede);
 
+        jMenu2.setText("Control Interno");
+        jMenu2.setFont(new java.awt.Font("Georgia", 1, 12)); // NOI18N
+
+        jMenuItem4.setFont(new java.awt.Font("Georgia", 1, 12)); // NOI18N
+        jMenuItem4.setText("Sedes");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem4);
+
+        jMenu3.add(jMenu2);
+
         jMenuBar.add(jMenu3);
 
         jMenu1.setText("Aplicar vacunas");
@@ -216,6 +232,11 @@ public class PanelPrincipal extends javax.swing.JFrame {
         form.setVisible(true);
     }//GEN-LAST:event_jMSedeActionPerformed
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        ControlInterno_Sedes form = new ControlInterno_Sedes();
+        form.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
   /**
    * @param args the command line arguments
    */
@@ -257,11 +278,13 @@ public class PanelPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuItem jMSede;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItemLaboratorio;
     private javax.swing.JMenuItem jMenuItemTurnos;
     private javax.swing.JMenuItem jMenuItemVacunas;
