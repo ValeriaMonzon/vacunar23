@@ -15,7 +15,7 @@ import java.sql.Connection;
 public class PanelPrincipal extends javax.swing.JFrame {
 
   private final CiudadanoData ciudadanoData;
-  private final CitaVacunacionData citaVacunacionData;
+  private final CitaVacunacion2Data citaVacunacionData;
   private final LaboratorioData laboratorioData;
   private final VacunaData vacunaData;
 
@@ -28,7 +28,7 @@ public class PanelPrincipal extends javax.swing.JFrame {
       System.exit(0);
     }
     ciudadanoData = new CiudadanoData();
-    citaVacunacionData = new CitaVacunacionData();
+    citaVacunacionData = new CitaVacunacion2Data();
     laboratorioData = new LaboratorioData();
     vacunaData = new VacunaData();
   }
@@ -183,7 +183,8 @@ public class PanelPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemciudadanoActionPerformed
 
     private void jMenuItemTurnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemTurnosActionPerformed
-    AdministracionTurnos form = new AdministracionTurnos();
+    TurnosABM form = new TurnosABM();
+    form.setLocationRelativeTo(null);
     form.setVisible(true);
     }//GEN-LAST:event_jMenuItemTurnosActionPerformed
 
@@ -203,17 +204,17 @@ public class PanelPrincipal extends javax.swing.JFrame {
   }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
-        
+
     }//GEN-LAST:event_jMenu1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        CitasXDia form = new CitasXDia();
-        form.setVisible(true);
+    CitasXDia form = new CitasXDia();
+    form.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMSedeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMSedeActionPerformed
-        ConsultasAplicacionesPorSede form = new ConsultasAplicacionesPorSede();
-        form.setVisible(true);
+    ConsultasAplicacionesPorSede form = new ConsultasAplicacionesPorSede();
+    form.setVisible(true);
     }//GEN-LAST:event_jMSedeActionPerformed
 
   /**

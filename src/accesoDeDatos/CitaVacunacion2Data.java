@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CitaVacunacion2Data {
 
@@ -19,7 +21,9 @@ public class CitaVacunacion2Data {
   private final String EXISTE_CITAVACUNACION = "SELECT 1 FROM citavacunacion WHERE codCita=?";
 
   private final String OBTENER_CIUDADANO = "SELECT dni, nombreCompleto, email, celular, patologia, ambitoTrabajo, dosis, estado FROM ciudadano WHERE dni=?;";
+  private final String LISTAR_CIUDADANO = "SELECT dni, nombreCompleto, email, celular, patologia, ambitoTrabajo, dosis, estado FROM ciudadano;";
   private final String OBTENER_VACUNA = "SELECT nroSerieDosis, cuit, marca, medida, fechaCaduca, colocada, stock FROM vacuna WHERE nroSerieDosis=?;";
+  private final String LISTAR_VACUNA = "SELECT nroSerieDosis, cuit, marca, medida, fechaCaduca, colocada, stock FROM vacuna;";
 
   public CitaVacunacion2Data() {
     this.conexion = Conexion.getConnection();
@@ -88,7 +92,7 @@ public class CitaVacunacion2Data {
     return resultSet.next();
   }
 
-  private Ciudadano obtenerPersona(int dni) throws SQLException {
+  public Ciudadano obtenerPersona(int dni) throws SQLException {
     ResultSet resultSet;
     try (PreparedStatement statement = conexion.prepareStatement(OBTENER_CIUDADANO)) {
       statement.setInt(1, dni);
@@ -109,7 +113,32 @@ public class CitaVacunacion2Data {
     }
   }
 
-  private Vacuna obtenerVacuna(int nroSerieDosis) throws SQLException {
+  public List<Ciudadano> listarPersonas() throws SQLException {
+    List<Ciudadano> ciudadanos = new ArrayList<>();
+    ResultSet resultSet;
+    try (PreparedStatement statement = conexion.prepareStatement(LISTAR_CIUDADANO)) {
+      resultSet = statement.executeQuery();
+    }
+    while (resultSet.next()) {
+      Ciudadano ciudadano = new Ciudadano() {
+        @Override
+        public String toString() {
+          return "DNI: " + getDni() + ", Nombre: " + getNomCompleto();
+        }
+      };
+      ciudadano.setDni(resultSet.getInt("dni"));
+      ciudadano.setNomCompleto(resultSet.getString("nombreCompleto"));
+      ciudadano.setEmail(resultSet.getString("email"));
+      ciudadano.setCelular(resultSet.getString("celular"));
+      ciudadano.setPatologia(resultSet.getString("patologia"));
+      ciudadano.setAmbitoTrabajo(resultSet.getString("ambitoTrabajo"));
+      ciudadano.setDosis(resultSet.getInt("dosis"));
+      ciudadanos.add(ciudadano);
+    }
+    return ciudadanos;
+  }
+
+  public Vacuna obtenerVacuna(int nroSerieDosis) throws SQLException {
     ResultSet resultSet;
     try (PreparedStatement statement = conexion.prepareStatement(OBTENER_VACUNA)) {
       statement.setInt(1, nroSerieDosis);
@@ -128,7 +157,30 @@ public class CitaVacunacion2Data {
     }
   }
 
-  private Laboratorio obtenerLaboratorio(String string) throws SQLException {
+  public List<Vacuna> listarVacunas() throws SQLException {
+    List<Vacuna> vacunas = new ArrayList<>();
+    ResultSet resultSet;
+    try (PreparedStatement statement = conexion.prepareStatement(LISTAR_VACUNA)) {
+      resultSet = statement.executeQuery();
+    }
+    while (resultSet.next()) {
+      Vacuna vacuna = new Vacuna() {
+        @Override
+        public String toString() {
+          return "Nro Serie: " + getNroSerieDosis() + ", Medida: " + getMedida() + ", Laboratorio: " + getLaboratorio().getNomLaboratorio();
+        }
+      };
+      vacuna.setNroSerieDosis(resultSet.getInt("nroSerieDosis"));
+      vacuna.setLaboratorio(obtenerLaboratorio(resultSet.getString("cuit")));
+      vacuna.setColocada(resultSet.getBoolean("colocada"));
+      vacuna.setMedida(resultSet.getDouble("medida"));
+      vacuna.setFechaCaduca(resultSet.getDate("fechaCaduca").toLocalDate());
+      vacunas.add(vacuna);
+    }
+    return vacunas;
+  }
+
+  public Laboratorio obtenerLaboratorio(String string) throws SQLException {
     return laboratorioData.obtenerLaboratorio(string);
   }
 
