@@ -67,13 +67,9 @@ public class TurnosABM extends javax.swing.JFrame {
     serie = new javax.swing.JTextField();
     marca = new javax.swing.JTextField();
     caducidad = new javax.swing.JTextField();
-    jTextField10 = new javax.swing.JTextField();
-    colocada = new javax.swing.JTextField();
     medida = new javax.swing.JTextField();
     dniLabel7 = new javax.swing.JLabel();
     dniLabel8 = new javax.swing.JLabel();
-    dniLabel9 = new javax.swing.JLabel();
-    dniLabel10 = new javax.swing.JLabel();
     dniLabel11 = new javax.swing.JLabel();
     pais = new javax.swing.JTextField();
     dniLabel12 = new javax.swing.JLabel();
@@ -86,12 +82,9 @@ public class TurnosABM extends javax.swing.JFrame {
     jLabel4 = new javax.swing.JLabel();
     dniLabel16 = new javax.swing.JLabel();
     jTextField17 = new javax.swing.JTextField();
-    dniLabel17 = new javax.swing.JLabel();
-    jTextField18 = new javax.swing.JTextField();
-    jTextField19 = new javax.swing.JTextField();
     dniLabel18 = new javax.swing.JLabel();
     dniLabel19 = new javax.swing.JLabel();
-    jTextField20 = new javax.swing.JTextField();
+    fechaCita = new javax.swing.JTextField();
     separador3 = new javax.swing.JSeparator();
     separador4 = new javax.swing.JSeparator();
     separador1 = new javax.swing.JSeparator();
@@ -99,9 +92,11 @@ public class TurnosABM extends javax.swing.JFrame {
     separador2 = new javax.swing.JSeparator();
     nuevoBtn = new javax.swing.JButton();
     guardarBtn = new javax.swing.JButton();
-    modificarBtn = new javax.swing.JButton();
     eliminarBtn = new javax.swing.JButton();
+    fechaColocacion = new javax.swing.JTextField();
     jTextField21 = new javax.swing.JTextField();
+    colocada = new javax.swing.JCheckBox();
+    separador5 = new javax.swing.JSeparator();
 
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -109,7 +104,7 @@ public class TurnosABM extends javax.swing.JFrame {
 
     codCitaLabel.setText("Codigo cita");
     jPanel1.add(codCitaLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, -1, -1));
-    jPanel1.add(codigoCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 260, -1));
+    jPanel1.add(codigoCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 65, 260, -1));
 
     buscarBtn.setText("Buscar");
     buscarBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -117,14 +112,14 @@ public class TurnosABM extends javax.swing.JFrame {
         buscarBtnActionPerformed(evt);
       }
     });
-    jPanel1.add(buscarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 70, -1, -1));
+    jPanel1.add(buscarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 65, -1, -1));
 
     dniLabel.setText("Nombre y apellido:");
     jPanel1.add(dniLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, -1, -1));
 
     nombreCiudadano.setEditable(false);
     nombreCiudadano.setBackground(new java.awt.Color(255, 255, 255));
-    jPanel1.add(nombreCiudadano, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 160, 110, -1));
+    jPanel1.add(nombreCiudadano, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 150, 110, -1));
 
     jLabel1.setText("Ciudadano:");
     jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, -1, -1));
@@ -135,25 +130,25 @@ public class TurnosABM extends javax.swing.JFrame {
         listaCiudadanosItemStateChanged(evt);
       }
     });
-    jPanel1.add(listaCiudadanos, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 120, 400, -1));
+    jPanel1.add(listaCiudadanos, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, 410, -1));
 
     dniLabel1.setText("DNI:");
     jPanel1.add(dniLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 160, -1, -1));
 
     dni.setEditable(false);
     dni.setBackground(new java.awt.Color(255, 255, 255));
-    jPanel1.add(dni, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 160, 110, -1));
+    jPanel1.add(dni, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 150, 110, -1));
 
     dniLabel2.setText("Email:");
     jPanel1.add(dniLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, -1, -1));
 
     email.setEditable(false);
     email.setBackground(new java.awt.Color(255, 255, 255));
-    jPanel1.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 200, 110, -1));
+    jPanel1.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 190, 110, -1));
 
     celular.setEditable(false);
     celular.setBackground(new java.awt.Color(255, 255, 255));
-    jPanel1.add(celular, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 200, 110, -1));
+    jPanel1.add(celular, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 190, 110, -1));
 
     dniLabel3.setText("Celular:");
     jPanel1.add(dniLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 200, -1, -1));
@@ -163,17 +158,17 @@ public class TurnosABM extends javax.swing.JFrame {
 
     patologia.setEditable(false);
     patologia.setBackground(new java.awt.Color(255, 255, 255));
-    jPanel1.add(patologia, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 240, 110, -1));
+    jPanel1.add(patologia, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 230, 110, -1));
 
     dniLabel5.setText("Ambito de trabajo:");
     jPanel1.add(dniLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 240, -1, -1));
 
     ambito.setEditable(false);
     ambito.setBackground(new java.awt.Color(255, 255, 255));
-    jPanel1.add(ambito, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 240, 110, -1));
+    jPanel1.add(ambito, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 230, 110, -1));
 
     listaVacunas.setModel(new javax.swing.DefaultComboBoxModel<>(vacunas()));
-    jPanel1.add(listaVacunas, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 300, 400, -1));
+    jPanel1.add(listaVacunas, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 290, 410, -1));
 
     jLabel2.setText("Vacuna");
     jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 300, -1, -1));
@@ -183,53 +178,39 @@ public class TurnosABM extends javax.swing.JFrame {
 
     serie.setEditable(false);
     serie.setBackground(new java.awt.Color(255, 255, 255));
-    jPanel1.add(serie, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 340, 110, -1));
+    jPanel1.add(serie, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 330, 120, -1));
 
     marca.setEditable(false);
     marca.setBackground(new java.awt.Color(255, 255, 255));
-    jPanel1.add(marca, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 340, 110, -1));
+    jPanel1.add(marca, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 330, 160, -1));
 
     caducidad.setEditable(false);
     caducidad.setBackground(new java.awt.Color(255, 255, 255));
-    jPanel1.add(caducidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 390, 110, -1));
-
-    jTextField10.setEditable(false);
-    jTextField10.setBackground(new java.awt.Color(255, 255, 255));
-    jPanel1.add(jTextField10, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 430, 110, -1));
-
-    colocada.setEditable(false);
-    colocada.setBackground(new java.awt.Color(255, 255, 255));
-    jPanel1.add(colocada, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 430, 110, -1));
+    jPanel1.add(caducidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 380, 160, -1));
 
     medida.setEditable(false);
     medida.setBackground(new java.awt.Color(255, 255, 255));
-    jPanel1.add(medida, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 390, 110, -1));
+    jPanel1.add(medida, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 380, 110, -1));
 
-    dniLabel7.setText("Fecha de caducidad:");
+    dniLabel7.setText("Expiración:");
     jPanel1.add(dniLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 390, -1, -1));
 
     dniLabel8.setText("Marca:");
     jPanel1.add(dniLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 340, -1, -1));
-
-    dniLabel9.setText("Ambito de trabajo:");
-    jPanel1.add(dniLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 430, -1, -1));
-
-    dniLabel10.setText("Colocada");
-    jPanel1.add(dniLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 430, -1, -1));
 
     dniLabel11.setText("Medida:");
     jPanel1.add(dniLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 390, -1, -1));
 
     pais.setEditable(false);
     pais.setBackground(new java.awt.Color(255, 255, 255));
-    jPanel1.add(pais, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 520, 110, -1));
+    jPanel1.add(pais, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 510, 160, -1));
 
     dniLabel12.setText("Pais:");
     jPanel1.add(dniLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 520, -1, -1));
 
     domicilio.setEditable(false);
     domicilio.setBackground(new java.awt.Color(255, 255, 255));
-    jPanel1.add(domicilio, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 520, 110, -1));
+    jPanel1.add(domicilio, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 510, 140, -1));
 
     dniLabel13.setText("Domicilio:");
     jPanel1.add(dniLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 520, -1, -1));
@@ -239,35 +220,32 @@ public class TurnosABM extends javax.swing.JFrame {
 
     nombreLaboratorio.setEditable(false);
     nombreLaboratorio.setBackground(new java.awt.Color(255, 255, 255));
-    jPanel1.add(nombreLaboratorio, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 470, 110, -1));
+    jPanel1.add(nombreLaboratorio, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 460, 140, -1));
 
     dniLabel15.setText("CUIT:");
     jPanel1.add(dniLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 470, -1, -1));
 
     cuit.setEditable(false);
     cuit.setBackground(new java.awt.Color(255, 255, 255));
-    jPanel1.add(cuit, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 470, 110, -1));
+    jPanel1.add(cuit, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 460, 160, -1));
 
     jLabel4.setText("Sede:");
-    jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 660, -1, -1));
+    jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 580, -1, -1));
 
     dniLabel16.setText("Codigo de refuerzo:");
-    jPanel1.add(dniLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 580, -1, -1));
-    jPanel1.add(jTextField17, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 580, 110, -1));
+    jPanel1.add(dniLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 620, -1, -1));
+    jPanel1.add(jTextField17, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 610, 80, -1));
 
-    dniLabel17.setText("Marca:");
-    jPanel1.add(dniLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 580, -1, -1));
-    jPanel1.add(jTextField18, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 580, 110, -1));
-    jPanel1.add(jTextField19, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 620, 110, -1));
+    dniLabel18.setText("Fecha colocacion:");
+    jPanel1.add(dniLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 620, -1, -1));
 
-    dniLabel18.setText("Caducidad:");
-    jPanel1.add(dniLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 620, -1, -1));
+    dniLabel19.setText("Fecha cita:");
+    jPanel1.add(dniLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 580, -1, -1));
 
-    dniLabel19.setText("Colocacion:");
-    jPanel1.add(dniLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 620, -1, -1));
-    jPanel1.add(jTextField20, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 660, 110, -1));
+    fechaCita.setText("aaaa-mm-dd hh:mm");
+    jPanel1.add(fechaCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 570, 160, -1));
     jPanel1.add(separador3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 560, 10));
-    jPanel1.add(separador4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 560, 560, 10));
+    jPanel1.add(separador4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, 560, 10));
     jPanel1.add(separador1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 560, 10));
 
     titulo.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -291,22 +269,22 @@ public class TurnosABM extends javax.swing.JFrame {
     });
     jPanel1.add(guardarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 190, 80, -1));
 
-    modificarBtn.setText("Modificar");
-    modificarBtn.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        modificarBtnActionPerformed(evt);
-      }
-    });
-    jPanel1.add(modificarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 290, 80, -1));
-
     eliminarBtn.setText("Eliminar");
     eliminarBtn.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         eliminarBtnActionPerformed(evt);
       }
     });
-    jPanel1.add(eliminarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 390, 80, -1));
-    jPanel1.add(jTextField21, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 620, 110, -1));
+    jPanel1.add(eliminarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 290, 80, -1));
+
+    fechaColocacion.setText("aaaa-mm-dd hh:mm");
+    jPanel1.add(fechaColocacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 610, 160, -1));
+    jPanel1.add(jTextField21, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 570, 80, -1));
+
+    colocada.setText("Vacuna aplicada");
+    colocada.setEnabled(false);
+    jPanel1.add(colocada, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 420, -1, -1));
+    jPanel1.add(separador5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 560, 560, 10));
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
@@ -328,7 +306,6 @@ public class TurnosABM extends javax.swing.JFrame {
     buscarBtn.setEnabled(false);
     guardarBtn.setEnabled(false);
     nuevoBtn.setEnabled(true);
-    modificarBtn.setEnabled(true);
     eliminarBtn.setEnabled(true);
   }//GEN-LAST:event_buscarBtnActionPerformed
 
@@ -340,17 +317,8 @@ public class TurnosABM extends javax.swing.JFrame {
     buscarBtn.setEnabled(false);
     guardarBtn.setEnabled(false);
     nuevoBtn.setEnabled(true);
-    modificarBtn.setEnabled(true);
     eliminarBtn.setEnabled(true);
   }//GEN-LAST:event_guardarBtnActionPerformed
-
-  private void modificarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarBtnActionPerformed
-    buscarBtn.setEnabled(false);
-    guardarBtn.setEnabled(true);
-    nuevoBtn.setEnabled(true);
-    modificarBtn.setEnabled(false);
-    eliminarBtn.setEnabled(true);
-  }//GEN-LAST:event_modificarBtnActionPerformed
 
   private void eliminarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarBtnActionPerformed
     initButtons();
@@ -401,19 +369,17 @@ public class TurnosABM extends javax.swing.JFrame {
   private javax.swing.JTextField celular;
   private javax.swing.JLabel codCitaLabel;
   private javax.swing.JTextField codigoCita;
-  private javax.swing.JTextField colocada;
+  private javax.swing.JCheckBox colocada;
   private javax.swing.JTextField cuit;
   private javax.swing.JTextField dni;
   private javax.swing.JLabel dniLabel;
   private javax.swing.JLabel dniLabel1;
-  private javax.swing.JLabel dniLabel10;
   private javax.swing.JLabel dniLabel11;
   private javax.swing.JLabel dniLabel12;
   private javax.swing.JLabel dniLabel13;
   private javax.swing.JLabel dniLabel14;
   private javax.swing.JLabel dniLabel15;
   private javax.swing.JLabel dniLabel16;
-  private javax.swing.JLabel dniLabel17;
   private javax.swing.JLabel dniLabel18;
   private javax.swing.JLabel dniLabel19;
   private javax.swing.JLabel dniLabel2;
@@ -423,26 +389,22 @@ public class TurnosABM extends javax.swing.JFrame {
   private javax.swing.JLabel dniLabel6;
   private javax.swing.JLabel dniLabel7;
   private javax.swing.JLabel dniLabel8;
-  private javax.swing.JLabel dniLabel9;
   private javax.swing.JTextField domicilio;
   private javax.swing.JButton eliminarBtn;
   private javax.swing.JTextField email;
+  private javax.swing.JTextField fechaCita;
+  private javax.swing.JTextField fechaColocacion;
   private javax.swing.JButton guardarBtn;
   private javax.swing.JLabel jLabel1;
   private javax.swing.JLabel jLabel2;
   private javax.swing.JLabel jLabel4;
   private javax.swing.JPanel jPanel1;
-  private javax.swing.JTextField jTextField10;
   private javax.swing.JTextField jTextField17;
-  private javax.swing.JTextField jTextField18;
-  private javax.swing.JTextField jTextField19;
-  private javax.swing.JTextField jTextField20;
   private javax.swing.JTextField jTextField21;
   private javax.swing.JComboBox<Ciudadano> listaCiudadanos;
   private javax.swing.JComboBox<Vacuna> listaVacunas;
   private javax.swing.JTextField marca;
   private javax.swing.JTextField medida;
-  private javax.swing.JButton modificarBtn;
   private javax.swing.JTextField nombreCiudadano;
   private javax.swing.JTextField nombreLaboratorio;
   private javax.swing.JButton nuevoBtn;
@@ -452,6 +414,7 @@ public class TurnosABM extends javax.swing.JFrame {
   private javax.swing.JSeparator separador2;
   private javax.swing.JSeparator separador3;
   private javax.swing.JSeparator separador4;
+  private javax.swing.JSeparator separador5;
   private javax.swing.JTextField serie;
   private javax.swing.JLabel titulo;
   // End of variables declaration//GEN-END:variables
@@ -460,7 +423,6 @@ public class TurnosABM extends javax.swing.JFrame {
     buscarBtn.setEnabled(true);
     guardarBtn.setEnabled(true);
     nuevoBtn.setEnabled(true);
-    modificarBtn.setEnabled(false);
     eliminarBtn.setEnabled(false);
   }
 
@@ -499,7 +461,7 @@ public class TurnosABM extends javax.swing.JFrame {
     serie.setText(vacuna.getLaboratorio().getNomLaboratorio());
     medida.setText(vacuna.getMedida() + "");
     caducidad.setText(vacuna.getFechaCaduca().toString());
-    colocada.setText(vacuna.getColocada() + "");
+    colocada.setSelected(vacuna.getColocada());
     nombreLaboratorio.setText(vacuna.getLaboratorio().getNomLaboratorio());
     cuit.setText(vacuna.getLaboratorio().getCuit());
     domicilio.setText(vacuna.getLaboratorio().getDomComercial());
