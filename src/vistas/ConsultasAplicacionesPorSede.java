@@ -31,13 +31,13 @@ private DefaultTableModel modelo = new DefaultTableModel(){
 
  
     public ConsultasAplicacionesPorSede() {
-       
         initComponents();
-        
         armarCabecera();
         initButtons();
-        llenarTabla();
-         setLocationRelativeTo(null);
+        //limpiarTabla();
+        
+        //llenarTabla();
+        setLocationRelativeTo(null);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -56,6 +56,17 @@ private DefaultTableModel modelo = new DefaultTableModel(){
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(0, 204, 204));
+
+        jCbCentros.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCbCentrosItemStateChanged(evt);
+            }
+        });
+        jCbCentros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCbCentrosActionPerformed(evt);
+            }
+        });
 
         jTableListas.setFont(new java.awt.Font("Georgia", 1, 12)); // NOI18N
         jTableListas.setModel(new javax.swing.table.DefaultTableModel(
@@ -82,7 +93,7 @@ private DefaultTableModel modelo = new DefaultTableModel(){
             }
         });
 
-        jLVacuna.setText("jLabel2");
+        jLVacuna.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/vacuna (1).png"))); // NOI18N
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8-hospital-48.png"))); // NOI18N
 
@@ -99,40 +110,37 @@ private DefaultTableModel modelo = new DefaultTableModel(){
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(37, 37, 37)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 571, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(114, 114, 114)
-                            .addComponent(jLabel3)
-                            .addGap(62, 62, 62)
-                            .addComponent(jCbCentros, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(67, 67, 67)
-                            .addComponent(jLVacuna, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(8, 8, 8))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addGap(99, 99, 99)
-                            .addComponent(jLabel1))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(99, 99, 99)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(79, 79, 79)
+                                .addComponent(jCbCentros, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(66, 66, 66)
+                                .addComponent(jLVacuna, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(34, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
+                .addContainerGap()
                 .addComponent(jLabel1)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
-                        .addComponent(jCbCentros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLVacuna, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(38, 38, 38)
-                        .addComponent(jLabel3))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(jLVacuna, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(32, 32, 32)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCbCentros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))))
+                .addGap(57, 57, 57)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addComponent(jButton2)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -154,6 +162,14 @@ private DefaultTableModel modelo = new DefaultTableModel(){
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jCbCentrosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCbCentrosItemStateChanged
+      llenarTabla();
+    }//GEN-LAST:event_jCbCentrosItemStateChanged
+
+    private void jCbCentrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCbCentrosActionPerformed
+       //llenarTabla();
+    }//GEN-LAST:event_jCbCentrosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -193,7 +209,7 @@ private DefaultTableModel modelo = new DefaultTableModel(){
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<CitaVacunacion> jCbCentros;
+    private javax.swing.JComboBox<String> jCbCentros;
     private javax.swing.JLabel jLVacuna;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
@@ -210,32 +226,26 @@ private DefaultTableModel modelo = new DefaultTableModel(){
 
 }
 private void initButtons() {
-    // Crear una instancia de CitaVacunacionData
-    CitaVacunacionData centros = new CitaVacunacionData();
-    
-    // Llamar al método 
-   List<CitaVacunacion> datos = centros.listarCita();
-    
- DefaultComboBoxModel<CitaVacunacion> comboBoxModel = new DefaultComboBoxModel<>();
-
-    // 3. Agregar las materias al modelo de datos del JComboBox
-    datos.forEach((centro) -> {
-        comboBoxModel.addElement(centro);
-    });
-
-    // 4. Asignar el modelo de datos al JComboBox
-    jCbCentros.setModel(comboBoxModel);
-  
+        jCbCentros.removeAllItems();
+        jCbCentros.addItem("Sucursal 1");
+        jCbCentros.addItem("Sucursal 2");
+        jCbCentros.addItem("Sucursal 3");
+        jCbCentros.addItem("Sucursal 4");
+        
+        
 }
 
 private void llenarTabla(){
-CitaVacunacion citaVacunacion =(CitaVacunacion)jCbCentros.getSelectedItem();
-CitaVacunacionData citaVacunacionDATA=new CitaVacunacionData();
-List<CitaVacunacion> lista = citaVacunacionDATA.listarCita();
+//CitaVacunacion citaVacunacion =(CitaVacunacion)jCbCentros.getSelectedItem();
+CitaVacunacionData citaVacunacionD =new CitaVacunacionData();
+
+List<CitaVacunacion> lista = citaVacunacionD.buscarCitas(jCbCentros.getSelectedIndex()+1);
+
 limpiarTabla();
+
 for(CitaVacunacion cita :lista){
       
-       modelo.addRow(new Object[]{cita.getDni(),cita.getDosis().getNroSerieDosis()});
+      modelo.addRow(new Object[]{cita.getDni(),cita.getDosis().getNroSerieDosis()});
      
       }  
     
@@ -243,4 +253,5 @@ for(CitaVacunacion cita :lista){
  private void limpiarTabla() {
     modelo.setRowCount(0);
   }
+ 
 }

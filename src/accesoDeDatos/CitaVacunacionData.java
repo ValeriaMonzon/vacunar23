@@ -258,7 +258,51 @@ public class CitaVacunacionData {
         }
         return lista_citas;
     }
-    public List<CitaVacunacion> listarCita(){
+ public ArrayList<CitaVacunacion> buscarCitas ( int sede) {
+        ArrayList<CitaVacunacion> lista_citas = new ArrayList();
+        String sql = "SELECT codCita, dni, codRefuerzo, fechaHoraCita,centroVacunacion, fechaHoraColoca, nroSerieDosis, citaEstado FROM citavacunacion WHERE citaEstado=1 and centroVacunacion = ?";
+        
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            
+            ps.setInt(1, sede);            
+            
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                CitaVacunacion citavacunacion = new CitaVacunacion();
+                
+                citavacunacion.setCodCita(rs.getInt("codCita"));
+                citavacunacion.setDni(rs.getInt("dni"));
+                citavacunacion.setCodRefuerzo(rs.getInt("codRefuerzo"));
+                citavacunacion.setFechaHoraCita(new Date(rs.getTimestamp("fechaHoraCita").getTime()));
+
+                citavacunacion.setCentroVacunacion(rs.getInt("centroVacunacion"));
+                citavacunacion.setFechaHoraColoca(new Date(rs.getTimestamp("fechaHoraColoca").getTime()));
+                
+                LocalTime hora = rs.getTimestamp("fechaHoraColoca").toLocalDateTime().toLocalTime();
+                citavacunacion.setHorario(hora);
+                
+
+//                    Elegir si traer el nro de serie o la vacuna ?
+//                    Si nro de serie entonces
+//                    citavacunacion.setDosis(rs.getInt("nroSerieDosis"));
+//                    sino
+                VacunaData vacunaData = new VacunaData();
+                citavacunacion.setDosis(vacunaData.buscarVacuna(rs.getInt("nroSerieDosis")));
+
+                citavacunacion.setCitaEstado(rs.getBoolean("citaEstado"));
+            
+                lista_citas.add(citavacunacion);
+
+            } 
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla CitaVacunacion");
+        }
+        return lista_citas;
+    }
+  public List<CitaVacunacion> listarCita(){
     
     List<CitaVacunacion> datos =new ArrayList<>();
     
