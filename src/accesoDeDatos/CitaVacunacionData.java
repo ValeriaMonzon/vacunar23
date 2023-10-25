@@ -214,7 +214,7 @@ public class CitaVacunacionData {
     
     public ArrayList<CitaVacunacion> buscarCitas_porFecha(LocalDate fecha, int sede) {
         ArrayList<CitaVacunacion> lista_citas = new ArrayList();
-        String sql = "SELECT codCita, dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis, citaEstado FROM citavacunacion WHERE DAY(fechaHoraColoca) = ? and MONTH(fechaHoraColoca) = ? and YEAR(fechaHoraColoca) = ? AND citaEstado = 1 AND centroVacunacion = ?";
+        String sql = "SELECT codCita, dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis, citaEstado FROM citavacunacion WHERE DAY(fechaHoraColoca) = ? and MONTH(fechaHoraColoca) = ? and YEAR(fechaHoraColoca) = ? AND centroVacunacion = ? AND citaEstado = 1";
         
         try {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -239,16 +239,11 @@ public class CitaVacunacionData {
                 LocalTime hora = rs.getTimestamp("fechaHoraColoca").toLocalDateTime().toLocalTime();
                 citavacunacion.setHorario(hora);
                 
-
-//                    Elegir si traer el nro de serie o la vacuna ?
-//                    Si nro de serie entonces
-//                    citavacunacion.setDosis(rs.getInt("nroSerieDosis"));
-//                    sino
                 VacunaData vacunaData = new VacunaData();
                 citavacunacion.setDosis(vacunaData.buscarVacuna(rs.getInt("nroSerieDosis")));
 
                 citavacunacion.setCitaEstado(rs.getBoolean("citaEstado"));
-            
+                
                 lista_citas.add(citavacunacion);
 
             } 

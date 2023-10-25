@@ -398,43 +398,6 @@ public class ControlInterno_Sedes extends javax.swing.JFrame {
         return seleccion+1;
     }
     
-    private void detalles(CitaVacunacion cita){
-        Vacuna vacuna = cita.getDosis();        
-        Ciudadano persona = ciudadata.buscarCiudadano(cita.getDni());
-        Laboratorio lab = vacuna.getLaboratorio();
-
-        
-        int aux = cita.getDni();
-        String dni = String.valueOf(aux);
-        
-        Date auxi = cita.getFechaHoraColoca();
-        String fecha = auxi.toString();
-        LocalTime auxo = cita.getHorario();
-        String horario = auxo.toString();
-        
-        aux = cita.getCentroVacunacion();
-        String sede = String.valueOf(aux);
-        
-        double auxx = vacuna.getMedida();
-        String medida = String.valueOf(auxx);
-        
-        aux = vacuna.getNroSerieDosis();
-        String nroserie = String.valueOf(aux);
-        
-        aux = vacuna.getStock();
-        String stock = String.valueOf(aux);
-        
-        String nombre_lab = lab.getNomLaboratorio();
-        String cuit = lab.getCuit();
-        
-        String nombre_persona = persona.getNomCompleto();
-        
-        aux = persona.getDosis();
-        String dosis_aplicados = String.valueOf(aux);
-        
-        CitaDetalles ventana = new CitaDetalles(dni, dosis_aplicados, fecha, horario, cuit, nombre_lab, medida, nombre_persona, nroserie, sede, stock);
-        ventana.setVisible(true);
-    }
     
     private void sortearTabla() {
     TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
