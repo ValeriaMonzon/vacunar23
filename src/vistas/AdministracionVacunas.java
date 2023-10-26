@@ -5,18 +5,37 @@
  */
 package vistas;
 
-/**
- *
- * @author valef
- */
+import accesoDeDatos.Conexion;
+import accesoDeDatos.LaboratorioData;
+import accesoDeDatos.VacunaData;
+import entidades.Laboratorio;
+import entidades.Vacuna;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+
 public class AdministracionVacunas extends javax.swing.JFrame {
+
+    private final VacunaData vacunaData; // Variable para almacenar la instancia de VacunaData
+    private Connection con;
 
     /**
      * Creates new form AdministracionVacunas
      */
     public AdministracionVacunas() {
+
         initComponents();
         setLocationRelativeTo(null);
+        vacunaData = new VacunaData();
+
     }
 
     /**
@@ -28,44 +47,263 @@ public class AdministracionVacunas extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jTextField1 = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
+        jTnroSerieDosis = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jBBuscar = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jTColocada = new javax.swing.JTextField();
+        jTVencimiento = new javax.swing.JTextField();
+        jTStock = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        jBNuevo = new javax.swing.JButton();
+        jBEliminar = new javax.swing.JButton();
+        jButtonSalir = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jTextCuit = new javax.swing.JTextField();
+        jComboBoxMarca = new javax.swing.JComboBox<>();
+        jCBoxMedida = new javax.swing.JComboBox<>();
+
+        jTextField1.setText("jTextField1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        jLabel1.setText("Vacunas ");
+        jLabel2.setText("Nro Serie :");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(182, 182, 182)
-                .addComponent(jLabel1)
-                .addContainerGap(575, Short.MAX_VALUE))
+        jBBuscar.setText("Buscar");
+        jBBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBBuscarActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Laboratorio");
+
+        jLabel5.setText("Medida");
+
+        jLabel6.setText("Fecha Vencimiento");
+
+        jLabel7.setText("Aplicada");
+
+        jLabel8.setText("Stock");
+
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel1.setText("Administracion de Vacunas");
+
+        jBNuevo.setText("Nueva");
+        jBNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBNuevoActionPerformed(evt);
+            }
+        });
+
+        jBEliminar.setText("Baja");
+        jBEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBEliminarActionPerformed(evt);
+            }
+        });
+
+        jButtonSalir.setText("Salir");
+        jButtonSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSalirActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("Guardar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Cuit");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(160, 160, 160)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(56, 56, 56)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTStock, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTColocada, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel2))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jTnroSerieDosis, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jComboBoxMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(38, 38, 38)
+                                .addComponent(jTVencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jTextCuit, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+                                    .addComponent(jCBoxMedida, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(18, 18, 18)
+                        .addComponent(jBBuscar)))
+                .addContainerGap(21, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jBNuevo)
+                .addGap(30, 30, 30)
+                .addComponent(jButton4)
+                .addGap(30, 30, 30)
+                .addComponent(jBEliminar)
+                .addGap(30, 30, 30)
+                .addComponent(jButtonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(69, 69, 69))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
                 .addComponent(jLabel1)
-                .addContainerGap(452, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTnroSerieDosis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jBBuscar))
+                .addGap(15, 15, 15)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jComboBoxMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(15, 15, 15)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextCuit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addGap(15, 15, 15)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jCBoxMedida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(15, 15, 15)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jTVencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jTColocada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jTStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBNuevo)
+                    .addComponent(jButton4)
+                    .addComponent(jBEliminar)
+                    .addComponent(jButtonSalir))
+                .addGap(20, 20, 20))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jBBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarActionPerformed
+
+        if (chequeoNumeroSerie()) {
+            // Obtén el número de serie de dosis desde tu componente jTnroSerieDosis.
+            int numSerieDosis = Integer.parseInt(jTnroSerieDosis.getText());
+
+            // Llama al método buscarVacuna y muestra los resultados.
+            Vacuna vacuna = vacunaData.buscarVacuna(numSerieDosis);
+
+            if (vacuna != null) {
+
+                // Limpia el JComboBoxLaboratorio antes de agregar elementos.
+                jComboBoxMarca.removeAllItems();
+                jCBoxMedida.removeAllItems();
+                // Agrega el nombre del laboratorio al JComboBox.
+                jComboBoxMarca.addItem(vacuna.getLaboratorio().getNomLaboratorio());
+                //   jCBoxMedida.addItem(vacuna.getMedida());
+                jCBoxMedida.addItem(String.valueOf(vacuna.getMedida()));
+                // jComboBoxMarca.setSelectedIndex(0);
+                jTextCuit.setText(vacuna.getLaboratorio().getCuit());
+
+                DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                String fechaVencimiento = vacuna.getFechaCaduca().format(formato);
+                jTVencimiento.setText(fechaVencimiento);
+                jTColocada.setText(vacuna.getColocada() ? "si" : "no");
+                jTStock.setText(String.valueOf(vacuna.getStock()));
+
+                soloLectura();
+            } else {
+                // No se encontró una vacuna con el número de serie ingresado, limpia los campos.
+                limpiar();
+            }
+        } else {
+            limpiar();
+        }
+
+    }//GEN-LAST:event_jBBuscarActionPerformed
+
+    private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButtonSalirActionPerformed
+
+    private void jBNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNuevoActionPerformed
+
+        limpiar();
+        soloescritura();
+        llenarCombos();
+   
+jTStock.setText("1");
+
+    }//GEN-LAST:event_jBNuevoActionPerformed
+
+    private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed
+        VacunaData vacunaData = new VacunaData();
+        int numSerieDosis = Integer.parseInt(jTnroSerieDosis.getText());
+        vacunaData.eliminarVacuna(numSerieDosis);
+        limpiar();
+    }//GEN-LAST:event_jBEliminarActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+       Vacuna miVacuna = new Vacuna(); // Crea una instancia de Vacuna con los datos adecuados
+     Laboratorio laboratorio = new Laboratorio();
+laboratorio.setCuit("cuit");
+miVacuna.setLaboratorio(laboratorio);
+  vacunaData.guardarVacuna(miVacuna);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -103,7 +341,155 @@ public class AdministracionVacunas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBBuscar;
+    private javax.swing.JButton jBEliminar;
+    private javax.swing.JButton jBNuevo;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButtonSalir;
+    private javax.swing.JComboBox<String> jCBoxMedida;
+    private javax.swing.JComboBox<String> jComboBoxMarca;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JTextField jTColocada;
+    private javax.swing.JTextField jTStock;
+    private javax.swing.JTextField jTVencimiento;
+    private javax.swing.JTextField jTextCuit;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTnroSerieDosis;
     // End of variables declaration//GEN-END:variables
+
+    private boolean chequeoNumeroSerie() {
+        try {
+            Integer lo = Integer.parseInt(jTnroSerieDosis.getText());
+
+            return true;
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Numero de Serie inválido");
+            return false;
+        }
+    }
+
+    private void limpiar() {
+        jTnroSerieDosis.setText("");
+        jComboBoxMarca.removeAllItems();
+        jTextCuit.setText("");
+        jCBoxMedida.removeAllItems();
+        jTVencimiento.setText("");
+        jTColocada.setText("");
+        jTStock.setText("");
+    }
+
+    private void soloLectura() {
+        //   jTMarca.setEditable(false);
+        jTextCuit.setEditable(false);
+        //   jTMedida.setEditable(false);
+        jTVencimiento.setEditable(false);
+        jTColocada.setEditable(false);
+        jTStock.setEditable(false);
+    }
+
+    private void soloescritura() {
+        // jTMarca.setEditable(true);
+        jTextCuit.setEditable(true);
+        //   jTMedida.setEditable(true);
+        jTVencimiento.setEditable(true);
+        jTColocada.setEditable(true);
+        jTStock.setEditable(true);
+    }
+
+    private void actualizarCuitDesdeComboBox() {
+        // Obtiene el índice seleccionado en el jComboBoxMarca.
+        int selectedIndex = jComboBoxMarca.getSelectedIndex();
+
+        // Verifica si se seleccionó una opción válida.
+        if (selectedIndex != -1) {
+            // Obtiene el modelo de datos del JComboBox.
+            DefaultComboBoxModel model = (DefaultComboBoxModel) jComboBoxMarca.getModel();
+
+            // Obtiene el valor seleccionado (nomLaboratorio) en el JComboBox.
+            String nomLaboratorio = (String) model.getElementAt(selectedIndex);
+
+            // Consulta la base de datos para obtener el cuit correspondiente a nomLaboratorio.
+            try {
+                Connection conexion = Conexion.getConnection();
+                String sql = "SELECT cuit FROM laboratorio WHERE nomLaboratorio = ?";
+                PreparedStatement statement = conexion.prepareStatement(sql);
+                statement.setString(1, nomLaboratorio);
+                ResultSet resultSet = statement.executeQuery();
+
+                if (resultSet.next()) {
+                    // Actualiza el jTextCuit con el cuit obtenido de la base de datos.
+                    jTextCuit.setText(resultSet.getString("cuit"));
+                } else {
+                    // Si no se encuentra un cuit correspondiente, puedes manejarlo adecuadamente.
+                    jTextCuit.setText("Cuit no encontrado");
+                }
+
+                // Cierra la conexión y la declaración.
+                resultSet.close();
+                statement.close();
+            } catch (SQLException ex) {
+                // Maneja la excepción adecuadamente.
+                ex.printStackTrace(); // Solo para fines de ejemplo.
+            }
+        } else {
+            // No se ha seleccionado ninguna opción en el jComboBoxMarca.
+            jTextCuit.setText(""); // Puedes establecerlo en blanco o un valor predeterminado.
+        }
+    }
+
+    private void llenarCombos() {
+        limpiar();
+        soloescritura();
+        jTextCuit.setEditable(false);
+
+        // Vacía el JComboBox jComboBoxMarca antes de llenarlo con los valores de la base de datos.
+        jComboBoxMarca.removeAllItems();
+
+        jComboBoxMarca.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actualizarCuitDesdeComboBox();
+            }
+        });
+ // Llenar el JComboBox jCBMedida con las medidas 0.3, 0.5 y 0.9
+    jCBoxMedida.removeAllItems();
+    jCBoxMedida.addItem("0.3");
+    jCBoxMedida.addItem("0.5");
+    jCBoxMedida.addItem("0.9");
+        try {
+            // Obtiene la conexión desde la clase de conexión Singleton.
+            Connection conexion = Conexion.getConnection();
+
+            // Crea una consulta SQL para obtener los valores de la columna 'nomLaboratorio'.
+            String sql = "SELECT nomLaboratorio, cuit FROM laboratorio"; // Reemplaza 'tu_tabla' con el nombre real de tu tabla.
+
+            // Crea una declaración para ejecutar la consulta.
+            PreparedStatement statement = conexion.prepareStatement(sql);
+
+            // Ejecuta la consulta y obtén el resultado.
+            ResultSet resultSet = statement.executeQuery();
+
+            // Agrega los valores de 'nomLaboratorio' al JComboBox jComboBoxMarca.
+            while (resultSet.next()) {
+                jComboBoxMarca.addItem(resultSet.getString("nomLaboratorio"));
+            }
+
+            // Cierra la conexión y la declaración (asegúrate de manejar las excepciones).
+            resultSet.close();
+            statement.close();
+            // No cierres la conexión aquí, ya que es una conexión Singleton y se maneja internamente en la clase 'Conexion'.
+        } catch (SQLException ex) {
+            // Maneja la excepción adecuadamente.
+            ex.printStackTrace(); // Solo para fines de ejemplo.
+        }
+    }
+
 }

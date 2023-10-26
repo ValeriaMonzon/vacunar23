@@ -143,11 +143,4 @@ public class CitaVacunacion {
   public void setCitaEstado(boolean citaEstado) {
     this.citaEstado = citaEstado;
   }
-
-    @Override
-    public String toString() {
-        return "Centro de Vacunacion N° " + centroVacunacion;
-    }
-
-
 }

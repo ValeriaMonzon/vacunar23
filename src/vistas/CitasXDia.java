@@ -16,6 +16,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Comparator;
 import javax.swing.RowSorter;
 import javax.swing.RowSorter.SortKey;
@@ -24,6 +25,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import usos.EstadoCitaCellRenderer;
 import usos.Usos;
 
 /**
@@ -346,6 +348,10 @@ public class CitasXDia extends javax.swing.JFrame {
         modelo.addColumn("Horario");
         modelo.addColumn("Dosis");
         modelo.addColumn("Laboratorio");
+        modelo.addColumn("Estado");
+        
+        EstadoCitaCellRenderer estadoRenderer = new EstadoCitaCellRenderer();
+        tablaCitas.getColumnModel().getColumn(4).setCellRenderer(estadoRenderer);
                 
         tablaCitas.setModel(modelo);
     }
@@ -368,6 +374,7 @@ public class CitasXDia extends javax.swing.JFrame {
     public void cargarArray(){
          Date fecha = elegirFecha_field.getDate();
          lista_citas = data.buscarCitas_porFecha(Usos.convertirDate(fecha), comboBox());
+         ordenarArray();
     }
     
     private void limpiarTabla(){
@@ -376,8 +383,9 @@ public class CitasXDia extends javax.swing.JFrame {
     
     private void llenarTabla() {
     limpiarTabla();
+    int i = 0;
     for (CitaVacunacion aux : lista_citas) {
-            modelo.addRow(new Object[]{aux.getDni(), aux.getHorario() , aux.getDosis().getMedida(), aux.getDosis().getLaboratorio().getNomLaboratorio()});
+            modelo.addRow(new Object[]{aux.getDni(), aux.getHorario() , aux.getDosis().getMedida(), aux.getDosis().getLaboratorio().getNomLaboratorio(), estadoCita(aux)});
         }
     sortearTabla();
     tablaCitas.setModel(modelo);
@@ -397,8 +405,8 @@ public class CitasXDia extends javax.swing.JFrame {
         int aux = cita.getDni();
         String dni = String.valueOf(aux);
         
-        Date auxi = cita.getFechaHoraColoca();
-        String fecha = auxi.toString();
+        Date fecha = cita.getFechaHoraColoca();
+        
         LocalTime auxo = cita.getHorario();
         String horario = auxo.toString();
         
@@ -422,7 +430,7 @@ public class CitasXDia extends javax.swing.JFrame {
         aux = persona.getDosis();
         String dosis_aplicados = String.valueOf(aux);
         
-        CitaDetalles ventana = new CitaDetalles(dni, dosis_aplicados, fecha, horario, cuit, nombre_lab, medida, nombre_persona, nroserie, sede, stock);
+        CitaDetalles ventana = new CitaDetalles(dni, dosis_aplicados, fecha, horario, cuit, nombre_lab, medida, nombre_persona, nroserie, sede, stock, estadoCita(cita));
         ventana.setVisible(true);
     }
     
@@ -432,18 +440,60 @@ public class CitasXDia extends javax.swing.JFrame {
         TableRowSorter<DefaultTableModel> rowSorter = new TableRowSorter<>(modelo);
         tablaCitas.setRowSorter(rowSorter);
 
-        // Define un comparador personalizado para ordenar por LocalTime
         Comparator<LocalTime> localTimeComparator = (lt1, lt2) -> lt1.compareTo(lt2);
-
-        // Define la columna por la que quieres ordenar (reemplaza 1 con el índice de tu columna "horario")
         rowSorter.setComparator(1, localTimeComparator);
-
-        // Crea una lista de claves de ordenación
         ArrayList<RowSorter.SortKey> sortKeys = new ArrayList<>();
         sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
-
-        // Ordena las filas con las claves de ordenación
         rowSorter.setSortKeys(sortKeys);
-    } catch (Exception e) {}
+    } catch (Exception e) {}}
+    
+    private String estadoCita(CitaVacunacion cita){
+        
+        Calendar calendario = Calendar.getInstance();
+        LocalDate fechaHoy = Usos.convertirDate(calendario.getTime());
+        LocalDate fechaCita = Usos.convertirDate(elegirFecha_field.getDate());
+        
+        LocalTime horario_cita = cita.getHorario();
+        LocalTime horario_ahora = Usos.obtenerLocalTimeDesdeCalendar(calendario);
+
+        int estadoCita;
+        
+            if(fechaCita.isBefore(fechaHoy)){
+                estadoCita = 0;
+            } else if (fechaCita.equals(fechaHoy)){
+                if(cita.getDosis().getColocada()){
+                    estadoCita = 2;
+                }else{
+                    if(horario_cita.isBefore(horario_ahora)){
+                        estadoCita = 0;
+                    } else{
+                        estadoCita = 1;
+                    }
+                }
+            } else {
+                estadoCita = 1;
+            }
+            
+            System.out.println(estadoCita);
+        switch(estadoCita){
+            case 0:
+                return "Vencida";
+            case 1:
+                return "En curso";
+            case 2:
+                return "Aplicada";    
+            default:
+                return "-";
+            }
+    }
+    
+    private void ordenarArray() {
+    Collections.sort(lista_citas, new Comparator<CitaVacunacion>() {
+        @Override
+        public int compare(CitaVacunacion cita1, CitaVacunacion cita2) {
+            return cita1.getHorario().compareTo(cita2.getHorario());
+        }
+    });
+    }
 }
-}
+
