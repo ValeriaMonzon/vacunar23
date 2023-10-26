@@ -6,9 +6,16 @@
 package vistas;
 
 import accesoDeDatos.CitaVacunacion2Data;
+import entidades.CitaVacunacion2;
 import entidades.Ciudadano;
 import entidades.Vacuna;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,8 +38,6 @@ public class TurnosABM extends javax.swing.JFrame {
     this.citaVacunacionData = new CitaVacunacion2Data();
     initComponents();
     initButtons();
-    completarCiudadano();
-    completarVacuna();
     setLocationRelativeTo(null);
   }
 
@@ -80,11 +85,7 @@ public class TurnosABM extends javax.swing.JFrame {
     dniLabel15 = new javax.swing.JLabel();
     cuit = new javax.swing.JTextField();
     jLabel4 = new javax.swing.JLabel();
-    dniLabel16 = new javax.swing.JLabel();
-    jTextField17 = new javax.swing.JTextField();
-    dniLabel18 = new javax.swing.JLabel();
     dniLabel19 = new javax.swing.JLabel();
-    fechaCita = new javax.swing.JTextField();
     separador3 = new javax.swing.JSeparator();
     separador4 = new javax.swing.JSeparator();
     separador1 = new javax.swing.JSeparator();
@@ -93,10 +94,11 @@ public class TurnosABM extends javax.swing.JFrame {
     nuevoBtn = new javax.swing.JButton();
     guardarBtn = new javax.swing.JButton();
     eliminarBtn = new javax.swing.JButton();
-    fechaColocacion = new javax.swing.JTextField();
-    jTextField21 = new javax.swing.JTextField();
     colocada = new javax.swing.JCheckBox();
     separador5 = new javax.swing.JSeparator();
+    fecha = new com.toedter.calendar.JDateChooser();
+    horario = new javax.swing.JComboBox<>();
+    sede = new javax.swing.JComboBox<>();
 
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -168,6 +170,11 @@ public class TurnosABM extends javax.swing.JFrame {
     jPanel1.add(ambito, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 230, 110, -1));
 
     listaVacunas.setModel(new javax.swing.DefaultComboBoxModel<>(vacunas()));
+    listaVacunas.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        listaVacunasItemStateChanged(evt);
+      }
+    });
     jPanel1.add(listaVacunas, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 290, 410, -1));
 
     jLabel2.setText("Vacuna");
@@ -232,18 +239,8 @@ public class TurnosABM extends javax.swing.JFrame {
     jLabel4.setText("Sede:");
     jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 580, -1, -1));
 
-    dniLabel16.setText("Codigo de refuerzo:");
-    jPanel1.add(dniLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 620, -1, -1));
-    jPanel1.add(jTextField17, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 610, 80, -1));
-
-    dniLabel18.setText("Fecha colocacion:");
-    jPanel1.add(dniLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 620, -1, -1));
-
     dniLabel19.setText("Fecha cita:");
     jPanel1.add(dniLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 580, -1, -1));
-
-    fechaCita.setText("aaaa-mm-dd hh:mm");
-    jPanel1.add(fechaCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 570, 160, -1));
     jPanel1.add(separador3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 560, 10));
     jPanel1.add(separador4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, 560, 10));
     jPanel1.add(separador1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 560, 10));
@@ -277,14 +274,17 @@ public class TurnosABM extends javax.swing.JFrame {
     });
     jPanel1.add(eliminarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 290, 80, -1));
 
-    fechaColocacion.setText("aaaa-mm-dd hh:mm");
-    jPanel1.add(fechaColocacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 610, 160, -1));
-    jPanel1.add(jTextField21, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 570, 80, -1));
-
     colocada.setText("Vacuna aplicada");
     colocada.setEnabled(false);
     jPanel1.add(colocada, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 420, -1, -1));
     jPanel1.add(separador5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 560, 560, 10));
+    jPanel1.add(fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 580, -1, -1));
+
+    horario.setModel(new javax.swing.DefaultComboBoxModel<>(horarios()));
+    jPanel1.add(horario, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 580, 70, -1));
+
+    sede.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sucursal 1", "Sucursal 2", "Sucursal 3", "Sucursal 4" }));
+    jPanel1.add(sede, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 580, 110, -1));
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
@@ -303,21 +303,57 @@ public class TurnosABM extends javax.swing.JFrame {
   }// </editor-fold>//GEN-END:initComponents
 
   private void buscarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarBtnActionPerformed
-    buscarBtn.setEnabled(false);
-    guardarBtn.setEnabled(false);
-    nuevoBtn.setEnabled(true);
-    eliminarBtn.setEnabled(true);
+    try {
+      CitaVacunacion2 citaVacunacion = citaVacunacionData.obtenerCitaVacunacion(Integer.parseInt(codigoCita.getText()));
+      completarCiudadano(citaVacunacion.getPersona());
+      completarVacuna(citaVacunacion.getDosis());
+      sede.setSelectedIndex(citaVacunacion.getCentroVacunacion() + 1);
+      fecha.setDate(toDate(citaVacunacion.getFechaHoraCita().toLocalDate()));
+      horario.setSelectedItem(citaVacunacion.getFechaHoraCita().toLocalTime());
+
+      sede.setEnabled(false);
+      horario.setEnabled(false);
+      fecha.setEnabled(false);
+      codigoCita.setEditable(false);
+      buscarBtn.setEnabled(false);
+      guardarBtn.setEnabled(false);
+      nuevoBtn.setEnabled(true);
+      eliminarBtn.setEnabled(true);
+    } catch (SQLException ex) {
+      Logger.getLogger(TurnosABM.class.getName()).log(Level.SEVERE, null, ex);
+      JOptionPane.showMessageDialog(null, "SQL error!");
+    }
   }//GEN-LAST:event_buscarBtnActionPerformed
 
   private void nuevoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoBtnActionPerformed
+    codigoCita.setEditable(true);
+    codigoCita.setText("");
+    sede.setSelectedIndex(1);
+    fecha.setDate(null);
+    horario.setSelectedIndex(1);
+
+    sede.setEnabled(true);
+    fecha.setEnabled(true);
+    horario.setEnabled(true);
     initButtons();
   }//GEN-LAST:event_nuevoBtnActionPerformed
 
   private void guardarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarBtnActionPerformed
-    buscarBtn.setEnabled(false);
-    guardarBtn.setEnabled(false);
-    nuevoBtn.setEnabled(true);
-    eliminarBtn.setEnabled(true);
+    try {
+      CitaVacunacion2 citaVacunacion = new CitaVacunacion2();
+      citaVacunacion.setPersona(citaVacunacionData.obtenerPersona(Integer.parseInt(dni.getText())));
+      citaVacunacion.setDosis(citaVacunacionData.obtenerVacuna(Integer.parseInt(serie.getText())));
+      citaVacunacion.setFechaHoraCita(LocalDateTime.of(toLocalDate(fecha.getDate()), horario.getItemAt(horario.getSelectedIndex())));
+      citaVacunacion.setCentroVacunacion(sede.getSelectedIndex() + 1);
+      citaVacunacionData.guardarCitaVacunacion(citaVacunacion);
+      buscarBtn.setEnabled(false);
+      guardarBtn.setEnabled(false);
+      nuevoBtn.setEnabled(true);
+      eliminarBtn.setEnabled(true);
+    } catch (SQLException ex) {
+      Logger.getLogger(TurnosABM.class.getName()).log(Level.SEVERE, null, ex);
+      JOptionPane.showMessageDialog(null, "Ocurrio un error! Sorry, bye.");
+    }
   }//GEN-LAST:event_guardarBtnActionPerformed
 
   private void eliminarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarBtnActionPerformed
@@ -325,8 +361,18 @@ public class TurnosABM extends javax.swing.JFrame {
   }//GEN-LAST:event_eliminarBtnActionPerformed
 
   private void listaCiudadanosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_listaCiudadanosItemStateChanged
-    // Completar los datos del ciudadano elegido
+    limpiarCiudadano();
+    if (ciudadanoElegido() != null) {
+      completarCiudadano(ciudadanoElegido());
+    }
   }//GEN-LAST:event_listaCiudadanosItemStateChanged
+
+  private void listaVacunasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_listaVacunasItemStateChanged
+    limpiarVacuna();
+    if (vacunaElegida() != null) {
+      completarVacuna(vacunaElegida());
+    }
+  }//GEN-LAST:event_listaVacunasItemStateChanged
 
   /**
    * @param args the command line arguments
@@ -379,8 +425,6 @@ public class TurnosABM extends javax.swing.JFrame {
   private javax.swing.JLabel dniLabel13;
   private javax.swing.JLabel dniLabel14;
   private javax.swing.JLabel dniLabel15;
-  private javax.swing.JLabel dniLabel16;
-  private javax.swing.JLabel dniLabel18;
   private javax.swing.JLabel dniLabel19;
   private javax.swing.JLabel dniLabel2;
   private javax.swing.JLabel dniLabel3;
@@ -392,15 +436,13 @@ public class TurnosABM extends javax.swing.JFrame {
   private javax.swing.JTextField domicilio;
   private javax.swing.JButton eliminarBtn;
   private javax.swing.JTextField email;
-  private javax.swing.JTextField fechaCita;
-  private javax.swing.JTextField fechaColocacion;
+  private com.toedter.calendar.JDateChooser fecha;
   private javax.swing.JButton guardarBtn;
+  private javax.swing.JComboBox<LocalTime> horario;
   private javax.swing.JLabel jLabel1;
   private javax.swing.JLabel jLabel2;
   private javax.swing.JLabel jLabel4;
   private javax.swing.JPanel jPanel1;
-  private javax.swing.JTextField jTextField17;
-  private javax.swing.JTextField jTextField21;
   private javax.swing.JComboBox<Ciudadano> listaCiudadanos;
   private javax.swing.JComboBox<Vacuna> listaVacunas;
   private javax.swing.JTextField marca;
@@ -410,6 +452,7 @@ public class TurnosABM extends javax.swing.JFrame {
   private javax.swing.JButton nuevoBtn;
   private javax.swing.JTextField pais;
   private javax.swing.JTextField patologia;
+  private javax.swing.JComboBox<String> sede;
   private javax.swing.JSeparator separador1;
   private javax.swing.JSeparator separador2;
   private javax.swing.JSeparator separador3;
@@ -428,7 +471,9 @@ public class TurnosABM extends javax.swing.JFrame {
 
   private Ciudadano[] ciudadanos() {
     try {
-      return citaVacunacionData.listarPersonas().toArray(new Ciudadano[0]);
+      List<Ciudadano> ciudadanos = citaVacunacionData.listarPersonas();
+      ciudadanos.add(0, null);
+      return ciudadanos.toArray(new Ciudadano[0]);
     } catch (SQLException ex) {
       Logger.getLogger(TurnosABM.class.getName()).log(Level.SEVERE, null, ex);
       JOptionPane.showMessageDialog(null, "Error: No se puedo realizar la consulta!");
@@ -438,7 +483,9 @@ public class TurnosABM extends javax.swing.JFrame {
 
   private Vacuna[] vacunas() {
     try {
-      return citaVacunacionData.listarVacunas().toArray(new Vacuna[0]);
+      List<Vacuna> vacunas = citaVacunacionData.listarVacunas();
+      vacunas.add(0, null);
+      return vacunas.toArray(new Vacuna[0]);
     } catch (SQLException ex) {
       Logger.getLogger(TurnosABM.class.getName()).log(Level.SEVERE, null, ex);
       JOptionPane.showMessageDialog(null, "Error: No se puedo realizar la consulta!");
@@ -446,8 +493,7 @@ public class TurnosABM extends javax.swing.JFrame {
     return new Vacuna[0];
   }
 
-  private void completarCiudadano() {
-    Ciudadano ciudadano = ciudadanoElegido();
+  private void completarCiudadano(Ciudadano ciudadano) {
     nombreCiudadano.setText(ciudadano.getNomCompleto());
     dni.setText(ciudadano.getDni() + "");
     email.setText(ciudadano.getEmail());
@@ -456,9 +502,8 @@ public class TurnosABM extends javax.swing.JFrame {
     ambito.setText(ciudadano.getAmbitoTrabajo());
   }
 
-  private void completarVacuna() {
-    Vacuna vacuna = vacunaElegida();
-    serie.setText(vacuna.getLaboratorio().getNomLaboratorio());
+  private void completarVacuna(Vacuna vacuna) {
+    serie.setText(vacuna.getNroSerieDosis() + "");
     medida.setText(vacuna.getMedida() + "");
     caducidad.setText(vacuna.getFechaCaduca().toString());
     colocada.setSelected(vacuna.getColocada());
@@ -474,5 +519,44 @@ public class TurnosABM extends javax.swing.JFrame {
 
   private Vacuna vacunaElegida() {
     return listaVacunas.getItemAt(listaVacunas.getSelectedIndex());
+  }
+
+  private LocalTime[] horarios() {
+    LocalTime actual = LocalTime.of(7, 45).plusMinutes(15L);
+    List<LocalTime> horariosDisponibles = new ArrayList<>();
+    while (actual.isBefore(LocalTime.of(18, 15))) {
+      horariosDisponibles.add(actual);
+      actual = actual.plusMinutes(15L);
+    }
+    return horariosDisponibles.toArray(new LocalTime[0]);
+  }
+
+  private LocalDate toLocalDate(Date date) {
+    return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+  }
+
+  private Date toDate(LocalDate localDate) {
+    return java.util.Date.from(localDate.atStartOfDay()
+            .atZone(ZoneId.systemDefault())
+            .toInstant());
+  }
+
+  private void limpiarCiudadano() {
+    dni.setText("");
+    nombreCiudadano.setText("");
+    email.setText("");
+    celular.setText("");
+    patologia.setText("");
+    ambito.setText("");
+  }
+
+  private void limpiarVacuna() {
+    serie.setText("");
+    medida.setText("");
+    caducidad.setText("");
+    nombreLaboratorio.setText("");
+    cuit.setText("");
+    domicilio.setText("");
+    pais.setText("");
   }
 }

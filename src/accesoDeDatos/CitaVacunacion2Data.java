@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class CitaVacunacion2Data {
   private final LaboratorioData laboratorioData;
 
   private final String OBTENER_CITAVACUNACION = "SELECT codCita, dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis, citaEstado FROM citavacunacion WHERE codCita = ?;";
-  private final String GUARDAR_CITAVACUNACION = "INSERT INTO citavacunacion ( dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis) VALUES (?,?,?,?,?,?,?);";
+  private final String GUARDAR_CITAVACUNACION = "INSERT INTO citavacunacion ( dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis) VALUES (?,?,?,?,?,?);";
   private final String ACTUALIZAR_CITAVACUNACION = "UPDATE citavacunacion SET dni=?, codRefuerzo=?, fechaHoraCita=?, centroVacunacion=?, fechaHoraColoca=?, nroSerieDosis=? WHERE codCita =?;";
   private final String BORRAR_CITAVACUNACION = "DELETE FROM citavacunacion WHERE codCita=?";
   private final String EXISTE_CITAVACUNACION = "SELECT 1 FROM citavacunacion WHERE codCita=?";
@@ -43,7 +44,9 @@ public class CitaVacunacion2Data {
       citaVacunacion.setCodRefuerzo(resultSet.getInt("codRefuerzo"));
       citaVacunacion.setFechaHoraCita(resultSet.getTimestamp("fechaHoraCita").toLocalDateTime());
       citaVacunacion.setCentroVacunacion(resultSet.getInt("centroVacunacion"));
-      citaVacunacion.setFechaHoraColoca(resultSet.getTimestamp("fechaHoraColoca").toLocalDateTime());
+      if (resultSet.getTimestamp("fechaHoraColoca") != null) {
+        citaVacunacion.setFechaHoraColoca(resultSet.getTimestamp("fechaHoraColoca").toLocalDateTime());
+      }
       citaVacunacion.setDosis(obtenerVacuna(resultSet.getInt("nroSerieDosis")));
       return citaVacunacion;
     } else {
@@ -57,7 +60,7 @@ public class CitaVacunacion2Data {
       statement.setInt(2, citaVacunacion.getCodRefuerzo());
       statement.setTimestamp(3, Timestamp.valueOf(citaVacunacion.getFechaHoraCita()));
       statement.setInt(4, citaVacunacion.getCentroVacunacion());
-      statement.setTimestamp(5, Timestamp.valueOf(citaVacunacion.getFechaHoraColoca()));
+      statement.setObject(5, null, Types.TIMESTAMP);
       statement.setInt(6, citaVacunacion.getDosis().getNroSerieDosis());
       statement.executeUpdate();
     }
