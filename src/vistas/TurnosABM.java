@@ -304,12 +304,19 @@ public class TurnosABM extends javax.swing.JFrame {
 
   private void buscarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarBtnActionPerformed
     try {
+      if (!citaVacunacionData.existeCitaVacunacion(Integer.parseInt(codigoCita.getText()))) {
+        JOptionPane.showMessageDialog(null, "Codigo no existe!");
+        return;
+      }
       CitaVacunacion2 citaVacunacion = citaVacunacionData.obtenerCitaVacunacion(Integer.parseInt(codigoCita.getText()));
       completarCiudadano(citaVacunacion.getPersona());
       completarVacuna(citaVacunacion.getDosis());
       sede.setSelectedIndex(citaVacunacion.getCentroVacunacion() + 1);
       fecha.setDate(toDate(citaVacunacion.getFechaHoraCita().toLocalDate()));
       horario.setSelectedItem(citaVacunacion.getFechaHoraCita().toLocalTime());
+
+      listaCiudadanos.setEnabled(false);
+      listaVacunas.setEnabled(false);
 
       sede.setEnabled(false);
       horario.setEnabled(false);
@@ -327,14 +334,12 @@ public class TurnosABM extends javax.swing.JFrame {
 
   private void nuevoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoBtnActionPerformed
     codigoCita.setEditable(true);
-    codigoCita.setText("");
-    sede.setSelectedIndex(1);
-    fecha.setDate(null);
-    horario.setSelectedIndex(1);
-
+    limpiarTodo();
+    listaCiudadanos.setEnabled(true);
+    listaVacunas.setEnabled(true);
     sede.setEnabled(true);
-    fecha.setEnabled(true);
     horario.setEnabled(true);
+    fecha.setEnabled(true);
     initButtons();
   }//GEN-LAST:event_nuevoBtnActionPerformed
 
@@ -357,7 +362,13 @@ public class TurnosABM extends javax.swing.JFrame {
   }//GEN-LAST:event_guardarBtnActionPerformed
 
   private void eliminarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarBtnActionPerformed
-    initButtons();
+    try {
+      citaVacunacionData.borrarCitaVacunacion(Integer.parseInt(codigoCita.getText()));
+      limpiarTodo();
+      initButtons();
+    } catch (SQLException ex) {
+      Logger.getLogger(TurnosABM.class.getName()).log(Level.SEVERE, null, ex);
+    }
   }//GEN-LAST:event_eliminarBtnActionPerformed
 
   private void listaCiudadanosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_listaCiudadanosItemStateChanged
@@ -558,5 +569,14 @@ public class TurnosABM extends javax.swing.JFrame {
     cuit.setText("");
     domicilio.setText("");
     pais.setText("");
+  }
+
+  private void limpiarTodo() {
+    limpiarCiudadano();
+    limpiarVacuna();
+    codigoCita.setText("");
+    fecha.setDate(null);
+    sede.setSelectedIndex(0);
+    horario.setSelectedIndex(0);
   }
 }
