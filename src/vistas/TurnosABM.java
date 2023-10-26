@@ -5,17 +5,40 @@
  */
 package vistas;
 
+import accesoDeDatos.CitaVacunacion2Data;
+import entidades.CitaVacunacion2;
+import entidades.Ciudadano;
+import entidades.Vacuna;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Elio Flores
  */
 public class TurnosABM extends javax.swing.JFrame {
 
+  private final CitaVacunacion2Data citaVacunacionData;
+  private List<Ciudadano> ciudadanos;
+  private List<Vacuna> vacunas;
+
   /**
    * Creates new form TurnosABM
    */
   public TurnosABM() {
+    this.citaVacunacionData = new CitaVacunacion2Data();
     initComponents();
+    initButtons();
+    setLocationRelativeTo(null);
   }
 
   /**
@@ -28,62 +51,54 @@ public class TurnosABM extends javax.swing.JFrame {
     jPanel1 = new javax.swing.JPanel();
     codCitaLabel = new javax.swing.JLabel();
     codigoCita = new javax.swing.JTextField();
-    buscar = new javax.swing.JButton();
+    buscarBtn = new javax.swing.JButton();
     dniLabel = new javax.swing.JLabel();
-    jTextField1 = new javax.swing.JTextField();
+    nombreCiudadano = new javax.swing.JTextField();
     jLabel1 = new javax.swing.JLabel();
-    jComboBox1 = new javax.swing.JComboBox<>();
+    listaCiudadanos = new javax.swing.JComboBox<>();
     dniLabel1 = new javax.swing.JLabel();
-    jTextField2 = new javax.swing.JTextField();
+    dni = new javax.swing.JTextField();
     dniLabel2 = new javax.swing.JLabel();
-    jTextField3 = new javax.swing.JTextField();
-    jTextField4 = new javax.swing.JTextField();
+    email = new javax.swing.JTextField();
+    celular = new javax.swing.JTextField();
     dniLabel3 = new javax.swing.JLabel();
     dniLabel4 = new javax.swing.JLabel();
-    jTextField5 = new javax.swing.JTextField();
+    patologia = new javax.swing.JTextField();
     dniLabel5 = new javax.swing.JLabel();
-    jTextField6 = new javax.swing.JTextField();
-    jComboBox2 = new javax.swing.JComboBox<>();
+    ambito = new javax.swing.JTextField();
+    listaVacunas = new javax.swing.JComboBox<>();
     jLabel2 = new javax.swing.JLabel();
     dniLabel6 = new javax.swing.JLabel();
-    jTextField7 = new javax.swing.JTextField();
-    jTextField8 = new javax.swing.JTextField();
-    jTextField9 = new javax.swing.JTextField();
-    jTextField10 = new javax.swing.JTextField();
-    jTextField11 = new javax.swing.JTextField();
-    jTextField12 = new javax.swing.JTextField();
+    serie = new javax.swing.JTextField();
+    marca = new javax.swing.JTextField();
+    caducidad = new javax.swing.JTextField();
+    medida = new javax.swing.JTextField();
     dniLabel7 = new javax.swing.JLabel();
     dniLabel8 = new javax.swing.JLabel();
-    dniLabel9 = new javax.swing.JLabel();
-    dniLabel10 = new javax.swing.JLabel();
     dniLabel11 = new javax.swing.JLabel();
-    jTextField13 = new javax.swing.JTextField();
+    pais = new javax.swing.JTextField();
     dniLabel12 = new javax.swing.JLabel();
-    jTextField14 = new javax.swing.JTextField();
+    domicilio = new javax.swing.JTextField();
     dniLabel13 = new javax.swing.JLabel();
     dniLabel14 = new javax.swing.JLabel();
-    jTextField15 = new javax.swing.JTextField();
+    nombreLaboratorio = new javax.swing.JTextField();
     dniLabel15 = new javax.swing.JLabel();
-    jTextField16 = new javax.swing.JTextField();
-    jComboBox3 = new javax.swing.JComboBox<>();
+    cuit = new javax.swing.JTextField();
     jLabel4 = new javax.swing.JLabel();
-    dniLabel16 = new javax.swing.JLabel();
-    jTextField17 = new javax.swing.JTextField();
-    dniLabel17 = new javax.swing.JLabel();
-    jTextField18 = new javax.swing.JTextField();
-    jTextField19 = new javax.swing.JTextField();
-    dniLabel18 = new javax.swing.JLabel();
     dniLabel19 = new javax.swing.JLabel();
-    jTextField20 = new javax.swing.JTextField();
     separador3 = new javax.swing.JSeparator();
     separador4 = new javax.swing.JSeparator();
     separador1 = new javax.swing.JSeparator();
     titulo = new javax.swing.JLabel();
     separador2 = new javax.swing.JSeparator();
-    jButton1 = new javax.swing.JButton();
-    jButton2 = new javax.swing.JButton();
-    jButton3 = new javax.swing.JButton();
-    jButton4 = new javax.swing.JButton();
+    nuevoBtn = new javax.swing.JButton();
+    guardarBtn = new javax.swing.JButton();
+    eliminarBtn = new javax.swing.JButton();
+    colocada = new javax.swing.JCheckBox();
+    separador5 = new javax.swing.JSeparator();
+    fecha = new com.toedter.calendar.JDateChooser();
+    horario = new javax.swing.JComboBox<>();
+    sede = new javax.swing.JComboBox<>();
 
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -91,110 +106,143 @@ public class TurnosABM extends javax.swing.JFrame {
 
     codCitaLabel.setText("Codigo cita");
     jPanel1.add(codCitaLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, -1, -1));
-    jPanel1.add(codigoCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 260, -1));
+    jPanel1.add(codigoCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 65, 260, -1));
 
-    buscar.setText("Buscar");
-    jPanel1.add(buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 70, -1, -1));
+    buscarBtn.setText("Buscar");
+    buscarBtn.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        buscarBtnActionPerformed(evt);
+      }
+    });
+    jPanel1.add(buscarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 65, -1, -1));
 
     dniLabel.setText("Nombre y apellido:");
     jPanel1.add(dniLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, -1, -1));
-    jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 160, 110, -1));
+
+    nombreCiudadano.setEditable(false);
+    nombreCiudadano.setBackground(new java.awt.Color(255, 255, 255));
+    jPanel1.add(nombreCiudadano, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 150, 110, -1));
 
     jLabel1.setText("Ciudadano:");
     jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, -1, -1));
 
-    jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-    jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 120, 400, -1));
+    listaCiudadanos.setModel(new javax.swing.DefaultComboBoxModel<>(ciudadanos()));
+    listaCiudadanos.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        listaCiudadanosItemStateChanged(evt);
+      }
+    });
+    jPanel1.add(listaCiudadanos, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, 410, -1));
 
     dniLabel1.setText("DNI:");
     jPanel1.add(dniLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 160, -1, -1));
-    jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 160, 110, -1));
+
+    dni.setEditable(false);
+    dni.setBackground(new java.awt.Color(255, 255, 255));
+    jPanel1.add(dni, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 150, 110, -1));
 
     dniLabel2.setText("Email:");
     jPanel1.add(dniLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, -1, -1));
-    jPanel1.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 200, 110, -1));
-    jPanel1.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 200, 110, -1));
+
+    email.setEditable(false);
+    email.setBackground(new java.awt.Color(255, 255, 255));
+    jPanel1.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 190, 110, -1));
+
+    celular.setEditable(false);
+    celular.setBackground(new java.awt.Color(255, 255, 255));
+    jPanel1.add(celular, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 190, 110, -1));
 
     dniLabel3.setText("Celular:");
     jPanel1.add(dniLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 200, -1, -1));
 
     dniLabel4.setText("Patologia:");
     jPanel1.add(dniLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 240, -1, -1));
-    jPanel1.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 240, 110, -1));
+
+    patologia.setEditable(false);
+    patologia.setBackground(new java.awt.Color(255, 255, 255));
+    jPanel1.add(patologia, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 230, 110, -1));
 
     dniLabel5.setText("Ambito de trabajo:");
     jPanel1.add(dniLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 240, -1, -1));
-    jPanel1.add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 240, 110, -1));
 
-    jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-    jPanel1.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 300, 400, -1));
+    ambito.setEditable(false);
+    ambito.setBackground(new java.awt.Color(255, 255, 255));
+    jPanel1.add(ambito, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 230, 110, -1));
+
+    listaVacunas.setModel(new javax.swing.DefaultComboBoxModel<>(vacunas()));
+    listaVacunas.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        listaVacunasItemStateChanged(evt);
+      }
+    });
+    jPanel1.add(listaVacunas, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 290, 410, -1));
 
     jLabel2.setText("Vacuna");
     jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 300, -1, -1));
 
     dniLabel6.setText("Nro de serie:");
     jPanel1.add(dniLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 340, -1, -1));
-    jPanel1.add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 340, 110, -1));
-    jPanel1.add(jTextField8, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 340, 110, -1));
-    jPanel1.add(jTextField9, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 390, 110, -1));
-    jPanel1.add(jTextField10, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 430, 110, -1));
-    jPanel1.add(jTextField11, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 430, 110, -1));
-    jPanel1.add(jTextField12, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 390, 110, -1));
 
-    dniLabel7.setText("Fecha de caducidad:");
+    serie.setEditable(false);
+    serie.setBackground(new java.awt.Color(255, 255, 255));
+    jPanel1.add(serie, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 330, 120, -1));
+
+    marca.setEditable(false);
+    marca.setBackground(new java.awt.Color(255, 255, 255));
+    jPanel1.add(marca, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 330, 160, -1));
+
+    caducidad.setEditable(false);
+    caducidad.setBackground(new java.awt.Color(255, 255, 255));
+    jPanel1.add(caducidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 380, 160, -1));
+
+    medida.setEditable(false);
+    medida.setBackground(new java.awt.Color(255, 255, 255));
+    jPanel1.add(medida, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 380, 110, -1));
+
+    dniLabel7.setText("Expiración:");
     jPanel1.add(dniLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 390, -1, -1));
 
     dniLabel8.setText("Marca:");
     jPanel1.add(dniLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 340, -1, -1));
 
-    dniLabel9.setText("Ambito de trabajo:");
-    jPanel1.add(dniLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 430, -1, -1));
-
-    dniLabel10.setText("Colocada");
-    jPanel1.add(dniLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 430, -1, -1));
-
     dniLabel11.setText("Medida:");
     jPanel1.add(dniLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 390, -1, -1));
-    jPanel1.add(jTextField13, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 520, 110, -1));
+
+    pais.setEditable(false);
+    pais.setBackground(new java.awt.Color(255, 255, 255));
+    jPanel1.add(pais, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 510, 160, -1));
 
     dniLabel12.setText("Pais:");
     jPanel1.add(dniLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 520, -1, -1));
-    jPanel1.add(jTextField14, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 520, 110, -1));
+
+    domicilio.setEditable(false);
+    domicilio.setBackground(new java.awt.Color(255, 255, 255));
+    jPanel1.add(domicilio, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 510, 140, -1));
 
     dniLabel13.setText("Domicilio:");
     jPanel1.add(dniLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 520, -1, -1));
 
     dniLabel14.setText("Laboratorio:");
     jPanel1.add(dniLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 470, -1, -1));
-    jPanel1.add(jTextField15, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 470, 110, -1));
+
+    nombreLaboratorio.setEditable(false);
+    nombreLaboratorio.setBackground(new java.awt.Color(255, 255, 255));
+    jPanel1.add(nombreLaboratorio, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 460, 140, -1));
 
     dniLabel15.setText("CUIT:");
     jPanel1.add(dniLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 470, -1, -1));
-    jPanel1.add(jTextField16, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 470, 110, -1));
 
-    jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-    jPanel1.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 660, 100, -1));
+    cuit.setEditable(false);
+    cuit.setBackground(new java.awt.Color(255, 255, 255));
+    jPanel1.add(cuit, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 460, 160, -1));
 
-    jLabel4.setText("Centro de vacunacion:");
-    jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 660, -1, -1));
+    jLabel4.setText("Sede:");
+    jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 580, -1, -1));
 
-    dniLabel16.setText("Codigo de refuerzo:");
-    jPanel1.add(dniLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 580, -1, -1));
-    jPanel1.add(jTextField17, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 580, 110, -1));
-
-    dniLabel17.setText("Marca:");
-    jPanel1.add(dniLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 580, -1, -1));
-    jPanel1.add(jTextField18, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 580, 110, -1));
-    jPanel1.add(jTextField19, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 620, 110, -1));
-
-    dniLabel18.setText("Caducidad:");
-    jPanel1.add(dniLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 620, -1, -1));
-
-    dniLabel19.setText("Colocacion:");
-    jPanel1.add(dniLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 620, -1, -1));
-    jPanel1.add(jTextField20, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 620, 110, -1));
+    dniLabel19.setText("Fecha cita:");
+    jPanel1.add(dniLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 580, -1, -1));
     jPanel1.add(separador3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 560, 10));
-    jPanel1.add(separador4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 560, 560, 10));
+    jPanel1.add(separador4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, 560, 10));
     jPanel1.add(separador1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 560, 10));
 
     titulo.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -202,17 +250,41 @@ public class TurnosABM extends javax.swing.JFrame {
     jPanel1.add(titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, -1, -1));
     jPanel1.add(separador2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 560, 10));
 
-    jButton1.setText("Nuevo");
-    jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 90, 80, -1));
+    nuevoBtn.setText("Nuevo");
+    nuevoBtn.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        nuevoBtnActionPerformed(evt);
+      }
+    });
+    jPanel1.add(nuevoBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 90, 80, -1));
 
-    jButton2.setText("Guardar");
-    jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 190, 80, -1));
+    guardarBtn.setText("Guardar");
+    guardarBtn.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        guardarBtnActionPerformed(evt);
+      }
+    });
+    jPanel1.add(guardarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 190, 80, -1));
 
-    jButton3.setText("Modificar");
-    jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 290, 80, -1));
+    eliminarBtn.setText("Eliminar");
+    eliminarBtn.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        eliminarBtnActionPerformed(evt);
+      }
+    });
+    jPanel1.add(eliminarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 290, 80, -1));
 
-    jButton4.setText("Eliminar");
-    jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 390, 80, -1));
+    colocada.setText("Vacuna aplicada");
+    colocada.setEnabled(false);
+    jPanel1.add(colocada, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 420, -1, -1));
+    jPanel1.add(separador5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 560, 560, 10));
+    jPanel1.add(fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 580, -1, -1));
+
+    horario.setModel(new javax.swing.DefaultComboBoxModel<>(horarios()));
+    jPanel1.add(horario, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 580, 70, -1));
+
+    sede.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sucursal 1", "Sucursal 2", "Sucursal 3", "Sucursal 4" }));
+    jPanel1.add(sede, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 580, 110, -1));
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
@@ -229,6 +301,89 @@ public class TurnosABM extends javax.swing.JFrame {
 
     pack();
   }// </editor-fold>//GEN-END:initComponents
+
+  private void buscarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarBtnActionPerformed
+    try {
+      if (!citaVacunacionData.existeCitaVacunacion(Integer.parseInt(codigoCita.getText()))) {
+        JOptionPane.showMessageDialog(null, "Codigo no existe!");
+        return;
+      }
+      CitaVacunacion2 citaVacunacion = citaVacunacionData.obtenerCitaVacunacion(Integer.parseInt(codigoCita.getText()));
+      completarCiudadano(citaVacunacion.getPersona());
+      completarVacuna(citaVacunacion.getDosis());
+      sede.setSelectedIndex(citaVacunacion.getCentroVacunacion() + 1);
+      fecha.setDate(toDate(citaVacunacion.getFechaHoraCita().toLocalDate()));
+      horario.setSelectedItem(citaVacunacion.getFechaHoraCita().toLocalTime());
+
+      listaCiudadanos.setEnabled(false);
+      listaVacunas.setEnabled(false);
+
+      sede.setEnabled(false);
+      horario.setEnabled(false);
+      fecha.setEnabled(false);
+      codigoCita.setEditable(false);
+      buscarBtn.setEnabled(false);
+      guardarBtn.setEnabled(false);
+      nuevoBtn.setEnabled(true);
+      eliminarBtn.setEnabled(true);
+    } catch (SQLException ex) {
+      Logger.getLogger(TurnosABM.class.getName()).log(Level.SEVERE, null, ex);
+      JOptionPane.showMessageDialog(null, "SQL error!");
+    }
+  }//GEN-LAST:event_buscarBtnActionPerformed
+
+  private void nuevoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoBtnActionPerformed
+    codigoCita.setEditable(true);
+    limpiarTodo();
+    listaCiudadanos.setEnabled(true);
+    listaVacunas.setEnabled(true);
+    sede.setEnabled(true);
+    horario.setEnabled(true);
+    fecha.setEnabled(true);
+    initButtons();
+  }//GEN-LAST:event_nuevoBtnActionPerformed
+
+  private void guardarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarBtnActionPerformed
+    try {
+      CitaVacunacion2 citaVacunacion = new CitaVacunacion2();
+      citaVacunacion.setPersona(citaVacunacionData.obtenerPersona(Integer.parseInt(dni.getText())));
+      citaVacunacion.setDosis(citaVacunacionData.obtenerVacuna(Integer.parseInt(serie.getText())));
+      citaVacunacion.setFechaHoraCita(LocalDateTime.of(toLocalDate(fecha.getDate()), horario.getItemAt(horario.getSelectedIndex())));
+      citaVacunacion.setCentroVacunacion(sede.getSelectedIndex() + 1);
+      citaVacunacionData.guardarCitaVacunacion(citaVacunacion);
+      buscarBtn.setEnabled(false);
+      guardarBtn.setEnabled(false);
+      nuevoBtn.setEnabled(true);
+      eliminarBtn.setEnabled(true);
+    } catch (SQLException ex) {
+      Logger.getLogger(TurnosABM.class.getName()).log(Level.SEVERE, null, ex);
+      JOptionPane.showMessageDialog(null, "Ocurrio un error! Sorry, bye.");
+    }
+  }//GEN-LAST:event_guardarBtnActionPerformed
+
+  private void eliminarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarBtnActionPerformed
+    try {
+      citaVacunacionData.borrarCitaVacunacion(Integer.parseInt(codigoCita.getText()));
+      limpiarTodo();
+      initButtons();
+    } catch (SQLException ex) {
+      Logger.getLogger(TurnosABM.class.getName()).log(Level.SEVERE, null, ex);
+    }
+  }//GEN-LAST:event_eliminarBtnActionPerformed
+
+  private void listaCiudadanosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_listaCiudadanosItemStateChanged
+    limpiarCiudadano();
+    if (ciudadanoElegido() != null) {
+      completarCiudadano(ciudadanoElegido());
+    }
+  }//GEN-LAST:event_listaCiudadanosItemStateChanged
+
+  private void listaVacunasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_listaVacunasItemStateChanged
+    limpiarVacuna();
+    if (vacunaElegida() != null) {
+      completarVacuna(vacunaElegida());
+    }
+  }//GEN-LAST:event_listaVacunasItemStateChanged
 
   /**
    * @param args the command line arguments
@@ -264,22 +419,23 @@ public class TurnosABM extends javax.swing.JFrame {
       }
     });
   }
-
   // Variables declaration - do not modify//GEN-BEGIN:variables
-  private javax.swing.JButton buscar;
+  private javax.swing.JTextField ambito;
+  private javax.swing.JButton buscarBtn;
+  private javax.swing.JTextField caducidad;
+  private javax.swing.JTextField celular;
   private javax.swing.JLabel codCitaLabel;
   private javax.swing.JTextField codigoCita;
+  private javax.swing.JCheckBox colocada;
+  private javax.swing.JTextField cuit;
+  private javax.swing.JTextField dni;
   private javax.swing.JLabel dniLabel;
   private javax.swing.JLabel dniLabel1;
-  private javax.swing.JLabel dniLabel10;
   private javax.swing.JLabel dniLabel11;
   private javax.swing.JLabel dniLabel12;
   private javax.swing.JLabel dniLabel13;
   private javax.swing.JLabel dniLabel14;
   private javax.swing.JLabel dniLabel15;
-  private javax.swing.JLabel dniLabel16;
-  private javax.swing.JLabel dniLabel17;
-  private javax.swing.JLabel dniLabel18;
   private javax.swing.JLabel dniLabel19;
   private javax.swing.JLabel dniLabel2;
   private javax.swing.JLabel dniLabel3;
@@ -288,42 +444,139 @@ public class TurnosABM extends javax.swing.JFrame {
   private javax.swing.JLabel dniLabel6;
   private javax.swing.JLabel dniLabel7;
   private javax.swing.JLabel dniLabel8;
-  private javax.swing.JLabel dniLabel9;
-  private javax.swing.JButton jButton1;
-  private javax.swing.JButton jButton2;
-  private javax.swing.JButton jButton3;
-  private javax.swing.JButton jButton4;
-  private javax.swing.JComboBox<String> jComboBox1;
-  private javax.swing.JComboBox<String> jComboBox2;
-  private javax.swing.JComboBox<String> jComboBox3;
+  private javax.swing.JTextField domicilio;
+  private javax.swing.JButton eliminarBtn;
+  private javax.swing.JTextField email;
+  private com.toedter.calendar.JDateChooser fecha;
+  private javax.swing.JButton guardarBtn;
+  private javax.swing.JComboBox<LocalTime> horario;
   private javax.swing.JLabel jLabel1;
   private javax.swing.JLabel jLabel2;
   private javax.swing.JLabel jLabel4;
   private javax.swing.JPanel jPanel1;
-  private javax.swing.JTextField jTextField1;
-  private javax.swing.JTextField jTextField10;
-  private javax.swing.JTextField jTextField11;
-  private javax.swing.JTextField jTextField12;
-  private javax.swing.JTextField jTextField13;
-  private javax.swing.JTextField jTextField14;
-  private javax.swing.JTextField jTextField15;
-  private javax.swing.JTextField jTextField16;
-  private javax.swing.JTextField jTextField17;
-  private javax.swing.JTextField jTextField18;
-  private javax.swing.JTextField jTextField19;
-  private javax.swing.JTextField jTextField2;
-  private javax.swing.JTextField jTextField20;
-  private javax.swing.JTextField jTextField3;
-  private javax.swing.JTextField jTextField4;
-  private javax.swing.JTextField jTextField5;
-  private javax.swing.JTextField jTextField6;
-  private javax.swing.JTextField jTextField7;
-  private javax.swing.JTextField jTextField8;
-  private javax.swing.JTextField jTextField9;
+  private javax.swing.JComboBox<Ciudadano> listaCiudadanos;
+  private javax.swing.JComboBox<Vacuna> listaVacunas;
+  private javax.swing.JTextField marca;
+  private javax.swing.JTextField medida;
+  private javax.swing.JTextField nombreCiudadano;
+  private javax.swing.JTextField nombreLaboratorio;
+  private javax.swing.JButton nuevoBtn;
+  private javax.swing.JTextField pais;
+  private javax.swing.JTextField patologia;
+  private javax.swing.JComboBox<String> sede;
   private javax.swing.JSeparator separador1;
   private javax.swing.JSeparator separador2;
   private javax.swing.JSeparator separador3;
   private javax.swing.JSeparator separador4;
+  private javax.swing.JSeparator separador5;
+  private javax.swing.JTextField serie;
   private javax.swing.JLabel titulo;
   // End of variables declaration//GEN-END:variables
+
+  private void initButtons() {
+    buscarBtn.setEnabled(true);
+    guardarBtn.setEnabled(true);
+    nuevoBtn.setEnabled(true);
+    eliminarBtn.setEnabled(false);
+  }
+
+  private Ciudadano[] ciudadanos() {
+    try {
+      List<Ciudadano> ciudadanos = citaVacunacionData.listarPersonas();
+      ciudadanos.add(0, null);
+      return ciudadanos.toArray(new Ciudadano[0]);
+    } catch (SQLException ex) {
+      Logger.getLogger(TurnosABM.class.getName()).log(Level.SEVERE, null, ex);
+      JOptionPane.showMessageDialog(null, "Error: No se puedo realizar la consulta!");
+    }
+    return new Ciudadano[0];
+  }
+
+  private Vacuna[] vacunas() {
+    try {
+      List<Vacuna> vacunas = citaVacunacionData.listarVacunas();
+      vacunas.add(0, null);
+      return vacunas.toArray(new Vacuna[0]);
+    } catch (SQLException ex) {
+      Logger.getLogger(TurnosABM.class.getName()).log(Level.SEVERE, null, ex);
+      JOptionPane.showMessageDialog(null, "Error: No se puedo realizar la consulta!");
+    }
+    return new Vacuna[0];
+  }
+
+  private void completarCiudadano(Ciudadano ciudadano) {
+    nombreCiudadano.setText(ciudadano.getNomCompleto());
+    dni.setText(ciudadano.getDni() + "");
+    email.setText(ciudadano.getEmail());
+    celular.setText(ciudadano.getCelular());
+    patologia.setText(ciudadano.getPatologia());
+    ambito.setText(ciudadano.getAmbitoTrabajo());
+  }
+
+  private void completarVacuna(Vacuna vacuna) {
+    serie.setText(vacuna.getNroSerieDosis() + "");
+    medida.setText(vacuna.getMedida() + "");
+    caducidad.setText(vacuna.getFechaCaduca().toString());
+    colocada.setSelected(vacuna.getColocada());
+    nombreLaboratorio.setText(vacuna.getLaboratorio().getNomLaboratorio());
+    cuit.setText(vacuna.getLaboratorio().getCuit());
+    domicilio.setText(vacuna.getLaboratorio().getDomComercial());
+    pais.setText(vacuna.getLaboratorio().getPais());
+  }
+
+  private Ciudadano ciudadanoElegido() {
+    return listaCiudadanos.getItemAt(listaCiudadanos.getSelectedIndex());
+  }
+
+  private Vacuna vacunaElegida() {
+    return listaVacunas.getItemAt(listaVacunas.getSelectedIndex());
+  }
+
+  private LocalTime[] horarios() {
+    LocalTime actual = LocalTime.of(7, 45).plusMinutes(15L);
+    List<LocalTime> horariosDisponibles = new ArrayList<>();
+    while (actual.isBefore(LocalTime.of(18, 15))) {
+      horariosDisponibles.add(actual);
+      actual = actual.plusMinutes(15L);
+    }
+    return horariosDisponibles.toArray(new LocalTime[0]);
+  }
+
+  private LocalDate toLocalDate(Date date) {
+    return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+  }
+
+  private Date toDate(LocalDate localDate) {
+    return java.util.Date.from(localDate.atStartOfDay()
+            .atZone(ZoneId.systemDefault())
+            .toInstant());
+  }
+
+  private void limpiarCiudadano() {
+    dni.setText("");
+    nombreCiudadano.setText("");
+    email.setText("");
+    celular.setText("");
+    patologia.setText("");
+    ambito.setText("");
+  }
+
+  private void limpiarVacuna() {
+    serie.setText("");
+    medida.setText("");
+    caducidad.setText("");
+    nombreLaboratorio.setText("");
+    cuit.setText("");
+    domicilio.setText("");
+    pais.setText("");
+  }
+
+  private void limpiarTodo() {
+    limpiarCiudadano();
+    limpiarVacuna();
+    codigoCita.setText("");
+    fecha.setDate(null);
+    sede.setSelectedIndex(0);
+    horario.setSelectedIndex(0);
+  }
 }

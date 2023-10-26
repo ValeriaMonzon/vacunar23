@@ -5,6 +5,7 @@
  */
 package vistas;
 
+import java.awt.Color;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Calendar;
@@ -26,12 +27,12 @@ public class CitaDetalles extends javax.swing.JFrame {
         
     }
 
-    public CitaDetalles(String dni, String dosisAplicadas_persona, String fecha, String horario, String laboratorio_cuit, String laboratorio_nombre, String medida_dosis, String nombre, String nroSerie_dosis, String sede, String stock_dosis) {
+    public CitaDetalles(String dni, String dosisAplicadas_persona, Date fecha, String horario, String laboratorio_cuit, String laboratorio_nombre, String medida_dosis, String nombre, String nroSerie_dosis, String sede, String stock_dosis, String estado) {
         initComponents();
         setLocationRelativeTo(null);
         this.dni.setText(dni);
         this.dosisAplicadas_persona.setText(dosisAplicadas_persona);
-        this.fecha.setText(fecha);
+        this.fecha.setText(fecha.toString());
         this.horario.setText(horario);
         this.laboratorio_cuit.setText(laboratorio_cuit);
         this.laboratorio_nombre.setText(laboratorio_nombre);
@@ -39,15 +40,24 @@ public class CitaDetalles extends javax.swing.JFrame {
         this.nombre.setText(nombre);
         this.nroSerie_dosis.setText(nroSerie_dosis);
         this.sede.setText("Sede: "+sede);
+        this.jLabel1.setText(estado);
         
         Calendar calendario = Calendar.getInstance();
         Date fechahoy = calendario.getTime();
-        if(fechahoy.toString().equals(fecha)){
-            aplicarBoton.setEnabled(false);
-            cancelarBoton.setEnabled(false);
+        if(fechahoy.equals(fecha)||fecha.after(fechahoy)){
+            aplicarBoton.setEnabled(true);
+            cancelarBoton.setEnabled(true);
         }else{
             cancelarBoton.setEnabled(false);            
             aplicarBoton.setEnabled(false);            
+        }
+        
+        if(estado.equals("Vencida") || estado.equals("Cancelada")){
+            jLabel1.setForeground(Color.red);
+        }else if(estado.equals("En curso")){
+            jLabel1.setForeground(Color.blue);
+        }else{
+            jLabel1.setForeground(Color.green);
         }
     }
     
@@ -83,6 +93,7 @@ public class CitaDetalles extends javax.swing.JFrame {
         dni = new javax.swing.JLabel();
         cancelarBoton = new javax.swing.JButton();
         aplicarBoton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -207,32 +218,33 @@ public class CitaDetalles extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(horario, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
-                    .addComponent(fecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(horario, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
+                            .addComponent(fecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
                         .addComponent(sede)))
                 .addGap(26, 26, 26)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(15, 15, 15))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addComponent(fecha)
-                        .addGap(31, 31, 31)
-                        .addComponent(horario)
-                        .addGap(26, 26, 26)
-                        .addComponent(sede))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                .addGap(23, 23, 23)
+                .addComponent(fecha)
+                .addGap(31, 31, 31)
+                .addComponent(horario)
+                .addGap(31, 31, 31)
+                .addComponent(sede)
+                .addGap(28, 28, 28))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15))
         );
 
         nombre.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -252,18 +264,25 @@ public class CitaDetalles extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Dialog", 3, 18)); // NOI18N
+        jLabel1.setText("jLabel1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(26, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(26, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(68, 68, 68)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(aplicarBoton)
                         .addGap(18, 18, 18)
-                        .addComponent(cancelarBoton))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cancelarBoton)))
                 .addGap(26, 26, 26))
             .addGroup(layout.createSequentialGroup()
                 .addGap(81, 81, 81)
@@ -284,7 +303,8 @@ public class CitaDetalles extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelarBoton)
-                    .addComponent(aplicarBoton))
+                    .addComponent(aplicarBoton)
+                    .addComponent(jLabel1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -337,6 +357,7 @@ public class CitaDetalles extends javax.swing.JFrame {
     private javax.swing.JLabel dosisAplicadas_persona;
     private javax.swing.JLabel fecha;
     private javax.swing.JLabel horario;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel5;

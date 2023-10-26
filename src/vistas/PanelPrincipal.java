@@ -15,7 +15,7 @@ import java.sql.Connection;
 public class PanelPrincipal extends javax.swing.JFrame {
 
   private final CiudadanoData ciudadanoData;
-  private final CitaVacunacionData citaVacunacionData;
+  private final CitaVacunacion2Data citaVacunacionData;
   private final LaboratorioData laboratorioData;
   private final VacunaData vacunaData;
 
@@ -28,7 +28,7 @@ public class PanelPrincipal extends javax.swing.JFrame {
       System.exit(0);
     }
     ciudadanoData = new CiudadanoData();
-    citaVacunacionData = new CitaVacunacionData();
+    citaVacunacionData = new CitaVacunacion2Data();
     laboratorioData = new LaboratorioData();
     vacunaData = new VacunaData();
   }
@@ -58,12 +58,13 @@ public class PanelPrincipal extends javax.swing.JFrame {
         jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setPreferredSize(new java.awt.Dimension(800, 500));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8-vacuna-portada - copia.png"))); // NOI18N
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 500));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 800, 510));
 
         escritorio.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
@@ -71,11 +72,11 @@ public class PanelPrincipal extends javax.swing.JFrame {
         escritorio.setLayout(escritorioLayout);
         escritorioLayout.setHorizontalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         jMenuBar.setForeground(new java.awt.Color(102, 204, 255));
@@ -183,7 +184,7 @@ public class PanelPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(escritorio)
+            .addComponent(escritorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,7 +200,8 @@ public class PanelPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemciudadanoActionPerformed
 
     private void jMenuItemTurnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemTurnosActionPerformed
-    AdministracionTurnos form = new AdministracionTurnos();
+    TurnosABM form = new TurnosABM();
+    form.setLocationRelativeTo(null);
     form.setVisible(true);
     }//GEN-LAST:event_jMenuItemTurnosActionPerformed
 
@@ -219,17 +221,17 @@ public class PanelPrincipal extends javax.swing.JFrame {
   }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
-        
+
     }//GEN-LAST:event_jMenu1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        CitasXDia form = new CitasXDia();
-        form.setVisible(true);
+    CitasXDia form = new CitasXDia();
+    form.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMSedeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMSedeActionPerformed
-        ConsultasAplicacionesPorSede form = new ConsultasAplicacionesPorSede();
-        form.setVisible(true);
+    ConsultasAplicacionesPorSede form = new ConsultasAplicacionesPorSede();
+    form.setVisible(true);
     }//GEN-LAST:event_jMSedeActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
