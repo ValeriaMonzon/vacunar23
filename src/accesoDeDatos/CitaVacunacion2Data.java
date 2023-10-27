@@ -16,7 +16,7 @@ public class CitaVacunacion2Data {
   private final LaboratorioData laboratorioData;
 
   private final String OBTENER_CITAVACUNACION = "SELECT codCita, dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis, citaEstado FROM citavacunacion WHERE codCita = ?;";
-  private final String GUARDAR_CITAVACUNACION = "INSERT INTO citavacunacion ( dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis) VALUES (?,?,?,?,?,?);";
+  private final String GUARDAR_CITAVACUNACION = "INSERT INTO citavacunacion ( dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis,citaEstado) VALUES (?,?,?,?,?,?,1);";
   private final String ACTUALIZAR_CITAVACUNACION = "UPDATE citavacunacion SET dni=?, codRefuerzo=?, fechaHoraCita=?, centroVacunacion=?, fechaHoraColoca=?, nroSerieDosis=? WHERE codCita =?;";
   private final String BORRAR_CITAVACUNACION = "DELETE FROM citavacunacion WHERE codCita=?";
   private final String EXISTE_CITAVACUNACION = "SELECT 1 FROM citavacunacion WHERE codCita=?";
