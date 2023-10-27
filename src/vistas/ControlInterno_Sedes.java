@@ -17,6 +17,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Comparator;
 import javax.swing.RowSorter;
 import javax.swing.RowSorter.SortKey;
@@ -349,6 +350,7 @@ public class ControlInterno_Sedes extends javax.swing.JFrame {
         modelo.addColumn("Laboratorio");
         modelo.addColumn("Dosis");
         modelo.addColumn("DNI");
+        modelo.addColumn("Fecha");
                 
         tablaCitas.setModel(modelo);
         
@@ -382,8 +384,10 @@ public class ControlInterno_Sedes extends javax.swing.JFrame {
     private void llenarTabla() {
     limpiarTabla();
     for (CitaVacunacion aux : lista_citasAplicadas) {
-            modelo.addRow(new Object[]{aux.getDosis().getNroSerieDosis(), aux.getDosis().getLaboratorio().getNomLaboratorio(), aux.getDosis().getMedida(), aux.getDni()});
+            modelo.addRow(new Object[]{aux.getDosis().getNroSerieDosis(), aux.getDosis().getLaboratorio().getNomLaboratorio(), aux.getDosis().getMedida(), aux.getDni(), aux.getFechaHoraColoca()});
         }
+    tablaCitas.setModel(modelo);
+    sortearTabla();
     tablaCitas.setModel(modelo);
   }
     
@@ -400,5 +404,16 @@ public class ControlInterno_Sedes extends javax.swing.JFrame {
             JTXTdosis_Xsede.setText(String.valueOf(citadata.buscarCitas_porAnioAplicadas(anio, sede).size()));
         }
     }
+    
+    private void sortearTabla() {
+    try {
+        TableRowSorter<DefaultTableModel> rowSorter = new TableRowSorter<>(modelo);
+        tablaCitas.setRowSorter(rowSorter);
+        Comparator<Date> localTimeComparator = (lt1, lt2) -> lt1.compareTo(lt2);
+        rowSorter.setComparator(1, localTimeComparator);
+        ArrayList<RowSorter.SortKey> sortKeys = new ArrayList<>();
+        sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
+        rowSorter.setSortKeys(sortKeys);
+    } catch (Exception e) {}}
 
 }
