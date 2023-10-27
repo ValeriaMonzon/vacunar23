@@ -5,18 +5,27 @@
  */
 package vistas;
 
+import accesoDeDatos.CitaVacunacionData;
+import accesoDeDatos.VacunaData;
+import entidades.CitaVacunacion;
 import java.awt.Color;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author lucap
  */
 public class CitaDetalles extends javax.swing.JFrame {
+    
+    private CitaVacunacionData data = new CitaVacunacionData();
+    private VacunaData vacudata = new VacunaData();
+
+    private int codCita;
 
     /**
      * Creates new form CitaDetalles
@@ -27,7 +36,7 @@ public class CitaDetalles extends javax.swing.JFrame {
         
     }
 
-    public CitaDetalles(String dni, String dosisAplicadas_persona, Date fecha, String horario, String laboratorio_cuit, String laboratorio_nombre, String medida_dosis, String nombre, String nroSerie_dosis, String sede, String stock_dosis, String estado) {
+    public CitaDetalles(String dni, String dosisAplicadas_persona, Date fecha, String horario, String laboratorio_cuit, String laboratorio_nombre, String medida_dosis, String nombre, String nroSerie_dosis, String sede, String stock_dosis, String estado, int codCita) {
         initComponents();
         setLocationRelativeTo(null);
         this.dni.setText(dni);
@@ -41,6 +50,7 @@ public class CitaDetalles extends javax.swing.JFrame {
         this.nroSerie_dosis.setText(nroSerie_dosis);
         this.sede.setText("Sede: "+sede);
         this.jLabel1.setText(estado);
+        this.codCita=codCita;
         
         Calendar calendario = Calendar.getInstance();
         Date fechahoy = calendario.getTime();
@@ -54,9 +64,13 @@ public class CitaDetalles extends javax.swing.JFrame {
         
         if(estado.equals("Vencida") || estado.equals("Cancelada")){
             jLabel1.setForeground(Color.red);
+            cancelarBoton.setEnabled(false);            
+            aplicarBoton.setEnabled(false);
         }else if(estado.equals("En curso")){
             jLabel1.setForeground(Color.blue);
         }else{
+            cancelarBoton.setEnabled(false);            
+            aplicarBoton.setEnabled(false);
             jLabel1.setForeground(Color.green);
         }
     }
@@ -256,6 +270,11 @@ public class CitaDetalles extends javax.swing.JFrame {
         dni.setText("DNI");
 
         cancelarBoton.setText("Cancelar");
+        cancelarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelarBotonActionPerformed(evt);
+            }
+        });
 
         aplicarBoton.setText("Aplicar");
         aplicarBoton.addActionListener(new java.awt.event.ActionListener() {
@@ -312,8 +331,24 @@ public class CitaDetalles extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void aplicarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aplicarBotonActionPerformed
-        
+        int boole = JOptionPane.showConfirmDialog(null, "¿Deseas aplicar la vacuna?");
+        if (boole == 0) {
+            CitaVacunacion cita = data.buscarCita_CodCita(codCita);
+            vacudata.colocarVacuna(cita.getDosis().getNroSerieDosis());
+            data.aplicarCita(codCita);
+            dispose();
+        }
     }//GEN-LAST:event_aplicarBotonActionPerformed
+
+    private void cancelarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBotonActionPerformed
+        int boole = JOptionPane.showConfirmDialog(null, "¿Seguro que desea cancelar la cita?");
+        if (boole == 0) {
+            CitaVacunacion cita = data.buscarCita_CodCita(codCita);
+            vacudata.modificarStock(cita.getDosis().getNroSerieDosis(),0);
+            data.cancelarCita(codCita);
+            dispose();
+        }
+    }//GEN-LAST:event_cancelarBotonActionPerformed
 
     /**
      * @param args the command line arguments

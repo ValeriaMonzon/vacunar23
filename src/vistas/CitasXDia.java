@@ -405,7 +405,7 @@ public class CitasXDia extends javax.swing.JFrame {
         int aux = cita.getDni();
         String dni = String.valueOf(aux);
         
-        Date fecha = cita.getFechaHoraColoca();
+        Date fecha = cita.getFechaHoraCita();
         
         LocalTime auxo = cita.getHorario();
         String horario = auxo.toString();
@@ -430,7 +430,7 @@ public class CitasXDia extends javax.swing.JFrame {
         aux = persona.getDosis();
         String dosis_aplicados = String.valueOf(aux);
         
-        CitaDetalles ventana = new CitaDetalles(dni, dosis_aplicados, fecha, horario, cuit, nombre_lab, medida, nombre_persona, nroserie, sede, stock, estadoCita(cita));
+        CitaDetalles ventana = new CitaDetalles(dni, dosis_aplicados, fecha, horario, cuit, nombre_lab, medida, nombre_persona, nroserie, sede, stock, estadoCita(cita), cita.getCodCita());
         ventana.setVisible(true);
     }
     
@@ -459,7 +459,9 @@ public class CitasXDia extends javax.swing.JFrame {
         int estadoCita;
         
             if(fechaCita.isBefore(fechaHoy)){
-                estadoCita = 0;
+                if(cita.getDosis().getColocada()){
+                    estadoCita = 2;
+                }else{estadoCita = 0;}
             } else if (fechaCita.equals(fechaHoy)){
                 if(cita.getDosis().getColocada()){
                     estadoCita = 2;
@@ -474,7 +476,6 @@ public class CitasXDia extends javax.swing.JFrame {
                 estadoCita = 1;
             }
             
-            System.out.println(estadoCita);
         switch(estadoCita){
             case 0:
                 return "Vencida";

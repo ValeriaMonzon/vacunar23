@@ -101,7 +101,7 @@ public class TurnosABM extends javax.swing.JFrame {
     horario = new javax.swing.JComboBox<>();
     sede = new javax.swing.JComboBox<>();
 
-    setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+    setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
     jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -393,7 +393,7 @@ public class TurnosABM extends javax.swing.JFrame {
       }
     } catch (SQLException ex) {
       Logger.getLogger(TurnosABM.class.getName()).log(Level.SEVERE, null, ex);
-      JOptionPane.showMessageDialog(null, "Ocurrio un error! Sorry, bye.");
+      JOptionPane.showMessageDialog(null, "Ocurrio un error!\nControla que la base de datos este funcionando.\nTambien verfica que acepten NULL el campo 'fechaHoraColoca' y 'nroSerieDosis'");
     }
   }//GEN-LAST:event_guardarBtnActionPerformed
 
