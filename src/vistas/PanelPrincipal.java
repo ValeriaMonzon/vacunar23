@@ -190,7 +190,7 @@ public class PanelPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemciudadanoActionPerformed
 
     private void jMenuItemTurnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemTurnosActionPerformed
-    TurnosABM form = new TurnosABM();
+    AdministracionTurnos form = new AdministracionTurnos();
     form.setLocationRelativeTo(null);
     form.setVisible(true);
     }//GEN-LAST:event_jMenuItemTurnosActionPerformed
