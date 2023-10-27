@@ -405,7 +405,7 @@ public class CitasXDia extends javax.swing.JFrame {
         int aux = cita.getDni();
         String dni = String.valueOf(aux);
         
-        Date fecha = cita.getFechaHoraColoca();
+        Date fecha = cita.getFechaHoraCita();
         
         LocalTime auxo = cita.getHorario();
         String horario = auxo.toString();
@@ -459,7 +459,9 @@ public class CitasXDia extends javax.swing.JFrame {
         int estadoCita;
         
             if(fechaCita.isBefore(fechaHoy)){
-                estadoCita = 0;
+                if(cita.getDosis().getColocada()){
+                    estadoCita = 2;
+                }else{estadoCita = 0;}
             } else if (fechaCita.equals(fechaHoy)){
                 if(cita.getDosis().getColocada()){
                     estadoCita = 2;

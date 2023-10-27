@@ -14,8 +14,8 @@ public class EstadoCitaCellRenderer extends DefaultTableCellRenderer {
         Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         
         String estado = (String) value; // Supongamos que el valor es el estado de la cita
-        
         // Configura el color de texto según el estado
+        
         try{
             if (estado.equals("Vencida") || estado.equals("Cancelada")) {
             cell.setForeground(Color.RED);

@@ -8,6 +8,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import usos.Usos;
 
@@ -150,6 +151,36 @@ public class VacunaData {
     } catch (SQLException ex) {
       JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Vacuna");
     }
+}
+    
+    public ArrayList<Vacuna> buscarVacunas_aplicadas() {
+    Vacuna vacuna = null;
+    LaboratorioData data = new LaboratorioData();
+    ArrayList<Vacuna> array = new ArrayList();
+    String sql = "SELECT nroSerieDosis, cuit, marca, medida, fechaCaduca, stock FROM vacuna WHERE colocada = 1";
+    PreparedStatement ps = null;
+
+    try {
+      ps = con.prepareStatement(sql);
+      
+      ResultSet rs = ps.executeQuery();
+      
+      while (rs.next()) {
+        vacuna = new Vacuna();
+        vacuna.setNroSerieDosis(rs.getInt("nroSerieDosis"));
+        vacuna.setLaboratorio(data.obtenerLaboratorio(rs.getString("cuit")));
+        vacuna.setMedida(rs.getDouble("medida"));
+        vacuna.setFechaCaduca(rs.getDate("fechaCaduca").toLocalDate());
+        vacuna.setColocada(true);
+        vacuna.setStock(rs.getInt("stock"));
+        
+        array.add(vacuna);
+      } 
+      ps.close();
+    } catch (SQLException ex) {
+      JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Vacuna: "+ ex);
+    }
+        return array;
 }
   
 }
