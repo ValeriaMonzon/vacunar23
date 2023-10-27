@@ -35,7 +35,7 @@ CREATE TABLE `citavacunacion` (
   `codRefuerzo` int(11) NOT NULL,
   `fechaHoraCita` datetime NOT NULL,
   `centroVacunacion` int(11) NOT NULL,
-  `fechaHoraColoca` datetime NOT NULL,
+  `fechaHoraColoca` datetime DEFAULT NULL,
   `nroSerieDosis` int(11) NOT NULL,
   `citaEstado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
