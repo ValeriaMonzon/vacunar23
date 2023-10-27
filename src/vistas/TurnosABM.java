@@ -30,6 +30,7 @@ public class TurnosABM extends javax.swing.JFrame {
   private final CitaVacunacion2Data citaVacunacionData;
   private List<Ciudadano> ciudadanos;
   private List<Vacuna> vacunas;
+  private boolean recienGuarde = false;
 
   /**
    * Creates new form TurnosABM
@@ -333,6 +334,9 @@ public class TurnosABM extends javax.swing.JFrame {
   }//GEN-LAST:event_buscarBtnActionPerformed
 
   private void nuevoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoBtnActionPerformed
+    if (recienGuarde) {
+      listaVacunas.removeItemAt(listaVacunas.getSelectedIndex());
+    }
     codigoCita.setEditable(true);
     limpiarTodo();
     listaCiudadanos.setEnabled(true);
@@ -345,16 +349,48 @@ public class TurnosABM extends javax.swing.JFrame {
 
   private void guardarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarBtnActionPerformed
     try {
-      CitaVacunacion2 citaVacunacion = new CitaVacunacion2();
-      citaVacunacion.setPersona(citaVacunacionData.obtenerPersona(Integer.parseInt(dni.getText())));
-      citaVacunacion.setDosis(citaVacunacionData.obtenerVacuna(Integer.parseInt(serie.getText())));
-      citaVacunacion.setFechaHoraCita(LocalDateTime.of(toLocalDate(fecha.getDate()), horario.getItemAt(horario.getSelectedIndex())));
-      citaVacunacion.setCentroVacunacion(sede.getSelectedIndex() + 1);
-      citaVacunacionData.guardarCitaVacunacion(citaVacunacion);
-      buscarBtn.setEnabled(false);
-      guardarBtn.setEnabled(false);
-      nuevoBtn.setEnabled(true);
-      eliminarBtn.setEnabled(true);
+      if (ciudadanoElegido() != null) {
+        if (vacunaElegida() == null) {
+          if (noHayVacunas()) {
+            CitaVacunacion2 citaVacunacion = new CitaVacunacion2();
+            citaVacunacion.setPersona(listaCiudadanos.getItemAt(listaCiudadanos.getSelectedIndex()));
+
+            LocalDate hoy = LocalDate.now();
+            citaVacunacion.setFechaHoraCita(LocalDateTime.of(hoy.plusDays(20), horario.getItemAt(horario.getSelectedIndex())));
+            fecha.setDate(toDate(hoy.plusDays(20)));
+
+            citaVacunacion.setCentroVacunacion(sede.getSelectedIndex() + 1);
+            citaVacunacionData.guardarCitaVacunacion(citaVacunacion);
+            recienGuarde = true;
+            JOptionPane.showMessageDialog(null, "Turno guardado.\nSe debe asignar una vacuna manualmente antes de la fecha de cita!");
+            buscarBtn.setEnabled(false);
+            guardarBtn.setEnabled(false);
+            nuevoBtn.setEnabled(true);
+            eliminarBtn.setEnabled(true);
+            recienGuarde = true;
+          } else {
+            JOptionPane.showMessageDialog(null, "Selecciona una vacuna!!!");
+          }
+        } else {
+          if (fecha.getDate() != null) {
+            CitaVacunacion2 citaVacunacion = new CitaVacunacion2();
+            citaVacunacion.setPersona(listaCiudadanos.getItemAt(listaCiudadanos.getSelectedIndex()));
+            citaVacunacion.setDosis(listaVacunas.getItemAt(listaVacunas.getSelectedIndex()));
+            citaVacunacion.setFechaHoraCita(LocalDateTime.of(toLocalDate(fecha.getDate()), horario.getItemAt(horario.getSelectedIndex())));
+            citaVacunacion.setCentroVacunacion(sede.getSelectedIndex() + 1);
+            citaVacunacionData.guardarCitaVacunacion(citaVacunacion);
+            recienGuarde = true;
+            buscarBtn.setEnabled(false);
+            guardarBtn.setEnabled(false);
+            nuevoBtn.setEnabled(true);
+            eliminarBtn.setEnabled(true);
+          } else {
+            JOptionPane.showMessageDialog(null, "Elija una fecha para la cita!");
+          }
+        }
+      } else {
+        JOptionPane.showMessageDialog(null, "Tiene que elegir ciudadano!");
+      }
     } catch (SQLException ex) {
       Logger.getLogger(TurnosABM.class.getName()).log(Level.SEVERE, null, ex);
       JOptionPane.showMessageDialog(null, "Ocurrio un error! Sorry, bye.");
@@ -494,7 +530,7 @@ public class TurnosABM extends javax.swing.JFrame {
 
   private Vacuna[] vacunas() {
     try {
-      List<Vacuna> vacunas = citaVacunacionData.listarVacunas();
+      List<Vacuna> vacunas = citaVacunacionData.listarVacunasLibres();
       vacunas.add(0, null);
       return vacunas.toArray(new Vacuna[0]);
     } catch (SQLException ex) {
@@ -578,5 +614,9 @@ public class TurnosABM extends javax.swing.JFrame {
     fecha.setDate(null);
     sede.setSelectedIndex(0);
     horario.setSelectedIndex(0);
+  }
+
+  private boolean noHayVacunas() {
+    return listaVacunas.getItemCount() <= 1;
   }
 }

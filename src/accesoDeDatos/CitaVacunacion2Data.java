@@ -25,6 +25,7 @@ public class CitaVacunacion2Data {
   private final String LISTAR_CIUDADANO = "SELECT dni, nombreCompleto, email, celular, patologia, ambitoTrabajo, dosis, estado FROM ciudadano;";
   private final String OBTENER_VACUNA = "SELECT nroSerieDosis, cuit, marca, medida, fechaCaduca, colocada, stock FROM vacuna WHERE nroSerieDosis=?;";
   private final String LISTAR_VACUNA = "SELECT nroSerieDosis, cuit, marca, medida, fechaCaduca, colocada, stock FROM vacuna;";
+  private final String LISTAR_VACUNA_LIBRES = "SELECT vacuna.nroSerieDosis, vacuna.cuit, vacuna.marca, vacuna.medida, vacuna.fechaCaduca, vacuna.colocada, vacuna.stock FROM vacuna LEFT JOIN citavacunacion ON vacuna.nroSerieDosis = citavacunacion.nroSerieDosis WHERE citavacunacion.nroSerieDosis IS NULL;";
 
   public CitaVacunacion2Data() {
     this.conexion = Conexion.getConnection();
@@ -61,7 +62,11 @@ public class CitaVacunacion2Data {
       statement.setTimestamp(3, Timestamp.valueOf(citaVacunacion.getFechaHoraCita()));
       statement.setInt(4, citaVacunacion.getCentroVacunacion());
       statement.setObject(5, null, Types.TIMESTAMP);
-      statement.setInt(6, citaVacunacion.getDosis().getNroSerieDosis());
+      if (citaVacunacion.getDosis() == null) {
+        statement.setObject(6, null, Types.INTEGER);
+      } else {
+        statement.setInt(6, citaVacunacion.getDosis().getNroSerieDosis());
+      }
       statement.executeUpdate();
     }
   }
@@ -185,6 +190,29 @@ public class CitaVacunacion2Data {
 
   public Laboratorio obtenerLaboratorio(String string) throws SQLException {
     return laboratorioData.obtenerLaboratorio(string);
+  }
+
+  public List<Vacuna> listarVacunasLibres() throws SQLException {
+    List<Vacuna> vacunas = new ArrayList<>();
+    ResultSet resultSet;
+    try (PreparedStatement statement = conexion.prepareStatement(LISTAR_VACUNA_LIBRES)) {
+      resultSet = statement.executeQuery();
+    }
+    while (resultSet.next()) {
+      Vacuna vacuna = new Vacuna() {
+        @Override
+        public String toString() {
+          return "Nro Serie: " + getNroSerieDosis() + ", Medida: " + getMedida() + ", Laboratorio: " + getLaboratorio().getNomLaboratorio();
+        }
+      };
+      vacuna.setNroSerieDosis(resultSet.getInt("nroSerieDosis"));
+      vacuna.setLaboratorio(obtenerLaboratorio(resultSet.getString("cuit")));
+      vacuna.setColocada(resultSet.getBoolean("colocada"));
+      vacuna.setMedida(resultSet.getDouble("medida"));
+      vacuna.setFechaCaduca(resultSet.getDate("fechaCaduca").toLocalDate());
+      vacunas.add(vacuna);
+    }
+    return vacunas;
   }
 
 }
