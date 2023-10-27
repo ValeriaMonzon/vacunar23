@@ -64,11 +64,11 @@ public class AdministracionCiudadano extends javax.swing.JFrame {
         jTextFDosis = new javax.swing.JTextField();
         jBAgregar = new javax.swing.JButton();
         jBEliminar = new javax.swing.JButton();
-        jBModificar = new javax.swing.JButton();
         jButtonLimpiar = new javax.swing.JButton();
         jButtonSalir = new javax.swing.JButton();
         jBBuscarDNI = new javax.swing.JButton();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        jCBoxEstado = new javax.swing.JCheckBox();
+        jBmodCiudadano = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -115,18 +115,10 @@ public class AdministracionCiudadano extends javax.swing.JFrame {
         });
 
         jBEliminar.setFont(new java.awt.Font("Georgia", 1, 11)); // NOI18N
-        jBEliminar.setText("eliminar Ciudadano");
+        jBEliminar.setText("Eliminar Ciudadano");
         jBEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBEliminarActionPerformed(evt);
-            }
-        });
-
-        jBModificar.setFont(new java.awt.Font("Georgia", 1, 11)); // NOI18N
-        jBModificar.setText("Modificar ciudadano");
-        jBModificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBModificarActionPerformed(evt);
             }
         });
 
@@ -154,6 +146,16 @@ public class AdministracionCiudadano extends javax.swing.JFrame {
             }
         });
 
+        jCBoxEstado.setEnabled(false);
+
+        jBmodCiudadano.setFont(new java.awt.Font("Georgia", 1, 12)); // NOI18N
+        jBmodCiudadano.setText("Modificar Ciudadano");
+        jBmodCiudadano.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBmodCiudadanoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -161,9 +163,9 @@ public class AdministracionCiudadano extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(jLabelImg2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(72, 72, 72)
-                .addComponent(jLabelTitulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelTitulo)
+                .addGap(92, 92, 92)
                 .addComponent(jLabelImg)
                 .addGap(56, 56, 56))
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -183,7 +185,7 @@ public class AdministracionCiudadano extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jTextFDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jBBuscarDNI))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,18 +195,19 @@ public class AdministracionCiudadano extends javax.swing.JFrame {
                                     .addComponent(jTextFCelu, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextFEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextFNomCom, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jCheckBox1))
+                                    .addComponent(jCBoxEstado))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jBAgregar)
-                        .addGap(18, 18, 18)
+                        .addGap(31, 31, 31)
                         .addComponent(jBEliminar)
-                        .addGap(18, 18, 18)
-                        .addComponent(jBModificar)
-                        .addGap(18, 18, 18)
+                        .addGap(47, 47, 47)
+                        .addComponent(jBmodCiudadano)
+                        .addGap(52, 52, 52)
                         .addComponent(jButtonLimpiar)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonSalir)))
+                        .addGap(26, 26, 26)
+                        .addComponent(jButtonSalir)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(36, 36, 36))
         );
         jPanel1Layout.setVerticalGroup(
@@ -216,16 +219,17 @@ public class AdministracionCiudadano extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addContainerGap()
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addComponent(jLabelImg2)
-                                                    .addComponent(jLabelImg)))
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(50, 50, 50)
-                                                .addComponent(jLabelTitulo)))
-                                        .addGap(42, 42, 42)
+                                        .addContainerGap()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabelImg2)
+                                            .addComponent(jLabelImg))
+                                        .addGap(42, 42, 42))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                        .addGap(49, 49, 49)
+                                        .addComponent(jLabelTitulo)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                             .addComponent(jLabDNI)
                                             .addComponent(jTextFDNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -240,7 +244,7 @@ public class AdministracionCiudadano extends javax.swing.JFrame {
                                             .addComponent(jTextFEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(18, 18, 18)
                                         .addComponent(jLabCelu))
-                                    .addComponent(jTextFCelu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jTextFCelu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(14, 14, 14)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabPat)
@@ -254,14 +258,14 @@ public class AdministracionCiudadano extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabEstado)
-                    .addComponent(jCheckBox1))
+                    .addComponent(jCBoxEstado))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBAgregar)
                     .addComponent(jBEliminar)
-                    .addComponent(jBModificar)
                     .addComponent(jButtonLimpiar)
-                    .addComponent(jButtonSalir))
+                    .addComponent(jButtonSalir)
+                    .addComponent(jBmodCiudadano))
                 .addGap(33, 33, 33))
         );
 
@@ -292,10 +296,12 @@ public class AdministracionCiudadano extends javax.swing.JFrame {
           jTextFPato.setText(ciudadano.getPatologia());
           jTextFAmbTrab.setText(ciudadano.getAmbitoTrabajo());
           jTextFDosis.setText(String.valueOf(ciudadano.getDosis()));
-          jCheckBox1.setSelected(ciudadano.getEstado());
+          jCBoxEstado.setSelected(ciudadano.getEstado());
+          
+          jTextFDNI.setEditable(false);
           
           jBBuscarDNI.setEnabled(false);
-          jBModificar.setEnabled(true);
+          jBmodCiudadano.setEnabled(true);
           jBAgregar.setEnabled(true);
           jBEliminar.setEnabled(true);
           jButtonLimpiar.setEnabled(true);
@@ -316,12 +322,16 @@ public class AdministracionCiudadano extends javax.swing.JFrame {
    jTextFAmbTrab.setText(null);
    jTextFDosis.setText(null);
    
+   
+   jTextFDNI.setEditable(true);
    jBBuscarDNI.setEnabled(true);
-   jBModificar.setEnabled(false);
+   jBmodCiudadano.setEnabled(false);
    jBAgregar.setEnabled(false);
    jBEliminar.setEnabled(false);
    jButtonLimpiar.setEnabled(false);
    jButtonSalir.setEnabled(true);
+   jBmodCiudadano.setEnabled(false);
+   jCBoxEstado.setSelected(false);
     }//GEN-LAST:event_jButtonLimpiarActionPerformed
 
     private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
@@ -330,7 +340,7 @@ public class AdministracionCiudadano extends javax.swing.JFrame {
 
     private void jBAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAgregarActionPerformed
        try{
-       Ciudadano ciudadano =new Ciudadano(Integer.parseInt(jTextFDNI.getText()),jTextFNomCom.getText(),jTextFEmail.getText(),jTextFCelu.getText(),jTextFPato.getText(),jTextFAmbTrab.getText(),Integer.parseInt(jTextFDosis.getText()),jCheckBox1.isSelected());
+       Ciudadano ciudadano =new Ciudadano(Integer.parseInt(jTextFDNI.getText()),jTextFNomCom.getText(),jTextFEmail.getText(),jTextFCelu.getText(),jTextFPato.getText(),jTextFAmbTrab.getText(),Integer.parseInt(jTextFDosis.getText()),jCBoxEstado.isSelected());
        Ciudadano aux = new CiudadanoData().buscarCiudadano(Integer.parseInt(jTextFDNI.getText()));
      
        if(aux != null){
@@ -350,39 +360,12 @@ public class AdministracionCiudadano extends javax.swing.JFrame {
               Logger.getLogger(AdministracionCiudadano.class.getName()).log(Level.SEVERE, null, ex);
           }
    jBBuscarDNI.setEnabled(false);
-   jBModificar.setEnabled(true);
-   jBAgregar.setEnabled(false);
+   //jBModificar.setEnabled(true);
+   jBAgregar.setEnabled(true);
    jBEliminar.setEnabled(true);
    jButtonLimpiar.setEnabled(true);
    jButtonSalir.setEnabled(true);  
     }//GEN-LAST:event_jBAgregarActionPerformed
-
-    private void jBModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBModificarActionPerformed
-                                                        
-    if (chequeoExcepciones()) {
-      int boole = JOptionPane.showConfirmDialog(null, "¿Estas seguro de modificar este ciudadano?");
-      if (boole == 0) {
-       Ciudadano ciudadano = ciudadanoData.buscarCiudadano(Integer.parseInt(jTextFDNI.getText()));
-        ciudadano.setDni(Integer.parseInt(jTextFDNI.getText()));
-        ciudadano.setNomCompleto(jTextFNomCom.getText());
-        ciudadano.setEmail(jTextFEmail.getText());
-        ciudadano.setCelular(jTextFCelu.getText());
-        ciudadano.setPatologia(jTextFPato.getText());
-        ciudadano.setAmbitoTrabajo(jTextFAmbTrab.getText());
-        ciudadano.setDosis(Integer.parseInt(jTextFDosis.getText()));
-        jCheckBox1.setSelected(ciudadano.getEstado());
-       ciudadanoData.modificarCiudadano(ciudadano);
-      }
-    }
-    jBBuscarDNI.setEnabled(false);
-    jBModificar.setEnabled(false);
-    jBAgregar.setEnabled(false);
-    jBEliminar.setEnabled(true);
-    jButtonLimpiar.setEnabled(true);
-    jButtonSalir.setEnabled(true);   
-      
-                                                   
-    }//GEN-LAST:event_jBModificarActionPerformed
 
     private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed
          if (chequeoDocumento()) {
@@ -394,6 +377,24 @@ public class AdministracionCiudadano extends javax.swing.JFrame {
       }
     }
     }//GEN-LAST:event_jBEliminarActionPerformed
+
+    private void jBmodCiudadanoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBmodCiudadanoActionPerformed
+       if (chequeoExcepciones()) {
+      int boole = JOptionPane.showConfirmDialog(null, "¿Estas seguro de modificar este ciudadano?");
+      if (boole == 0) {
+       Ciudadano ciudadano = ciudadanoData.buscarCiudadano(Integer.parseInt(jTextFDNI.getText()));
+        ciudadano.setDni(Integer.parseInt(jTextFDNI.getText()));
+        ciudadano.setNomCompleto(jTextFNomCom.getText());
+        ciudadano.setEmail(jTextFEmail.getText());
+        ciudadano.setCelular(jTextFCelu.getText());
+        ciudadano.setPatologia(jTextFPato.getText());
+        ciudadano.setAmbitoTrabajo(jTextFAmbTrab.getText());
+        ciudadano.setDosis(Integer.parseInt(jTextFDosis.getText()));
+        jCBoxEstado.setSelected(ciudadano.getEstado());
+       ciudadanoData.modificarCiudadano(ciudadano);
+      }
+    }
+    }//GEN-LAST:event_jBmodCiudadanoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -434,10 +435,10 @@ public class AdministracionCiudadano extends javax.swing.JFrame {
     private javax.swing.JButton jBAgregar;
     private javax.swing.JButton jBBuscarDNI;
     private javax.swing.JButton jBEliminar;
-    private javax.swing.JButton jBModificar;
+    private javax.swing.JButton jBmodCiudadano;
     private javax.swing.JButton jButtonLimpiar;
     private javax.swing.JButton jButtonSalir;
-    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCBoxEstado;
     private javax.swing.JLabel jLabAmbTrab;
     private javax.swing.JLabel jLabCelu;
     private javax.swing.JLabel jLabDNI;
