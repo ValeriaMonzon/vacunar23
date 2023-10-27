@@ -72,6 +72,9 @@ public class CitasXDia extends javax.swing.JFrame {
             }
         }
         });
+        
+        cargarArray();
+        llenarTabla();
     }
 
     /**
