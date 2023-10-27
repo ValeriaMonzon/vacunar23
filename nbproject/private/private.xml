@@ -3,13 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Sol/Documents/GitHub/.vacunar23/src/accesoDeDatos/Conexion.java</file>
-            <file>file:/C:/Users/Sol/Documents/GitHub/.vacunar23/src/accesoDeDatos/CitaVacunacion2Data.java</file>
             <file>file:/C:/Users/Sol/Documents/GitHub/.vacunar23/src/accesoDeDatos/VacunaData.java</file>
             <file>file:/C:/Users/Sol/Documents/GitHub/.vacunar23/src/vistas/AdministracionCiudadano.java</file>
             <file>file:/C:/Users/Sol/Documents/GitHub/.vacunar23/src/vistas/PanelPrincipal.java</file>
             <file>file:/C:/Users/Sol/Documents/GitHub/.vacunar23/src/vistas/AdministracionVacunas.java</file>
-            <file>file:/C:/Users/Sol/Documents/GitHub/.vacunar23/src/entidades/Vacuna.java</file>
+            <file>file:/C:/Users/Sol/Documents/GitHub/.vacunar23/src/accesoDeDatos/LaboratorioData.java</file>
         </group>
     </open-files>
 </project-private>
