@@ -346,6 +346,7 @@ public class ControlInterno_Sedes extends javax.swing.JFrame {
         fecha_comboBox.addItem("Anual");
         fecha_comboBox.addItem("Mensual");
         
+        modelo.addColumn("Cod. de cita");
         modelo.addColumn("Nro. de serie");
         modelo.addColumn("Laboratorio");
         modelo.addColumn("Dosis");
@@ -389,7 +390,7 @@ public class ControlInterno_Sedes extends javax.swing.JFrame {
     try{
         limpiarTabla();
     for (CitaVacunacion aux : lista_citasAplicadas) {
-            modelo.addRow(new Object[]{aux.getDosis().getNroSerieDosis(), aux.getDosis().getLaboratorio().getNomLaboratorio(), aux.getDosis().getMedida(), aux.getDni(), aux.getFechaHoraColoca()});
+            modelo.addRow(new Object[]{aux.getCodCita(), aux.getDosis().getNroSerieDosis(), aux.getDosis().getLaboratorio().getNomLaboratorio(), aux.getDosis().getMedida(), aux.getDni(), aux.getFechaHoraColoca()});
         }
     tablaCitas.setModel(modelo);
     tablaCitas.setModel(modelo);

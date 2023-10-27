@@ -119,9 +119,9 @@ public class VacunaData {
       int exito = ps.executeUpdate();
 
       if (exito == 1) {
-        JOptionPane.showMessageDialog(null, "Stock modificado");
+          System.out.println("Stock modificado a "+stock);
       } else {
-        JOptionPane.showMessageDialog(null, "No se ha podido modificar el stock");
+          System.out.println("No se ha podido modificar el stock");
       }
     } catch (SQLException ex) {
       System.out.println(ex);
@@ -183,4 +183,22 @@ public class VacunaData {
         return array;
 }
   
+    public void colocarVacuna(int serie) {
+    String sql = "UPDATE vacuna SET colocada=1 WHERE nroSerieDosis=?";
+
+    try {
+      PreparedStatement ps = con.prepareStatement(sql);
+      ps.setInt(1, serie);
+      int exito = ps.executeUpdate();
+
+      if (exito == 1) {
+          System.out.println("Vacuna aplicada");
+      } else {
+          System.out.println("No se ha podido aplicar la vacuna");
+      }
+    } catch (SQLException ex) {
+      System.out.println(ex);
+      JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Vacuna");
+    }
+  }
 }

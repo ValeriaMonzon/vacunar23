@@ -430,7 +430,7 @@ public class CitasXDia extends javax.swing.JFrame {
         aux = persona.getDosis();
         String dosis_aplicados = String.valueOf(aux);
         
-        CitaDetalles ventana = new CitaDetalles(dni, dosis_aplicados, fecha, horario, cuit, nombre_lab, medida, nombre_persona, nroserie, sede, stock, estadoCita(cita));
+        CitaDetalles ventana = new CitaDetalles(dni, dosis_aplicados, fecha, horario, cuit, nombre_lab, medida, nombre_persona, nroserie, sede, stock, estadoCita(cita), cita.getCodCita());
         ventana.setVisible(true);
     }
     
@@ -476,7 +476,6 @@ public class CitasXDia extends javax.swing.JFrame {
                 estadoCita = 1;
             }
             
-            System.out.println(estadoCita);
         switch(estadoCita){
             case 0:
                 return "Vencida";
