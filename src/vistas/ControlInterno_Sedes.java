@@ -248,7 +248,7 @@ public class ControlInterno_Sedes extends javax.swing.JFrame {
             int mes = mes_elegir.getMonth()+1;
             int sede = sede_comoBox.getSelectedIndex()+1;
             ArrayList<CitaVacunacion> array = citadata.buscarCitas_porMesAplicadas(mes, sede);
-            System.out.println(array);
+            
             cargarArray(array);   
             llenarTabla();
             setLabels();
@@ -266,7 +266,7 @@ public class ControlInterno_Sedes extends javax.swing.JFrame {
             int anio = anio_elegir.getYear();
             int sede = sede_comoBox.getSelectedIndex()+1;
             ArrayList<CitaVacunacion> array = citadata.buscarCitas_porAnioAplicadas(anio, sede);
-            System.out.println(array);
+            
             cargarArray(array);   
             llenarTabla();
             setLabels();
@@ -367,6 +367,8 @@ public class ControlInterno_Sedes extends javax.swing.JFrame {
         for (CitaVacunacion citaVacunacion : array) {
             lista_citasAplicadas.add(citaVacunacion);
         }
+        
+        ordenarArray(lista_citasAplicadas);
     }
     
     public void cargarArray(ArrayList<CitaVacunacion> array){
@@ -375,6 +377,8 @@ public class ControlInterno_Sedes extends javax.swing.JFrame {
         for (CitaVacunacion citaVacunacion : array) {
             lista_citasAplicadas.add(citaVacunacion);
         }
+        
+        ordenarArray(lista_citasAplicadas);
     }
     
     private void limpiarTabla(){
@@ -382,13 +386,14 @@ public class ControlInterno_Sedes extends javax.swing.JFrame {
     } 
     
     private void llenarTabla() {
-    limpiarTabla();
+    try{
+        limpiarTabla();
     for (CitaVacunacion aux : lista_citasAplicadas) {
             modelo.addRow(new Object[]{aux.getDosis().getNroSerieDosis(), aux.getDosis().getLaboratorio().getNomLaboratorio(), aux.getDosis().getMedida(), aux.getDni(), aux.getFechaHoraColoca()});
         }
     tablaCitas.setModel(modelo);
-    sortearTabla();
     tablaCitas.setModel(modelo);
+    }catch(Exception ex){}
   }
     
     private void setLabels(){
@@ -405,15 +410,13 @@ public class ControlInterno_Sedes extends javax.swing.JFrame {
         }
     }
     
-    private void sortearTabla() {
-    try {
-        TableRowSorter<DefaultTableModel> rowSorter = new TableRowSorter<>(modelo);
-        tablaCitas.setRowSorter(rowSorter);
-        Comparator<Date> localTimeComparator = (lt1, lt2) -> lt1.compareTo(lt2);
-        rowSorter.setComparator(1, localTimeComparator);
-        ArrayList<RowSorter.SortKey> sortKeys = new ArrayList<>();
-        sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
-        rowSorter.setSortKeys(sortKeys);
-    } catch (Exception e) {}}
+    private void ordenarArray(ArrayList<CitaVacunacion> lista_citas) {
+    Collections.sort(lista_citas, new Comparator<CitaVacunacion>() {
+        @Override
+        public int compare(CitaVacunacion cita1, CitaVacunacion cita2) {
+            return cita1.getFechaHoraColoca().compareTo(cita2.getFechaHoraColoca());
+        }
+    });
+    }
 
 }
