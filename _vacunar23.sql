@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-10-2023 a las 23:26:00
+-- Tiempo de generación: 28-10-2023 a las 01:35:10
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `_vacunar23`
 --
-CREATE DATABASE IF NOT EXISTS `_vacunar23` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `_vacunar23`;
 
 -- --------------------------------------------------------
 
@@ -36,9 +34,20 @@ CREATE TABLE `citavacunacion` (
   `fechaHoraCita` datetime NOT NULL,
   `centroVacunacion` int(11) NOT NULL,
   `fechaHoraColoca` datetime DEFAULT NULL,
-  `nroSerieDosis` int(11) NOT NULL,
+  `nroSerieDosis` int(11) DEFAULT NULL,
   `citaEstado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `citavacunacion`
+--
+
+INSERT INTO `citavacunacion` (`codCita`, `dni`, `codRefuerzo`, `fechaHoraCita`, `centroVacunacion`, `fechaHoraColoca`, `nroSerieDosis`, `citaEstado`) VALUES
+(10, 222, 0, '2023-10-29 08:00:00', 3, '2023-10-29 08:00:00', 2, 1),
+(11, 456, 0, '2023-10-31 09:15:00', 3, NULL, 3, 1),
+(12, 123456789, 0, '2023-11-15 14:45:00', 4, NULL, 4, 1),
+(13, 987654321, 0, '2023-11-24 09:30:00', 4, NULL, 5, 0),
+(14, 123, 0, '2023-11-16 09:45:00', 4, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -54,7 +63,7 @@ CREATE TABLE `ciudadano` (
   `patologia` varchar(30) DEFAULT NULL,
   `ambitoTrabajo` varchar(30) NOT NULL,
   `dosis` int(11) NOT NULL,
-  `estado` tinyint(4) NOT NULL
+  `estado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -62,11 +71,11 @@ CREATE TABLE `ciudadano` (
 --
 
 INSERT INTO `ciudadano` (`dni`, `nombreCompleto`, `email`, `celular`, `patologia`, `ambitoTrabajo`, `dosis`, `estado`) VALUES
-(3458965, 'mara  solana', 'fulano@email', '124582456', 'diabetes', 'recepcionista', 2, 1),
-(32458965, 'Juan  ignacio Perez', 'fulano@email', 'celular', 'patologia', 'salud', 2, 0),
-(33458965, 'lisa  rodriguez', 'fulano@email', '123456789', 'cardiaca', 'operario', 2, 0),
-(35458965, 'mara  solana', 'fulano@email', '124582456', 'diabetes', 'recepcionista', 2, 1),
-(45826945, 'Roxana  montero', 'fulano@email', '124582456', 'diabetes', 'recepcionista', 2, 0);
+(123, 'Ariel Gimenez', 'ariel@gmail.com', '11645987321', '', 'Salud', 0, 1),
+(222, 'Pedro Picapiedra', 'pedro@gmail.com', '123456', '', 'Amo de casa', 0, 0),
+(456, 'Juan Gonzalez', 'juan@gmail.com', '119876546', 'Asma', 'Industria', 0, 1),
+(123456789, 'Juan Perez', 'juanperez@gmail.com', '1122334455', 'Diabetes', 'Salud', 0, 1),
+(987654321, 'Cosme Fulanito', 'cosmefulanito@gmail.com', '1133445566', 'Asma', 'Industria', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -80,6 +89,17 @@ CREATE TABLE `laboratorio` (
   `pais` varchar(30) NOT NULL,
   `domComercial` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `laboratorio`
+--
+
+INSERT INTO `laboratorio` (`cuit`, `nomLaboratorio`, `pais`, `domComercial`) VALUES
+('30-23325612-7', 'AstraZeneca', 'Estados Unidos', '1800 Concord Pike - 19803 Wilmington'),
+('30-36325982-4', 'Pfizer', 'Estados Unidos', '235 East 42nd Street'),
+('30-40025552-4', 'Sputnik V', 'Rusia', 'Ulitsa Gamalei 18 Moscu'),
+('30-48325982-1', 'Moderna', 'Estados Unidos', 'Technology Square, Cambridge, MA 02139'),
+('30-69752652-7', 'Sinopharm', 'China', 'JinAn, Jiangning Rd 293, Shanghai');
 
 -- --------------------------------------------------------
 
@@ -96,6 +116,17 @@ CREATE TABLE `vacuna` (
   `colocada` tinyint(1) NOT NULL,
   `stock` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `vacuna`
+--
+
+INSERT INTO `vacuna` (`nroSerieDosis`, `cuit`, `marca`, `medida`, `fechaCaduca`, `colocada`, `stock`) VALUES
+(1, '30-23325612-7', 'AstraZeneca', 0.3, '2023-11-30', 0, 1),
+(2, '30-36325982-4', 'Pfizer', 0.5, '2023-11-28', 1, 1),
+(3, '30-40025552-4', 'Sputnik V', 0.9, '2023-11-25', 0, 1),
+(4, '30-48325982-1', 'Moderna', 0.3, '2023-10-29', 0, 1),
+(5, '30-69752652-7', 'Sinopharm', 0.5, '2023-12-31', 0, 0);
 
 --
 -- Índices para tablas volcadas
@@ -136,7 +167,7 @@ ALTER TABLE `vacuna`
 -- AUTO_INCREMENT de la tabla `citavacunacion`
 --
 ALTER TABLE `citavacunacion`
-  MODIFY `codCita` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `codCita` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Restricciones para tablas volcadas
