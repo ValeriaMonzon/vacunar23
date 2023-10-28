@@ -503,7 +503,7 @@ public class CitasXDia extends javax.swing.JFrame {
 
         int estadoCita;
         
-            if(fechaCita.isBefore(fechaHoy)){
+            if(fechaCita.isBefore(fechaHoy)){                           //antes que hoy
                 if(cita.getDosis().getColocada()){
                     estadoCita = 2;
                 }else{
@@ -514,7 +514,7 @@ public class CitasXDia extends javax.swing.JFrame {
                     }
                 }
                 
-            } else if (fechaCita.equals(fechaHoy)){
+            } else if (fechaCita.equals(fechaHoy)){                 //igual a hoy
                 if(cita.getDosis().getColocada()){
                     estadoCita = 2;
                 }else{
@@ -528,7 +528,7 @@ public class CitasXDia extends javax.swing.JFrame {
                         estadoCita = 1;
                     }
                 }
-            } else {
+            } else {                                                                        //despues de hoy
                 if(cita.isCitaEstado()){
                         estadoCita = 1;
                     }else{

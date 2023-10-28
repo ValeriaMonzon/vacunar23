@@ -307,7 +307,7 @@ public class CitaDetalles extends javax.swing.JFrame {
                         .addComponent(cancelarBoton)))
                 .addGap(26, 26, 26))
             .addGroup(layout.createSequentialGroup()
-                .addGap(81, 81, 81)
+                .addGap(111, 111, 111)
                 .addComponent(nombre)
                 .addGap(34, 34, 34)
                 .addComponent(dni)

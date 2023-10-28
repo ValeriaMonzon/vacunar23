@@ -15,6 +15,10 @@ public abstract class Usos {
             .atZone(ZoneId.systemDefault())
             .toLocalDate();
   }
+    
+    public static java.sql.Date convertirDate(LocalDate fecha) {
+        return java.sql.Date.valueOf(fecha);
+  }
 
   public static Date convertirLocalDate(LocalDate dateToConvert) {
     return java.util.Date.from(dateToConvert.atStartOfDay()

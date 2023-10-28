@@ -610,4 +610,543 @@ public class CitaVacunacionData {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla CitaVacunacion");
         }
     }
+    
+    public ArrayList<CitaVacunacion> buscarCitas_porAnioCanceladas(int year, int sede) {
+        ArrayList<CitaVacunacion> lista_citas = new ArrayList();
+        String sql = "SELECT codCita, dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis, citaEstado FROM citavacunacion WHERE YEAR(fechaHoraCita) = ? AND centroVacunacion = ? AND citaEstado = 0";
+        
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, year);
+            ps.setInt(2, sede);            
+            
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                CitaVacunacion citavacunacion = new CitaVacunacion();
+                
+                citavacunacion.setCodCita(rs.getInt("codCita"));
+                citavacunacion.setDni(rs.getInt("dni"));
+                citavacunacion.setCodRefuerzo(rs.getInt("codRefuerzo"));
+                citavacunacion.setFechaHoraCita(new Date(rs.getTimestamp("fechaHoraCita").getTime()));
+
+                citavacunacion.setCentroVacunacion(rs.getInt("centroVacunacion"));
+                
+                if(rs.getTimestamp("fechaHoraColoca")==null){
+                    citavacunacion.setFechaHoraColoca(null);
+                }else{
+                    citavacunacion.setFechaHoraColoca(new Date(rs.getTimestamp("fechaHoraColoca").getTime()));
+                }
+                
+                LocalTime hora = rs.getTimestamp("fechaHoraCita").toLocalDateTime().toLocalTime();
+                citavacunacion.setHorario(hora);
+                
+                VacunaData vacunaData = new VacunaData();
+                citavacunacion.setDosis(vacunaData.buscarVacuna(rs.getInt("nroSerieDosis")));
+
+                citavacunacion.setCitaEstado(rs.getBoolean("citaEstado"));
+                
+                lista_citas.add(citavacunacion);
+
+            } 
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla CitaVacunacion");
+        }
+        return lista_citas;
+    }
+ 
+ public ArrayList<CitaVacunacion> buscarCitas_porAnioCanceladas(int year) {
+        ArrayList<CitaVacunacion> lista_citas = new ArrayList();
+        String sql = "SELECT codCita, dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis, citaEstado FROM citavacunacion WHERE YEAR(fechaHoraCita) = ?  AND citaEstado = 0";
+        
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, year);
+            
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                CitaVacunacion citavacunacion = new CitaVacunacion();
+                
+                citavacunacion.setCodCita(rs.getInt("codCita"));
+                citavacunacion.setDni(rs.getInt("dni"));
+                citavacunacion.setCodRefuerzo(rs.getInt("codRefuerzo"));
+                citavacunacion.setFechaHoraCita(new Date(rs.getTimestamp("fechaHoraCita").getTime()));
+
+                citavacunacion.setCentroVacunacion(rs.getInt("centroVacunacion"));
+                
+                if(rs.getTimestamp("fechaHoraColoca")==null){
+                    citavacunacion.setFechaHoraColoca(null);
+                }else{
+                    citavacunacion.setFechaHoraColoca(new Date(rs.getTimestamp("fechaHoraColoca").getTime()));
+                }
+                
+                LocalTime hora = rs.getTimestamp("fechaHoraCita").toLocalDateTime().toLocalTime();
+                citavacunacion.setHorario(hora);
+                
+                VacunaData vacunaData = new VacunaData();
+                citavacunacion.setDosis(vacunaData.buscarVacuna(rs.getInt("nroSerieDosis")));
+
+                citavacunacion.setCitaEstado(rs.getBoolean("citaEstado"));
+                
+                lista_citas.add(citavacunacion);
+
+            } 
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla CitaVacunacion");
+        }
+        return lista_citas;
+    }
+ 
+    public ArrayList<CitaVacunacion> buscarCitas_porMesCanceladas(int mes, int sede) {
+        ArrayList<CitaVacunacion> lista_citas = new ArrayList();
+        String sql = "SELECT codCita, dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis, citaEstado FROM citavacunacion WHERE MONTH(fechaHoraCita) = ? AND centroVacunacion = ? AND citaEstado = 0";
+        
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, mes);
+            ps.setInt(2, sede);            
+            
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                CitaVacunacion citavacunacion = new CitaVacunacion();
+                
+                citavacunacion.setCodCita(rs.getInt("codCita"));
+                citavacunacion.setDni(rs.getInt("dni"));
+                citavacunacion.setCodRefuerzo(rs.getInt("codRefuerzo"));
+                citavacunacion.setFechaHoraCita(new Date(rs.getTimestamp("fechaHoraCita").getTime()));
+
+                citavacunacion.setCentroVacunacion(rs.getInt("centroVacunacion"));
+                
+                if(rs.getTimestamp("fechaHoraColoca")==null){
+                    citavacunacion.setFechaHoraColoca(null);
+                }else{
+                    citavacunacion.setFechaHoraColoca(new Date(rs.getTimestamp("fechaHoraColoca").getTime()));
+                }
+                
+                LocalTime hora = rs.getTimestamp("fechaHoraCita").toLocalDateTime().toLocalTime();
+                citavacunacion.setHorario(hora);
+                
+                VacunaData vacunaData = new VacunaData();
+                citavacunacion.setDosis(vacunaData.buscarVacuna(rs.getInt("nroSerieDosis")));
+
+                citavacunacion.setCitaEstado(rs.getBoolean("citaEstado"));
+                
+                lista_citas.add(citavacunacion);
+
+            } 
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla CitaVacunacion");
+        }
+        return lista_citas;
+    }
+    
+    public ArrayList<CitaVacunacion> buscarCitas_porMesCanceladas(int mes) {
+        ArrayList<CitaVacunacion> lista_citas = new ArrayList();
+        String sql = "SELECT codCita, dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis, citaEstado FROM citavacunacion WHERE MONTH(fechaHoraCita) = ? AND citaEstado = 0";
+        
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, mes);   
+            
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                CitaVacunacion citavacunacion = new CitaVacunacion();
+                
+                citavacunacion.setCodCita(rs.getInt("codCita"));
+                citavacunacion.setDni(rs.getInt("dni"));
+                citavacunacion.setCodRefuerzo(rs.getInt("codRefuerzo"));
+                citavacunacion.setFechaHoraCita(new Date(rs.getTimestamp("fechaHoraCita").getTime()));
+
+                citavacunacion.setCentroVacunacion(rs.getInt("centroVacunacion"));
+                
+                if(rs.getTimestamp("fechaHoraColoca")==null){
+                    citavacunacion.setFechaHoraColoca(null);
+                }else{
+                    citavacunacion.setFechaHoraColoca(new Date(rs.getTimestamp("fechaHoraColoca").getTime()));
+                }
+                
+                LocalTime hora = rs.getTimestamp("fechaHoraCita").toLocalDateTime().toLocalTime();
+                citavacunacion.setHorario(hora);
+                
+                VacunaData vacunaData = new VacunaData();
+                citavacunacion.setDosis(vacunaData.buscarVacuna(rs.getInt("nroSerieDosis")));
+
+                citavacunacion.setCitaEstado(rs.getBoolean("citaEstado"));
+                
+                lista_citas.add(citavacunacion);
+
+            } 
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla CitaVacunacion");
+        }
+        return lista_citas;
+    }
+    
+    public ArrayList<CitaVacunacion> buscarCitas_canceladasPorSede(int sede) {
+        ArrayList<CitaVacunacion> lista_citas = new ArrayList();
+        String sql = "SELECT codCita, dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis, citaEstado FROM citavacunacion WHERE centroVacunacion = ? AND citaEstado = 0";
+        
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, sede);            
+            
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                CitaVacunacion citavacunacion = new CitaVacunacion();
+                
+                citavacunacion.setCodCita(rs.getInt("codCita"));
+                citavacunacion.setDni(rs.getInt("dni"));
+                citavacunacion.setCodRefuerzo(rs.getInt("codRefuerzo"));
+                citavacunacion.setFechaHoraCita(new Date(rs.getTimestamp("fechaHoraCita").getTime()));
+
+                citavacunacion.setCentroVacunacion(rs.getInt("centroVacunacion"));
+                
+                if(rs.getTimestamp("fechaHoraColoca")==null){
+                    citavacunacion.setFechaHoraColoca(null);
+                }else{
+                    citavacunacion.setFechaHoraColoca(new Date(rs.getTimestamp("fechaHoraColoca").getTime()));
+                }
+                
+                LocalTime hora = rs.getTimestamp("fechaHoraCita").toLocalDateTime().toLocalTime();
+                citavacunacion.setHorario(hora);
+                
+                VacunaData vacunaData = new VacunaData();
+                citavacunacion.setDosis(vacunaData.buscarVacuna(rs.getInt("nroSerieDosis")));
+
+                citavacunacion.setCitaEstado(rs.getBoolean("citaEstado"));
+                
+                lista_citas.add(citavacunacion);
+
+            } 
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla CitaVacunacion");
+        }
+        return lista_citas;
+    }
+    
+    public ArrayList<CitaVacunacion> buscarCitas_porAnioVencidasPorSede(int year, int sede, java.util.Date fecha) {
+        ArrayList<CitaVacunacion> lista_citas = new ArrayList();
+        String sql = "SELECT codCita, dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis, citaEstado FROM citavacunacion WHERE YEAR(fechaHoraCita) = ? AND centroVacunacion = ? AND fechaHoraCita < ?";
+        
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, year);
+            ps.setInt(2, sede);
+            ps.setTimestamp(3, new java.sql.Timestamp(fecha.getTime()));
+            
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                CitaVacunacion citavacunacion = new CitaVacunacion();
+                
+                citavacunacion.setCodCita(rs.getInt("codCita"));
+                citavacunacion.setDni(rs.getInt("dni"));
+                citavacunacion.setCodRefuerzo(rs.getInt("codRefuerzo"));
+                citavacunacion.setFechaHoraCita(new Date(rs.getTimestamp("fechaHoraCita").getTime()));
+
+                citavacunacion.setCentroVacunacion(rs.getInt("centroVacunacion"));
+                
+                if(rs.getTimestamp("fechaHoraColoca")==null){
+                    citavacunacion.setFechaHoraColoca(null);
+                }else{
+                    citavacunacion.setFechaHoraColoca(new Date(rs.getTimestamp("fechaHoraColoca").getTime()));
+                }
+                
+                LocalTime hora = rs.getTimestamp("fechaHoraCita").toLocalDateTime().toLocalTime();
+                citavacunacion.setHorario(hora);
+                
+                VacunaData vacunaData = new VacunaData();
+                citavacunacion.setDosis(vacunaData.buscarVacuna(rs.getInt("nroSerieDosis")));
+
+                citavacunacion.setCitaEstado(rs.getBoolean("citaEstado"));
+                
+                lista_citas.add(citavacunacion);
+
+            } 
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla CitaVacunacion");
+        }
+        return lista_citas;
+    }
+ 
+ public ArrayList<CitaVacunacion> buscarCitas_porAnioVencidas(int year, java.util.Date fecha) {
+        ArrayList<CitaVacunacion> lista_citas = new ArrayList();
+        String sql = "SELECT codCita, dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis, citaEstado FROM citavacunacion WHERE YEAR(fechaHoraCita) = ? AND fechaHoraCita < ?";
+        
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, year);
+            ps.setTimestamp(2, new java.sql.Timestamp(fecha.getTime()));            
+            
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                CitaVacunacion citavacunacion = new CitaVacunacion();
+                
+                citavacunacion.setCodCita(rs.getInt("codCita"));
+                citavacunacion.setDni(rs.getInt("dni"));
+                citavacunacion.setCodRefuerzo(rs.getInt("codRefuerzo"));
+                citavacunacion.setFechaHoraCita(new Date(rs.getTimestamp("fechaHoraCita").getTime()));
+
+                citavacunacion.setCentroVacunacion(rs.getInt("centroVacunacion"));
+                
+                if(rs.getTimestamp("fechaHoraColoca")==null){
+                    citavacunacion.setFechaHoraColoca(null);
+                }else{
+                    citavacunacion.setFechaHoraColoca(new Date(rs.getTimestamp("fechaHoraColoca").getTime()));
+                }
+                
+                LocalTime hora = rs.getTimestamp("fechaHoraCita").toLocalDateTime().toLocalTime();
+                citavacunacion.setHorario(hora);
+                
+                VacunaData vacunaData = new VacunaData();
+                citavacunacion.setDosis(vacunaData.buscarVacuna(rs.getInt("nroSerieDosis")));
+
+                citavacunacion.setCitaEstado(rs.getBoolean("citaEstado"));
+                
+                lista_citas.add(citavacunacion);
+
+            } 
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla CitaVacunacion");
+        }
+        return lista_citas;
+    }
+ 
+    public ArrayList<CitaVacunacion> buscarCitas_porMesVencidasPorSede(int mes, int sede, java.util.Date fecha) {
+        ArrayList<CitaVacunacion> lista_citas = new ArrayList();
+        String sql = "SELECT codCita, dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis, citaEstado FROM citavacunacion WHERE MONTH(fechaHoraCita) = ? AND centroVacunacion = ? AND fechaHoraCita < ?";
+        
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, mes);
+            ps.setInt(2, sede);            
+            ps.setTimestamp(3, new java.sql.Timestamp(fecha.getTime()));            
+            
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                CitaVacunacion citavacunacion = new CitaVacunacion();
+                
+                citavacunacion.setCodCita(rs.getInt("codCita"));
+                citavacunacion.setDni(rs.getInt("dni"));
+                citavacunacion.setCodRefuerzo(rs.getInt("codRefuerzo"));
+                citavacunacion.setFechaHoraCita(new Date(rs.getTimestamp("fechaHoraCita").getTime()));
+
+                citavacunacion.setCentroVacunacion(rs.getInt("centroVacunacion"));
+                
+                if(rs.getTimestamp("fechaHoraColoca")==null){
+                    citavacunacion.setFechaHoraColoca(null);
+                }else{
+                    citavacunacion.setFechaHoraColoca(new Date(rs.getTimestamp("fechaHoraColoca").getTime()));
+                }
+                
+                LocalTime hora = rs.getTimestamp("fechaHoraCita").toLocalDateTime().toLocalTime();
+                citavacunacion.setHorario(hora);
+                
+                VacunaData vacunaData = new VacunaData();
+                citavacunacion.setDosis(vacunaData.buscarVacuna(rs.getInt("nroSerieDosis")));
+
+                citavacunacion.setCitaEstado(rs.getBoolean("citaEstado"));
+                
+                lista_citas.add(citavacunacion);
+
+            } 
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla CitaVacunacion");
+        }
+        return lista_citas;
+    }
+    
+    public ArrayList<CitaVacunacion> buscarCitas_porMesVencidas(int mes, java.util.Date fecha) {
+        ArrayList<CitaVacunacion> lista_citas = new ArrayList();
+        String sql = "SELECT codCita, dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis, citaEstado FROM citavacunacion WHERE MONTH(fechaHoraCita) = ? AND fechaHoraCita < ?";
+        
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, mes);   
+            ps.setTimestamp(2, new java.sql.Timestamp(fecha.getTime()));
+            
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                CitaVacunacion citavacunacion = new CitaVacunacion();
+                
+                citavacunacion.setCodCita(rs.getInt("codCita"));
+                citavacunacion.setDni(rs.getInt("dni"));
+                citavacunacion.setCodRefuerzo(rs.getInt("codRefuerzo"));
+                citavacunacion.setFechaHoraCita(new Date(rs.getTimestamp("fechaHoraCita").getTime()));
+
+                citavacunacion.setCentroVacunacion(rs.getInt("centroVacunacion"));
+                
+                if(rs.getTimestamp("fechaHoraColoca")==null){
+                    citavacunacion.setFechaHoraColoca(null);
+                }else{
+                    citavacunacion.setFechaHoraColoca(new Date(rs.getTimestamp("fechaHoraColoca").getTime()));
+                }
+                
+                LocalTime hora = rs.getTimestamp("fechaHoraCita").toLocalDateTime().toLocalTime();
+                citavacunacion.setHorario(hora);
+                
+                VacunaData vacunaData = new VacunaData();
+                citavacunacion.setDosis(vacunaData.buscarVacuna(rs.getInt("nroSerieDosis")));
+
+                citavacunacion.setCitaEstado(rs.getBoolean("citaEstado"));
+                
+                lista_citas.add(citavacunacion);
+
+            } 
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla CitaVacunacion");
+        }
+        return lista_citas;
+    }
+    
+    public ArrayList<CitaVacunacion> buscarCitas_vencidasPorSede(int sede, java.util.Date fecha) {
+        ArrayList<CitaVacunacion> lista_citas = new ArrayList();
+        String sql = "SELECT codCita, dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis, citaEstado FROM citavacunacion WHERE centroVacunacion = ? AND fechaHoraCita < ?";
+        
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, sede);            
+            ps.setTimestamp(2, new java.sql.Timestamp(fecha.getTime()));         
+            
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                CitaVacunacion citavacunacion = new CitaVacunacion();
+                
+                citavacunacion.setCodCita(rs.getInt("codCita"));
+                citavacunacion.setDni(rs.getInt("dni"));
+                citavacunacion.setCodRefuerzo(rs.getInt("codRefuerzo"));
+                citavacunacion.setFechaHoraCita(new Date(rs.getTimestamp("fechaHoraCita").getTime()));
+
+                citavacunacion.setCentroVacunacion(rs.getInt("centroVacunacion"));
+                
+                if(rs.getTimestamp("fechaHoraColoca")==null){
+                    citavacunacion.setFechaHoraColoca(null);
+                }else{
+                    citavacunacion.setFechaHoraColoca(new Date(rs.getTimestamp("fechaHoraColoca").getTime()));
+                }
+                
+                LocalTime hora = rs.getTimestamp("fechaHoraCita").toLocalDateTime().toLocalTime();
+                citavacunacion.setHorario(hora);
+                
+                VacunaData vacunaData = new VacunaData();
+                citavacunacion.setDosis(vacunaData.buscarVacuna(rs.getInt("nroSerieDosis")));
+
+                citavacunacion.setCitaEstado(rs.getBoolean("citaEstado"));
+                
+                lista_citas.add(citavacunacion);
+
+            } 
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla CitaVacunacion");
+        }
+        return lista_citas;
+    }
+    
+    public ArrayList<CitaVacunacion> buscarCitas_porAnio(int year, int sede) {
+        ArrayList<CitaVacunacion> lista_citas = new ArrayList();
+        String sql = "SELECT codCita, dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis, citaEstado FROM citavacunacion WHERE fechaHoraColoca IS NOT NULL AND YEAR(fechaHoraCita) = ? AND centroVacunacion = ?";
+        
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, year);
+            ps.setInt(2, sede);            
+            
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                CitaVacunacion citavacunacion = new CitaVacunacion();
+                
+                citavacunacion.setCodCita(rs.getInt("codCita"));
+                citavacunacion.setDni(rs.getInt("dni"));
+                citavacunacion.setCodRefuerzo(rs.getInt("codRefuerzo"));
+                citavacunacion.setFechaHoraCita(new Date(rs.getTimestamp("fechaHoraCita").getTime()));
+
+                citavacunacion.setCentroVacunacion(rs.getInt("centroVacunacion"));
+                
+                if(rs.getTimestamp("fechaHoraColoca")==null){
+                    citavacunacion.setFechaHoraColoca(null);
+                }else{
+                    citavacunacion.setFechaHoraColoca(new Date(rs.getTimestamp("fechaHoraColoca").getTime()));
+                }
+                
+                LocalTime hora = rs.getTimestamp("fechaHoraCita").toLocalDateTime().toLocalTime();
+                citavacunacion.setHorario(hora);
+                
+                VacunaData vacunaData = new VacunaData();
+                citavacunacion.setDosis(vacunaData.buscarVacuna(rs.getInt("nroSerieDosis")));
+
+                citavacunacion.setCitaEstado(rs.getBoolean("citaEstado"));
+                
+                lista_citas.add(citavacunacion);
+
+            } 
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla CitaVacunacion");
+        }
+        return lista_citas;
+    }
+ 
+    public ArrayList<CitaVacunacion> buscarCitas_porMes(int mes, int sede) {
+        ArrayList<CitaVacunacion> lista_citas = new ArrayList();
+        String sql = "SELECT codCita, dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis, citaEstado FROM citavacunacion WHERE fechaHoraColoca IS NOT NULL AND MONTH(fechaHoraCita) = ? AND centroVacunacion = ?";
+        
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, mes);
+            ps.setInt(2, sede);            
+            
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                CitaVacunacion citavacunacion = new CitaVacunacion();
+                
+                citavacunacion.setCodCita(rs.getInt("codCita"));
+                citavacunacion.setDni(rs.getInt("dni"));
+                citavacunacion.setCodRefuerzo(rs.getInt("codRefuerzo"));
+                citavacunacion.setFechaHoraCita(new Date(rs.getTimestamp("fechaHoraCita").getTime()));
+
+                citavacunacion.setCentroVacunacion(rs.getInt("centroVacunacion"));
+                
+                if(rs.getTimestamp("fechaHoraColoca")==null){
+                    citavacunacion.setFechaHoraColoca(null);
+                }else{
+                    citavacunacion.setFechaHoraColoca(new Date(rs.getTimestamp("fechaHoraColoca").getTime()));
+                }
+                
+                LocalTime hora = rs.getTimestamp("fechaHoraCita").toLocalDateTime().toLocalTime();
+                citavacunacion.setHorario(hora);
+                
+                VacunaData vacunaData = new VacunaData();
+                citavacunacion.setDosis(vacunaData.buscarVacuna(rs.getInt("nroSerieDosis")));
+
+                citavacunacion.setCitaEstado(rs.getBoolean("citaEstado"));
+                
+                lista_citas.add(citavacunacion);
+
+            } 
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla CitaVacunacion");
+        }
+        return lista_citas;
+    }
 }
