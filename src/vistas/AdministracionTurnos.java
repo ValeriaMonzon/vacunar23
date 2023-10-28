@@ -550,7 +550,7 @@ public class AdministracionTurnos extends javax.swing.JFrame {
       CitaVacunacion2 citaVacunacion = citaVacunacionData.obtenerCitaVacunacion(Integer.parseInt(codigoCita.getText()));
       completarCiudadano(citaVacunacion.getPersona());
       completarVacuna(citaVacunacion.getDosis());
-      sede.setSelectedIndex(citaVacunacion.getCentroVacunacion() + 1);
+      sede.setSelectedIndex(citaVacunacion.getCentroVacunacion());
       fecha.setDate(toDate(citaVacunacion.getFechaHoraCita().toLocalDate()));
       horario.setSelectedItem(citaVacunacion.getFechaHoraCita().toLocalTime());
 
@@ -560,7 +560,7 @@ public class AdministracionTurnos extends javax.swing.JFrame {
       sede.setEnabled(false);
       horario.setEnabled(false);
       fecha.setEnabled(false);
-      codigoCita.setEditable(false);
+      codigoCita.setEnabled(false);
       buscarBtn.setEnabled(false);
       guardarBtn.setEnabled(false);
       nuevoBtn.setEnabled(true);
@@ -568,6 +568,9 @@ public class AdministracionTurnos extends javax.swing.JFrame {
     } catch (SQLException ex) {
       Logger.getLogger(AdministracionTurnos.class.getName()).log(Level.SEVERE, null, ex);
       JOptionPane.showMessageDialog(null, "SQL error!");
+    } catch (NumberFormatException ex) {
+      Logger.getLogger(AdministracionTurnos.class.getName()).log(Level.SEVERE, null, ex);
+      JOptionPane.showMessageDialog(null, "Ingrese un codigo de cita valido!");
     }
   }//GEN-LAST:event_buscarBtnActionPerformed
 
@@ -575,7 +578,7 @@ public class AdministracionTurnos extends javax.swing.JFrame {
     if (recienGuarde) {
       listaVacunas.removeItemAt(listaVacunas.getSelectedIndex());
     }
-    codigoCita.setEditable(true);
+    codigoCita.setEnabled(true);
     limpiarTodo();
     listaCiudadanos.setEnabled(true);
     listaVacunas.setEnabled(true);
@@ -617,6 +620,7 @@ public class AdministracionTurnos extends javax.swing.JFrame {
             citaVacunacion.setFechaHoraCita(LocalDateTime.of(toLocalDate(fecha.getDate()), horario.getItemAt(horario.getSelectedIndex())));
             citaVacunacion.setCentroVacunacion(sede.getSelectedIndex() + 1);
             citaVacunacionData.guardarCitaVacunacion(citaVacunacion);
+            JOptionPane.showMessageDialog(null, "Turno guardado.");
             recienGuarde = true;
             buscarBtn.setEnabled(false);
             guardarBtn.setEnabled(false);
@@ -798,6 +802,7 @@ public class AdministracionTurnos extends javax.swing.JFrame {
     cuit.setText(vacuna.getLaboratorio().getCuit());
     domicilio.setText(vacuna.getLaboratorio().getDomComercial());
     pais.setText(vacuna.getLaboratorio().getPais());
+    marca.setText(vacuna.getLaboratorio().getNomLaboratorio());
   }
 
   private Ciudadano ciudadanoElegido() {
