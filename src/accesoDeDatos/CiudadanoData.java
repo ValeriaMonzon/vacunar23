@@ -195,5 +195,27 @@ public class CiudadanoData {
       JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Ciudadano ");
     }
   }
+    
+    public void modificarDosisAplicadas(int dosis, int dni) {
+
+    String sql = "UPDATE ciudadano SET dosis=? WHERE dni=?";
+
+    try {
+      PreparedStatement ps = con.prepareStatement(sql);
+      
+      ps.setInt(1, dosis);
+      ps.setInt(2,dni);
+      int exito = ps.executeUpdate();
+
+      if (exito == 1) {
+          System.out.println("los datos se modificaron correctamente");
+      } else {
+          System.out.println("No se han podido modificar los datos");
+      }
+    } catch (SQLException ex) {
+      System.out.println(ex);
+      JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Ciudadano");
+    }
+   }
 }
 

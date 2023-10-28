@@ -217,7 +217,7 @@ public class CitaVacunacionData {
     
     public ArrayList<CitaVacunacion> buscarCitas_porFecha(LocalDate fecha, int sede) {
         ArrayList<CitaVacunacion> lista_citas = new ArrayList();
-        String sql = "SELECT codCita, dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis, citaEstado FROM citavacunacion WHERE DAY(fechaHoraCita) = ? and MONTH(fechaHoraCita) = ? and YEAR(fechaHoraCita) = ? AND centroVacunacion = ? AND citaEstado = 1";
+        String sql = "SELECT codCita, dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis, citaEstado FROM citavacunacion WHERE DAY(fechaHoraCita) = ? and MONTH(fechaHoraCita) = ? and YEAR(fechaHoraCita) = ? AND centroVacunacion = ?";
         
         try {
             PreparedStatement ps = con.prepareStatement(sql);

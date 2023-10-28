@@ -6,8 +6,10 @@
 package vistas;
 
 import accesoDeDatos.CitaVacunacionData;
+import accesoDeDatos.CiudadanoData;
 import accesoDeDatos.VacunaData;
 import entidades.CitaVacunacion;
+import entidades.Ciudadano;
 import java.awt.Color;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -24,6 +26,7 @@ public class CitaDetalles extends javax.swing.JFrame {
     
     private CitaVacunacionData data = new CitaVacunacionData();
     private VacunaData vacudata = new VacunaData();
+    private CiudadanoData ciudadata = new CiudadanoData();    
 
     private int codCita;
 
@@ -336,6 +339,11 @@ public class CitaDetalles extends javax.swing.JFrame {
             CitaVacunacion cita = data.buscarCita_CodCita(codCita);
             vacudata.colocarVacuna(cita.getDosis().getNroSerieDosis());
             data.aplicarCita(codCita);
+            
+            Ciudadano persona = ciudadata.buscarCiudadano(cita.getDni());
+            int dni = persona.getDni();
+            int dosis = persona.getDosis();
+            ciudadata.modificarDosisAplicadas(dosis,dni);
             dispose();
         }
     }//GEN-LAST:event_aplicarBotonActionPerformed
