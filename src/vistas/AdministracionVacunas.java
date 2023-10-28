@@ -7,6 +7,7 @@ package vistas;
 
 import accesoDeDatos.Conexion;
 import accesoDeDatos.VacunaData;
+import com.toedter.calendar.JDateChooser;
 import entidades.Laboratorio;
 import entidades.Vacuna;
 import java.awt.event.ActionEvent;
@@ -18,12 +19,14 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 public class AdministracionVacunas extends javax.swing.JFrame {
 
-    private final VacunaData vacunaData; 
+    private final VacunaData vacunaData;
     private Connection con;
 
     public AdministracionVacunas() {
@@ -32,9 +35,10 @@ public class AdministracionVacunas extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         vacunaData = new VacunaData();
         jButtonGuardar.setEnabled(false);
+
     }
 
-       @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -66,7 +70,7 @@ public class AdministracionVacunas extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(0, 204, 204));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jBNuevo.setText("Limpiar");
+        jBNuevo.setText("Nueva");
         jBNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBNuevoActionPerformed(evt);
@@ -153,17 +157,16 @@ public class AdministracionVacunas extends javax.swing.JFrame {
                             .addComponent(jLabel7)
                             .addGap(11, 11, 11)
                             .addComponent(jTColocada, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(9, 9, 9)
-                                .addComponent(jComboBoxMarca, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(9, 9, 9)
-                                .addComponent(jTnroSerieDosis, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jBBuscar)))))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel3)
+                            .addGap(9, 9, 9)
+                            .addComponent(jComboBoxMarca, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel2)
+                            .addGap(9, 9, 9)
+                            .addComponent(jTnroSerieDosis, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(jBBuscar))))
                 .addGap(30, 30, 30))
         );
         jPanel1Layout.setVerticalGroup(
@@ -228,10 +231,10 @@ public class AdministracionVacunas extends javax.swing.JFrame {
     private void jBBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarActionPerformed
 
         if (chequeoNumeroSerie()) {
-         
+
             int numSerieDosis = Integer.parseInt(jTnroSerieDosis.getText());
 
-             Vacuna vacuna = vacunaData.buscarVacuna(numSerieDosis);
+            Vacuna vacuna = vacunaData.buscarVacuna(numSerieDosis);
 
             if (vacuna != null) {
 
@@ -249,7 +252,7 @@ public class AdministracionVacunas extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "La fecha de caducidad no está disponible.");
                 }
 
-                jTColocada.setText(vacuna.getColocada() ? "no" : "si");
+                jTColocada.setText(vacuna.getColocada() ? "si" : "no");
 
                 soloLectura();
             } else {
@@ -266,18 +269,19 @@ public class AdministracionVacunas extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSalirActionPerformed
 
     private void jBNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNuevoActionPerformed
+
         jButtonGuardar.setEnabled(true);
         jBEliminar.setEnabled(false);
         jBBuscar.setEnabled(false);
-
+      
+        Calendar calendar = Calendar.getInstance();
+        jDCVencimiento.setSelectableDateRange(calendar.getTime(), null);
         limpiar();
         soloescritura();
         llenarCombos();
 
-        boolean jtColocada = true;
-        String texto = jtColocada ? "no" : "si";
-        jTColocada.setText(texto);
-
+        jTColocada.setText("no");
+        jTColocada.setEditable(false);
     }//GEN-LAST:event_jBNuevoActionPerformed
 
     private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed
@@ -295,7 +299,7 @@ public class AdministracionVacunas extends javax.swing.JFrame {
     private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
         if (chequeoNumeroSerie()) {
             try {
-                Connection connection = Conexion.getConnection(); 
+                Connection connection = Conexion.getConnection();
                 VacunaData vacunaData = new VacunaData();
                 Laboratorio laboratorio = new Laboratorio();
 
@@ -303,10 +307,12 @@ public class AdministracionVacunas extends javax.swing.JFrame {
                 String marca = (String) jComboBoxMarca.getSelectedItem();
                 String cuit = jTextCuit.getText();
                 String medida = (String) jCBoxMedida.getSelectedItem();
-
                 String vencimiento = new SimpleDateFormat("dd/MM/yyyy").format(jDCVencimiento.getDate());
-                String jTColocada = "si"; 
-                boolean colocada = jTColocada.equalsIgnoreCase("si") ? true : false;
+
+                String jTColocada = this.jTColocada.getText();
+                int colocada = jTColocada.equalsIgnoreCase("si") ? 1 : 0;
+                boolean valorBooleano = colocada == 1 ? true : false;
+
                 int stock = 1;
 
                 Vacuna miVacuna = new Vacuna();
@@ -317,17 +323,22 @@ public class AdministracionVacunas extends javax.swing.JFrame {
                 laboratorio.setNomLaboratorio(marca);
                 miVacuna.setMedida(Double.parseDouble(medida));
                 miVacuna.setFechaCaduca(LocalDate.parse(vencimiento, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-                miVacuna.setColocada(colocada);
+                miVacuna.setColocada(valorBooleano);
                 miVacuna.setStock(1);
 
                 vacunaData.guardarVacuna(miVacuna);
                 limpiar();
+                jBBuscar.setEnabled(true);
+                jButtonGuardar.setEnabled(false);
+                jBEliminar.setEnabled(true);
+                
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Complete todos los campos");
             }
         } else {
-           jTnroSerieDosis.setText("");
+            jTnroSerieDosis.setText("");
         }
+
     }//GEN-LAST:event_jButtonGuardarActionPerformed
 
     /**
@@ -383,8 +394,6 @@ public class AdministracionVacunas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTColocada;
     private javax.swing.JTextField jTextCuit;
@@ -420,7 +429,7 @@ public class AdministracionVacunas extends javax.swing.JFrame {
     }
 
     private void soloescritura() {
-       
+
         jTextCuit.setEditable(true);
         jDCVencimiento.setEnabled(true);
         jTColocada.setEditable(true);
@@ -428,15 +437,15 @@ public class AdministracionVacunas extends javax.swing.JFrame {
     }
 
     private void actualizarCuitDesdeComboBox() {
-      
+
         int selectedIndex = jComboBoxMarca.getSelectedIndex();
-       
+
         if (selectedIndex != -1) {
-           
+
             DefaultComboBoxModel model = (DefaultComboBoxModel) jComboBoxMarca.getModel();
             String nomLaboratorio = (String) model.getElementAt(selectedIndex);
 
-          try {
+            try {
                 Connection conexion = Conexion.getConnection();
                 String sql = "SELECT cuit FROM laboratorio WHERE nomLaboratorio = ?";
                 PreparedStatement statement = conexion.prepareStatement(sql);
@@ -449,16 +458,16 @@ public class AdministracionVacunas extends javax.swing.JFrame {
                     jTextCuit.setText("Cuit no encontrado");
                 }
 
-               // Cierra la conexión y la declaración.
+                // Cierra la conexión y la declaración.
                 resultSet.close();
                 statement.close();
             } catch (SQLException ex) {
-               
-                 JOptionPane.showMessageDialog(null, "Error al ejecutar la consulta"); 
+
+                JOptionPane.showMessageDialog(null, "Error al ejecutar la consulta");
             }
         } else {
-           
-            jTextCuit.setText(""); 
+
+            jTextCuit.setText("");
         }
     }
 
@@ -474,31 +483,29 @@ public class AdministracionVacunas extends javax.swing.JFrame {
                 actualizarCuitDesdeComboBox();
             }
         });
-       
+
         jCBoxMedida.removeAllItems();
         jCBoxMedida.addItem("0.3");
         jCBoxMedida.addItem("0.5");
         jCBoxMedida.addItem("0.9");
         try {
-          
+
             Connection conexion = Conexion.getConnection();
 
-          
             String sql = "SELECT nomLaboratorio, cuit FROM laboratorio";
-          PreparedStatement statement = conexion.prepareStatement(sql);
-           ResultSet resultSet = statement.executeQuery();
+            PreparedStatement statement = conexion.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
 
-           
             while (resultSet.next()) {
                 jComboBoxMarca.addItem(resultSet.getString("nomLaboratorio"));
             }
 
             resultSet.close();
             statement.close();
-          
+
         } catch (SQLException ex) {
-          
-           JOptionPane.showMessageDialog(null, "Error al ejecutar la consulta"); 
+
+            JOptionPane.showMessageDialog(null, "Error al ejecutar la consulta");
         }
     }
 
