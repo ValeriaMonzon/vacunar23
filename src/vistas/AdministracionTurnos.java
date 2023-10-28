@@ -549,7 +549,9 @@ public class AdministracionTurnos extends javax.swing.JFrame {
       }
       CitaVacunacion2 citaVacunacion = citaVacunacionData.obtenerCitaVacunacion(Integer.parseInt(codigoCita.getText()));
       completarCiudadano(citaVacunacion.getPersona());
-      completarVacuna(citaVacunacion.getDosis());
+      if (citaVacunacion.getDosis() != null) {
+        completarVacuna(citaVacunacion.getDosis());
+      }
       sede.setSelectedIndex(citaVacunacion.getCentroVacunacion());
       fecha.setDate(toDate(citaVacunacion.getFechaHoraCita().toLocalDate()));
       horario.setSelectedItem(citaVacunacion.getFechaHoraCita().toLocalTime());
@@ -604,6 +606,8 @@ public class AdministracionTurnos extends javax.swing.JFrame {
             citaVacunacionData.guardarCitaVacunacion(citaVacunacion);
             recienGuarde = true;
             JOptionPane.showMessageDialog(null, "Turno guardado.\nSe debe asignar una vacuna manualmente antes de la fecha de cita!");
+            codigoCita.setText(citaVacunacion.getCodCita() + "");
+            codigoCita.setEnabled(false);
             buscarBtn.setEnabled(false);
             guardarBtn.setEnabled(false);
             nuevoBtn.setEnabled(true);

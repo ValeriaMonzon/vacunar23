@@ -56,7 +56,7 @@ public class CitaVacunacion2Data {
   }
 
   public void guardarCitaVacunacion(CitaVacunacion2 citaVacunacion) throws SQLException {
-    try (PreparedStatement statement = conexion.prepareStatement(GUARDAR_CITAVACUNACION)) {
+    try (PreparedStatement statement = conexion.prepareStatement(GUARDAR_CITAVACUNACION, PreparedStatement.RETURN_GENERATED_KEYS)) {
       statement.setInt(1, citaVacunacion.getPersona().getDni());
       statement.setInt(2, citaVacunacion.getCodRefuerzo());
       statement.setTimestamp(3, Timestamp.valueOf(citaVacunacion.getFechaHoraCita()));
@@ -68,6 +68,9 @@ public class CitaVacunacion2Data {
         statement.setInt(6, citaVacunacion.getDosis().getNroSerieDosis());
       }
       statement.executeUpdate();
+      ResultSet resultSet = statement.getGeneratedKeys();
+      resultSet.next();
+      citaVacunacion.setCodCita(resultSet.getInt(1));
     }
   }
 
