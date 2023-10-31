@@ -48,7 +48,11 @@ public class CitaDetalles extends javax.swing.JFrame {
         this.horario.setText(horario);
         this.laboratorio_cuit.setText(laboratorio_cuit);
         this.laboratorio_nombre.setText(laboratorio_nombre);
-        this.medida_dosis.setText(medida_dosis+" ml");
+        if(this.laboratorio_cuit.equals("-")){
+            this.medida_dosis.setText(medida_dosis);
+        }else{
+            this.medida_dosis.setText(medida_dosis+" ml");
+        }            
         this.nombre.setText(nombre);
         this.nroSerie_dosis.setText(nroSerie_dosis);
         this.sede.setText("Sede: "+sede);

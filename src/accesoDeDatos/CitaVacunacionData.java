@@ -1062,7 +1062,7 @@ public class CitaVacunacionData {
     
     public ArrayList<CitaVacunacion> buscarCitas_porAnio(int year, int sede) {
         ArrayList<CitaVacunacion> lista_citas = new ArrayList();
-        String sql = "SELECT codCita, dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis, citaEstado FROM citavacunacion WHERE fechaHoraColoca IS NOT NULL AND YEAR(fechaHoraCita) = ? AND centroVacunacion = ?";
+        String sql = "SELECT codCita, dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis, citaEstado FROM citavacunacion WHERE YEAR(fechaHoraCita) = ? AND centroVacunacion = ?";
         
         try {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -1107,7 +1107,7 @@ public class CitaVacunacionData {
  
     public ArrayList<CitaVacunacion> buscarCitas_porMes(int mes, int sede) {
         ArrayList<CitaVacunacion> lista_citas = new ArrayList();
-        String sql = "SELECT codCita, dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis, citaEstado FROM citavacunacion WHERE fechaHoraColoca IS NOT NULL AND MONTH(fechaHoraCita) = ? AND centroVacunacion = ?";
+        String sql = "SELECT codCita, dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis, citaEstado FROM citavacunacion WHERE MONTH(fechaHoraCita) = ? AND centroVacunacion = ?";
         
         try {
             PreparedStatement ps = con.prepareStatement(sql);

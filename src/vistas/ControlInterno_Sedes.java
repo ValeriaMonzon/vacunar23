@@ -322,7 +322,9 @@ public class ControlInterno_Sedes extends javax.swing.JFrame {
                     mes_canceladas();
                     break;
                 case 2: //vencidas
-                    mes_vencidas();
+                    cargarArray(mes_vencidas_sede());
+                    llenarTabla();
+                    setLabels();
                     break;
             }
         }else{
@@ -334,7 +336,9 @@ public class ControlInterno_Sedes extends javax.swing.JFrame {
                     año_canceladas();
                     break;
                 case 2: //vencidas
-                    año_vencidas();
+                    cargarArray(año_vencidas_sede());
+                    llenarTabla();
+                    setLabels();
                     break;
             }
         }
@@ -345,16 +349,34 @@ public class ControlInterno_Sedes extends javax.swing.JFrame {
     }//GEN-LAST:event_fecha_comboBoxPropertyChange
 
     private void anio_elegirPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_anio_elegirPropertyChange
-       switch(fecha_comboBox.getSelectedIndex()){
-            case 0:
-                
-                break;
-            case 1:
-                
-                break;
-            case 2:
-                
-                break;
+       if(mes_elegir.isEnabled()){
+            switch(indice){
+                case 0: //aplicadas
+                    mes_aplicadas();
+                    break;
+                case 1: //canceladas
+                    mes_canceladas();
+                    break;
+                case 2: //vencidas
+                    cargarArray(mes_vencidas_sede());
+                    llenarTabla();
+                    setLabels();
+                    break;
+            }
+        }else{
+            switch(indice){
+                case 0: //aplicadas
+                    año_aplicadas();
+                    break;
+                case 1: //canceladas
+                    año_canceladas();
+                    break;
+                case 2: //vencidas
+                    cargarArray(año_vencidas_sede());
+                    llenarTabla();
+                    setLabels();
+                    break;
+            }
         }
     }//GEN-LAST:event_anio_elegirPropertyChange
 
@@ -485,7 +507,7 @@ public class ControlInterno_Sedes extends javax.swing.JFrame {
                     ordenarArray(lista_citasCanceladas);
                     break;
                 case 2: //vencidas
-                    ArrayList<CitaVacunacion> array3 = vencidas();
+                    ArrayList<CitaVacunacion> array3 = vencidas_sede();
                     for (CitaVacunacion citaVacunacion : array3) {
                              lista_citasVencidas.add(citaVacunacion);
                      }
@@ -570,14 +592,14 @@ public class ControlInterno_Sedes extends javax.swing.JFrame {
                 case 1: //canceladas
                     JTXTdosis_total.setText(String.valueOf(citadata.buscarCitas_porMesCanceladas(mes).size()));
                     JTXTdosis_Xsede.setText(String.valueOf(citadata.buscarCitas_porMesCanceladas(mes, sede).size()));
-                    texto_sede.setText("Dosis canceladas en la sede:");
-                    texto_periodo.setText("Dosis canceladas en el período:");
+                    texto_sede.setText("Citas canceladas en la sede:");
+                    texto_periodo.setText("Citas canceladas en el período:");
                     break;
                 case 2: //vencidas
-                    JTXTdosis_total.setText(String.valueOf(vencidas().size()));
-                    JTXTdosis_Xsede.setText(String.valueOf(mes_vencidas().size()));
-                    texto_sede.setText("Dosis vencidas en la sede:");
-                    texto_periodo.setText("Dosis vencidas en el período:");
+                    JTXTdosis_total.setText(String.valueOf(mes_vencidas_total().size()));
+                    JTXTdosis_Xsede.setText(String.valueOf(mes_vencidas_sede().size()));
+                    texto_sede.setText("Citas vencidas en la sede:");
+                    texto_periodo.setText("Citas vencidas en el período:");
                     break;
             }
         }else{
@@ -591,14 +613,14 @@ public class ControlInterno_Sedes extends javax.swing.JFrame {
                 case 1: //canceladas
                     JTXTdosis_total.setText(String.valueOf(citadata.buscarCitas_porAnioCanceladas(anio).size()));
                     JTXTdosis_Xsede.setText(String.valueOf(citadata.buscarCitas_porAnioCanceladas(anio, sede).size()));
-                    texto_sede.setText("Dosis canceladas en la sede:");
-                    texto_periodo.setText("Dosis canceladas en el período:");
+                    texto_sede.setText("Citas canceladas en la sede:");
+                    texto_periodo.setText("Citas canceladas en el período:");
                     break;
                 case 2: //vencidas
-                    JTXTdosis_total.setText(String.valueOf(vencidas().size()));
-                    JTXTdosis_Xsede.setText(String.valueOf(año_vencidas().size()));
-                    texto_sede.setText("Dosis vencidas en la sede:");
-                    texto_periodo.setText("Dosis vencidas en el período:");
+                    JTXTdosis_total.setText(String.valueOf(año_vencidas_total().size()));
+                    JTXTdosis_Xsede.setText(String.valueOf(año_vencidas_sede().size()));
+                    texto_sede.setText("Citas vencidas en la sede:");
+                    texto_periodo.setText("Citas vencidas en el período:");
                     break;
             }
         }
@@ -615,13 +637,11 @@ public class ControlInterno_Sedes extends javax.swing.JFrame {
     }
     
     
-    
-    private ArrayList<CitaVacunacion> vencidas(){
-        
+    private ArrayList<CitaVacunacion> vencidas_sede(){
         int sede = sede_comoBox.getSelectedIndex()+1;
         ArrayList<CitaVacunacion> array = citadata.buscarCitas(sede);
+        System.out.println("Citas por año: "+array);
         ArrayList<CitaVacunacion> array_vencidas = new ArrayList();
-
         
         for (CitaVacunacion cita : array) {
             Calendar calendario = Calendar.getInstance();
@@ -671,13 +691,33 @@ public class ControlInterno_Sedes extends javax.swing.JFrame {
             }            
         }
         
+                System.out.println("Citas por año vencidas: "+array_vencidas);
         return array_vencidas;
     }
     
-    private ArrayList<CitaVacunacion> año_vencidas(){
+    private ArrayList<CitaVacunacion> año_vencidas_total(){
+        ArrayList<CitaVacunacion> array_vencidas = new ArrayList();
+        for (int i = 1; i < 5; i++) {
+            ArrayList<CitaVacunacion> array = año_vencidas_sede(i);
+            array_vencidas.addAll(array);
+        }
+        return array_vencidas;
+    }
+    
+    private ArrayList<CitaVacunacion> mes_vencidas_total(){
+        ArrayList<CitaVacunacion> array_vencidas = new ArrayList();
+        for (int i = 1; i < 5; i++) {
+            ArrayList<CitaVacunacion> array = mes_vencidas_sede(i);
+            array_vencidas.addAll(array);
+        }
+        return array_vencidas;
+    }
+    
+    private ArrayList<CitaVacunacion> año_vencidas_sede(){
         int anio = anio_elegir.getYear();
         int sede = sede_comoBox.getSelectedIndex()+1;
         ArrayList<CitaVacunacion> array = citadata.buscarCitas_porAnio(anio, sede);
+        System.out.println("Citas por año: "+array);
         ArrayList<CitaVacunacion> array_vencidas = new ArrayList();
 
         
@@ -729,11 +769,71 @@ public class ControlInterno_Sedes extends javax.swing.JFrame {
             }            
         }
         
+                System.out.println("Citas por año vencidas: "+array_vencidas);
         return array_vencidas;
     }
     
-    private ArrayList<CitaVacunacion> mes_vencidas(){
-        int mes = mes_elegir.getMonth();
+    private ArrayList<CitaVacunacion> año_vencidas_sede(int sede){
+        int anio = anio_elegir.getYear();
+        ArrayList<CitaVacunacion> array = citadata.buscarCitas_porAnio(anio, sede);
+        System.out.println("Citas por año: "+array);
+        ArrayList<CitaVacunacion> array_vencidas = new ArrayList();
+
+        
+        for (CitaVacunacion cita : array) {
+            Calendar calendario = Calendar.getInstance();
+        Date fechaHoy = calendario.getTime();
+        Date fechaCita = cita.getFechaHoraCita();
+        
+        LocalTime horario_cita = cita.getHorario();
+        LocalTime horario_ahora = Usos.obtenerLocalTimeDesdeCalendar(calendario);
+
+        int estadoCita;
+        
+            if(fechaCita.before(fechaHoy)){                           //antes que hoy
+                if(cita.getDosis().getColocada()){
+                    estadoCita = 2;
+                }else{
+                    if(cita.isCitaEstado()){
+                        estadoCita = 0;   
+                    }else{
+                        estadoCita = 3;
+                    }
+                }
+                
+            } else if (fechaCita.equals(fechaHoy)){                 //igual a hoy
+                if(cita.getDosis().getColocada()){
+                    estadoCita = 2;
+                }else{
+                    if(horario_cita.isBefore(horario_ahora)){
+                        if(cita.isCitaEstado()){
+                            estadoCita = 0;   
+                        }else{
+                            estadoCita = 3;
+                        }
+                    } else{
+                        estadoCita = 1;
+                    }
+                }
+            } else {                                                                        //despues de hoy
+                if(cita.isCitaEstado()){
+                        estadoCita = 1;
+                    }else{
+                        estadoCita = 3;
+                    }
+            }
+            
+        if(estadoCita==0){
+            array_vencidas.add(cita);
+            }            
+        }
+        
+                System.out.println("Citas por año vencidas: "+array_vencidas);
+        return array_vencidas;
+    }
+    
+    private ArrayList<CitaVacunacion> mes_vencidas_sede(){
+        int mes = mes_elegir.getMonth()+1;
         int sede = sede_comoBox.getSelectedIndex()+1;
         ArrayList<CitaVacunacion> array = citadata.buscarCitas_porMes(mes, sede);
         ArrayList<CitaVacunacion> array_vencidas = new ArrayList();
@@ -787,6 +887,65 @@ public class ControlInterno_Sedes extends javax.swing.JFrame {
             }            
         }
         
+        System.out.println(array_vencidas);
+        return array_vencidas;
+    }
+    
+    private ArrayList<CitaVacunacion> mes_vencidas_sede(int sede){
+        int mes = mes_elegir.getMonth()+1;
+        ArrayList<CitaVacunacion> array = citadata.buscarCitas_porMes(mes, sede);
+        ArrayList<CitaVacunacion> array_vencidas = new ArrayList();
+
+        
+        for (CitaVacunacion cita : array) {
+            Calendar calendario = Calendar.getInstance();
+        Date fechaHoy = calendario.getTime();
+        Date fechaCita = cita.getFechaHoraCita();
+        
+        LocalTime horario_cita = cita.getHorario();
+        LocalTime horario_ahora = Usos.obtenerLocalTimeDesdeCalendar(calendario);
+
+        int estadoCita;
+        
+            if(fechaCita.before(fechaHoy)){                           //antes que hoy
+                if(cita.getDosis().getColocada()){
+                    estadoCita = 2;
+                }else{
+                    if(cita.isCitaEstado()){
+                        estadoCita = 0;   
+                    }else{
+                        estadoCita = 3;
+                    }
+                }
+                
+            } else if (fechaCita.equals(fechaHoy)){                 //igual a hoy
+                if(cita.getDosis().getColocada()){
+                    estadoCita = 2;
+                }else{
+                    if(horario_cita.isBefore(horario_ahora)){
+                        if(cita.isCitaEstado()){
+                            estadoCita = 0;   
+                        }else{
+                            estadoCita = 3;
+                        }
+                    } else{
+                        estadoCita = 1;
+                    }
+                }
+            } else {                                                                        //despues de hoy
+                if(cita.isCitaEstado()){
+                        estadoCita = 1;
+                    }else{
+                        estadoCita = 3;
+                    }
+            }
+            
+        if(estadoCita==0){
+            array_vencidas.add(cita);
+            }            
+        }
+        
+        System.out.println(array_vencidas);
         return array_vencidas;
     }
     
