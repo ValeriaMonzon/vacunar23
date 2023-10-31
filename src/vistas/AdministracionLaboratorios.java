@@ -261,13 +261,39 @@ public class AdministracionLaboratorios extends javax.swing.JFrame {
         laboratorio.setDomComercial(domicilio.getText());
 
         if (data.existeLaboratorio(cuit.getText())) {
-          JOptionPane.showMessageDialog(null, "Ya existe un laboratorio con el CUIT ingresado");
+          if(eliminarBtn.isEnabled()){
+            data.actualizarLaboratorio(laboratorio);
+            JOptionPane.showMessageDialog(null, "Se actualizo laboratorio con exito!");
+            
+            cuit.setEditable(false);
+            pais.setEditable(false);
+            nombre.setEditable(false);
+            domicilio.setEditable(false);
+
+            guardarBtn.setEnabled(false);
+            modificarBtn.setEnabled(true);
+            nuevoBtn.setEnabled(true);
+            eliminarBtn.setEnabled(true);
+            buscarBtn.setEnabled(false);
+          }else{
+            JOptionPane.showMessageDialog(null, "Ya existe un laboratorio con el CUIT ingresado");  
+            
+            cuit.setEditable(false);
+            pais.setEditable(false);
+            nombre.setEditable(false);
+            domicilio.setEditable(false);
+
+            guardarBtn.setEnabled(false);
+            modificarBtn.setEnabled(false);
+            nuevoBtn.setEnabled(true);
+            eliminarBtn.setEnabled(false);
+            buscarBtn.setEnabled(false);
+          }
         } else {
           data.guardarLaboratorio(laboratorio);
           JOptionPane.showMessageDialog(null, "Se guardó laboratorio con éxito!");
-        }
-
-        cuit.setEditable(false);
+          
+          cuit.setEditable(false);
         pais.setEditable(false);
         nombre.setEditable(false);
         domicilio.setEditable(false);
@@ -277,6 +303,7 @@ public class AdministracionLaboratorios extends javax.swing.JFrame {
         nuevoBtn.setEnabled(true);
         eliminarBtn.setEnabled(true);
         buscarBtn.setEnabled(false);
+        }        
       }
     } catch (SQLException ex) {
       Logger.getLogger(AdministracionLaboratorios.class.getName()).log(Level.SEVERE, null, ex);

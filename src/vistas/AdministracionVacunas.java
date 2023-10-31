@@ -35,7 +35,6 @@ public class AdministracionVacunas extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         vacunaData = new VacunaData();
         jButtonGuardar.setEnabled(false);
-        llenarCombos();
     }
 
     @SuppressWarnings("unchecked")
@@ -511,5 +510,4 @@ public class AdministracionVacunas extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error al ejecutar la consulta");
         }
     }
-
 }
