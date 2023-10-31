@@ -1193,7 +1193,7 @@ public class CitaVacunacionData {
     }
     
     public void anularVacunaCita(int cod) {
-        String sql = "UPDATE citavacunacion SET dosis = null WHERE nroSerieDosis = ?";
+        String sql = "UPDATE citavacunacion SET nroSerieDosis = null WHERE nroSerieDosis = ?";
         
         try {
             PreparedStatement ps = con.prepareStatement(sql);

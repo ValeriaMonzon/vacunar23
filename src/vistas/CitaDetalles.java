@@ -352,6 +352,7 @@ public class CitaDetalles extends javax.swing.JFrame {
         int boole = JOptionPane.showConfirmDialog(null, "¿Seguro que desea cancelar la cita?");
         if (boole == 0) {
             CitaVacunacion cita = data.buscarCita_CodCita(codCita);
+            System.out.println(cita);
             data.anularVacunaCita(cita.getDosis().getNroSerieDosis());
             data.cancelarCita(codCita);
             dispose();

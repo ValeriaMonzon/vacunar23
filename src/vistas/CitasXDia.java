@@ -427,13 +427,23 @@ public class CitasXDia extends javax.swing.JFrame {
     } 
     
     private void llenarTabla() {
-    limpiarTabla();
-    int i = 0;
-    for (CitaVacunacion aux : lista_citas) {
-            modelo.addRow(new Object[]{aux.getDni(), aux.getHorario() , aux.getDosis().getMedida(), aux.getDosis().getLaboratorio().getNomLaboratorio(), estadoCita(aux)});
+    //try{
+        limpiarTabla();
+        int i = 0;
+        String dosis;
+        String lab;
+        for (CitaVacunacion aux : lista_citas) {         
+            if(aux.getDosis() == null){
+                modelo.addRow(new Object[]{aux.getDni(), aux.getHorario() , "-", "-", estadoCita(aux)});
+            }else{
+                dosis = String.valueOf(aux.getDosis().getMedida());
+                lab = aux.getDosis().getLaboratorio().getNomLaboratorio();
+                modelo.addRow(new Object[]{aux.getDni(), aux.getHorario() ,dosis , lab, estadoCita(aux)});
+            }            
         }
     sortearTabla();
     tablaCitas.setModel(modelo);
+    //}catch(Exception d){}
   }
     
     private int comboBox(){
@@ -444,8 +454,6 @@ public class CitasXDia extends javax.swing.JFrame {
     private void detalles(CitaVacunacion cita){
         Vacuna vacuna = cita.getDosis();        
         Ciudadano persona = ciudadata.buscarCiudadano(cita.getDni());
-        Laboratorio lab = vacuna.getLaboratorio();
-
         
         int aux = cita.getDni();
         String dni = String.valueOf(aux);
@@ -458,22 +466,40 @@ public class CitasXDia extends javax.swing.JFrame {
         aux = cita.getCentroVacunacion();
         String sede = String.valueOf(aux);
         
-        double auxx = vacuna.getMedida();
-        String medida = String.valueOf(auxx);
+        double auxx;
+        String medida;
+        String nroserie;
+        String stock;
+        String nombre_lab;
+        String cuit;
         
-        aux = vacuna.getNroSerieDosis();
-        String nroserie = String.valueOf(aux);
+        if(cita.getDosis()==null){            
+            medida = "-";        
+            nroserie = "-";        
+            stock = "-";
+            nombre_lab = "-";
+            cuit = "-";
+        } else{
+            
+            Laboratorio lab = vacuna.getLaboratorio();
+            
+            auxx = vacuna.getMedida();
+            medida = String.valueOf(auxx);
         
-        aux = vacuna.getStock();
-        String stock = String.valueOf(aux);
+            aux = vacuna.getNroSerieDosis();
+            nroserie = String.valueOf(aux);
         
-        String nombre_lab = lab.getNomLaboratorio();
-        String cuit = lab.getCuit();
-        
-        String nombre_persona = persona.getNomCompleto();
+            aux = vacuna.getStock();
+            stock = String.valueOf(aux);
+            
+            nombre_lab = lab.getNomLaboratorio();
+            cuit = lab.getCuit();
+        }        
         
         aux = persona.getDosis();
-        String dosis_aplicados = String.valueOf(aux);
+        String dosis_aplicados = String.valueOf(aux);   
+        
+        String nombre_persona = persona.getNomCompleto();
         
         CitaDetalles ventana = new CitaDetalles(dni, dosis_aplicados, fecha, horario, cuit, nombre_lab, medida, nombre_persona, nroserie, sede, stock, estadoCita(cita), cita.getCodCita());
         ventana.setVisible(true);
@@ -503,6 +529,9 @@ public class CitasXDia extends javax.swing.JFrame {
 
         int estadoCita;
         
+        if(cita.getDosis() == null){
+            estadoCita = 3;
+        }else{
             if(fechaCita.isBefore(fechaHoy)){                           //antes que hoy
                 if(cita.getDosis().getColocada()){
                     estadoCita = 2;
@@ -539,6 +568,7 @@ public class CitasXDia extends javax.swing.JFrame {
                         estadoCita = 3;
                     }
             }
+        }
             
         switch(estadoCita){
             case 0:
