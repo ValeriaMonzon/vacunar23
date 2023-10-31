@@ -559,7 +559,7 @@ public class ControlInterno_Sedes extends javax.swing.JFrame {
                     break;
                 case 1: //canceladas
                     for (CitaVacunacion aux : lista_citasCanceladas) {
-            modelo.addRow(new Object[]{aux.getCodCita(), aux.getDosis().getNroSerieDosis(), aux.getDosis().getLaboratorio().getNomLaboratorio(), aux.getDosis().getMedida(), aux.getDni(), aux.getFechaHoraCita()});
+            modelo.addRow(new Object[]{aux.getCodCita(), "-", "-", "-", aux.getDni(), aux.getFechaHoraCita()});
         }
                     break;
                 case 2: //vencidas
