@@ -530,8 +530,12 @@ public class CitasXDia extends javax.swing.JFrame {
                 }
             } else {                                                                        //despues de hoy
                 if(cita.isCitaEstado()){
-                        estadoCita = 1;
+                    if(cita.getDosis().getColocada()){
+                        estadoCita = 2;
                     }else{
+                        estadoCita = 1;
+                    }
+                }else{
                         estadoCita = 3;
                     }
             }

@@ -1149,4 +1149,65 @@ public class CitaVacunacionData {
         }
         return lista_citas;
     }
+    
+    public CitaVacunacion buscarCita_NroSerieDosis(int cod) {
+        String sql = "SELECT codCita, dni, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, nroSerieDosis, citaEstado FROM citavacunacion WHERE nroSerieDosis = ? AND citaEstado = 1";
+
+        CitaVacunacion citavacunacion = null;
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, cod);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                citavacunacion = new CitaVacunacion();
+
+                citavacunacion.setCodCita(rs.getInt("codCita"));
+                citavacunacion.setDni(rs.getInt("dni"));
+                citavacunacion.setCodRefuerzo(rs.getInt("codRefuerzo"));
+                citavacunacion.setFechaHoraCita(new Date(rs.getTimestamp("fechaHoraCita").getTime()));
+
+                citavacunacion.setCentroVacunacion(rs.getInt("centroVacunacion"));
+                
+                if(rs.getTimestamp("fechaHoraColoca")==null){
+                    citavacunacion.setFechaHoraColoca(null);
+                }else{
+                    citavacunacion.setFechaHoraColoca(new Date(rs.getTimestamp("fechaHoraColoca").getTime()));
+                }
+                
+                LocalTime hora = rs.getTimestamp("fechaHoraCita").toLocalDateTime().toLocalTime();
+                citavacunacion.setHorario(hora);
+
+                VacunaData vacunaData = new VacunaData();
+                citavacunacion.setDosis(vacunaData.buscarVacuna(rs.getInt("nroSerieDosis")));
+                citavacunacion.setCitaEstado(rs.getBoolean("citaEstado"));
+
+            } else {
+                JOptionPane.showMessageDialog(null, "No existe esa Cita");
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla CitaVacunacion");
+        }
+        return citavacunacion;
+    }
+    
+    public void anularVacunaCita(int cod) {
+        String sql = "UPDATE citavacunacion SET dosis = null WHERE nroSerieDosis = ?";
+        
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, cod);
+            int exito = ps.executeUpdate();
+
+            if (exito == 1) {
+                System.out.println("Dosis anulada correctamente");
+            } else {
+                System.out.println("No se ha podido anular la dosis");
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla CitaVacunacion");
+        }
+    }
 }

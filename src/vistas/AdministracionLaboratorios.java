@@ -186,7 +186,7 @@ public class AdministracionLaboratorios extends javax.swing.JFrame {
       if (cuitValido()) {
         Laboratorio laboratorio = data.obtenerLaboratorio(cuit.getText());
         if (laboratorio == null) {
-          JOptionPane.showMessageDialog(null, "No se encontro laboratorio!");
+          JOptionPane.showMessageDialog(null, "No se encontró un laboratorio");
         } else {
           cuit.setEditable(false);
           nombre.setText(laboratorio.getNomLaboratorio());
@@ -205,7 +205,7 @@ public class AdministracionLaboratorios extends javax.swing.JFrame {
       }
     } catch (SQLException ex) {
       Logger.getLogger(AdministracionLaboratorios.class.getName()).log(Level.SEVERE, null, ex);
-      JOptionPane.showMessageDialog(null, "Ocurrio un error en la base de datos!");
+      JOptionPane.showMessageDialog(null, "Ocurrió un error en la base de datos");
     }
   }//GEN-LAST:event_buscarBtnActionPerformed
 
@@ -229,7 +229,7 @@ public class AdministracionLaboratorios extends javax.swing.JFrame {
   private void eliminarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarBtnActionPerformed
     try {
       data.borrarLaboratorio(cuit.getText());
-      JOptionPane.showMessageDialog(null, "Se elimino con exito!");
+      JOptionPane.showMessageDialog(null, "Se eliminó con éxito");
 
       cuit.setEditable(true);
       cuit.setText("");
@@ -247,7 +247,7 @@ public class AdministracionLaboratorios extends javax.swing.JFrame {
       eliminarBtn.setEnabled(false);
     } catch (SQLException ex) {
       Logger.getLogger(AdministracionLaboratorios.class.getName()).log(Level.SEVERE, null, ex);
-      JOptionPane.showMessageDialog(null, "Ocurrio un error en la base de datos!");
+      JOptionPane.showMessageDialog(null, "Ocurrió un error en la base de datos");
     }
   }//GEN-LAST:event_eliminarBtnActionPerformed
 
@@ -261,11 +261,10 @@ public class AdministracionLaboratorios extends javax.swing.JFrame {
         laboratorio.setDomComercial(domicilio.getText());
 
         if (data.existeLaboratorio(cuit.getText())) {
-          data.actualizarLaboratorio(laboratorio);
-          JOptionPane.showMessageDialog(null, "Se actualizo laboratorio con exito!");
+          JOptionPane.showMessageDialog(null, "Ya existe un laboratorio con el CUIT ingresado");
         } else {
           data.guardarLaboratorio(laboratorio);
-          JOptionPane.showMessageDialog(null, "Se guardo laboratorio con exito!");
+          JOptionPane.showMessageDialog(null, "Se guardó laboratorio con éxito!");
         }
 
         cuit.setEditable(false);

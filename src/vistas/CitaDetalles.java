@@ -342,7 +342,7 @@ public class CitaDetalles extends javax.swing.JFrame {
             
             Ciudadano persona = ciudadata.buscarCiudadano(cita.getDni());
             int dni = persona.getDni();
-            int dosis = persona.getDosis();
+            int dosis = persona.getDosis()+1;
             ciudadata.modificarDosisAplicadas(dosis,dni);
             dispose();
         }
@@ -352,7 +352,7 @@ public class CitaDetalles extends javax.swing.JFrame {
         int boole = JOptionPane.showConfirmDialog(null, "¿Seguro que desea cancelar la cita?");
         if (boole == 0) {
             CitaVacunacion cita = data.buscarCita_CodCita(codCita);
-            vacudata.modificarStock(cita.getDosis().getNroSerieDosis(),0);
+            data.anularVacunaCita(cita.getDosis().getNroSerieDosis());
             data.cancelarCita(codCita);
             dispose();
         }

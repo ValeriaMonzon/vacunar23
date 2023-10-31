@@ -201,4 +201,35 @@ public class VacunaData {
       JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Vacuna");
     }
   }
+    
+    public ArrayList<Vacuna> buscarVacunas_porLabortatorio(String marca) {
+    Vacuna vacuna = null;
+    LaboratorioData data = new LaboratorioData();
+    ArrayList<Vacuna> array = new ArrayList();
+    String sql = "SELECT nroSerieDosis, cuit, marca, medida, fechaCaduca, stock FROM vacuna WHERE marca = ?";
+    
+    try {
+      PreparedStatement ps = con.prepareStatement(sql);
+      ps.setString(1, marca);
+      
+      ResultSet rs = ps.executeQuery();
+      
+      while (rs.next()) {
+        vacuna = new Vacuna();
+        vacuna.setNroSerieDosis(rs.getInt("nroSerieDosis"));
+        vacuna.setLaboratorio(data.obtenerLaboratorio(rs.getString("cuit")));
+        vacuna.setMedida(rs.getDouble("medida"));
+        vacuna.setFechaCaduca(rs.getDate("fechaCaduca").toLocalDate());
+        vacuna.setColocada(rs.getBoolean("colocada"));
+        vacuna.setStock(rs.getInt("stock"));
+        
+        array.add(vacuna);
+      } 
+      ps.close();
+    } catch (SQLException ex) {
+      JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Vacuna: "+ ex);
+    }
+        return array;
+    }
+   
 }
