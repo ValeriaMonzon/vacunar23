@@ -35,7 +35,7 @@ public class AdministracionVacunas extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         vacunaData = new VacunaData();
         jButtonGuardar.setEnabled(false);
-        llenarCombos();
+       // llenarCombos();
     }
 
     @SuppressWarnings("unchecked")
@@ -258,11 +258,11 @@ public class AdministracionVacunas extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(null, "No existe una vacuna con el número de serie ingresado");
                 limpiar();
-                llenarCombos();                
+              //  llenarCombos();                
             }
         } else {
             limpiar();
-            llenarCombos();
+         //   llenarCombos();
         }
 
     }//GEN-LAST:event_jBBuscarActionPerformed
