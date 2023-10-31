@@ -78,7 +78,7 @@ public class VacunaData {
         
         return vacuna;
       } else {
-        JOptionPane.showMessageDialog(null, "No se encontró una vacuna con el número de serie ingresado");
+        //JOptionPane.showMessageDialog(null, "No se encontró una vacuna con el número de serie ingresado");
       }
       ps.close();
     } catch (SQLException ex) {

@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -40,6 +41,9 @@ public class AdministracionTurnos extends javax.swing.JFrame {
     initComponents();
     initButtons();
     setLocationRelativeTo(null);
+    
+    Date fechaHoy = Calendar.getInstance().getTime();
+    fecha.setMinSelectableDate(fechaHoy);
   }
 
   /**

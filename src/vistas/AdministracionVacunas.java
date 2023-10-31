@@ -35,7 +35,7 @@ public class AdministracionVacunas extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         vacunaData = new VacunaData();
         jButtonGuardar.setEnabled(false);
-
+        llenarCombos();
     }
 
     @SuppressWarnings("unchecked")
@@ -252,14 +252,17 @@ public class AdministracionVacunas extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "La fecha de caducidad no está disponible.");
                 }
 
-                jTColocada.setText(vacuna.getColocada() ? "si" : "no");
+                jTColocada.setText(vacuna.getColocada() ? "Si" : "No");
 
                 soloLectura();
             } else {
+                JOptionPane.showMessageDialog(null, "No existe una vacuna con el número de serie ingresado");
                 limpiar();
+                llenarCombos();                
             }
         } else {
             limpiar();
+            llenarCombos();
         }
 
     }//GEN-LAST:event_jBBuscarActionPerformed
@@ -406,7 +409,7 @@ public class AdministracionVacunas extends javax.swing.JFrame {
 
             return true;
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Numero de Serie inválido");
+            JOptionPane.showMessageDialog(null, "Numero de serie inválido");
             return false;
         }
     }

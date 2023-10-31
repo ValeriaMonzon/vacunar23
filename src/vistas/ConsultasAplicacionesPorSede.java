@@ -246,9 +246,9 @@ List<CitaVacunacion> lista = citaVacunacionD.buscarCitas(jCbCentros.getSelectedI
 limpiarTabla();
 
 for(CitaVacunacion cita :lista){
-      
+      try{
       modelo.addRow(new Object[]{cita.getDni(),cita.getDosis().getNroSerieDosis()});
-     
+      }catch(Exception e){}
       }  
     
 }
